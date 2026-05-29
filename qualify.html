@@ -945,14 +945,41 @@ function submitForm() {
     'notes':            notes
   };
 
-  // ── 1. NETLIFY FORMS (email notification to YOUR_NOTIFICATION_EMAIL)
-  // Set up in Netlify dashboard: Forms → Notifications → Email
-  // Add your team email there — no code change needed.
-  fetch('/', {
+  // ── 1. FORMSPREE (email notification → Dan's inbox)
+  // SETUP: Replace FORMSPREE_FORM_ID below with your ID from formspree.io
+  // Example: https://formspree.io/f/xpzgkwld
+  const FORMSPREE_ID = 'xreddeoe';
+  fetch('https://formspree.io/f/' + FORMSPREE_ID, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams(leadData).toString()
-  }).catch(err => console.warn('Netlify form submission error:', err));
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      _subject:        '🔥 New Lead [Score: ' + score + '/100 · ' + tier.label + '] — ' + firstName + ' ' + lastName,
+      name:            firstName + ' ' + lastName,
+      email:           email,
+      phone:           phone,
+      country:         country,
+      gender:          state.gender,
+      age:             age,
+      height:          height,
+      weight:          weight,
+      health_markers:  markers || 'None selected',
+      health_score:    (state.healthScore || '—') + '/10',
+      commitment:      (state.commitScore || '—') + '/10',
+      primary_goal:    goal,
+      prev_programs:   prev,
+      meals_per_day:   mealsDay,
+      cost_per_meal:   '$' + costMeal,
+      monthly_budget:  '$' + budget,
+      tiktok_time:     tiktok,
+      site_time:       site,
+      lead_score:      score + '/100',
+      lead_tier:       tier.label,
+      notes:           notes || 'None'
+    })
+  })
+  .then(r => r.json())
+  .then(data => { if (!data.ok) console.warn('Formspree error:', data); })
+  .catch(err => console.warn('Formspree submission error:', err));
 
   // ── 2. SMS WEBHOOK (triggers automated text to prospect's phone)
   // SETUP: Create a free Make.com account → New Scenario →
@@ -993,20 +1020,6 @@ function submitForm() {
   goToStep(5);
 }
 </script>
-
-<!-- NETLIFY FORMS: Hidden form so Netlify detects fields at build time -->
-<!-- Do not remove this — it's required for Netlify Forms to work -->
-<form name="lead-qualification" netlify netlify-honeypot="bot-field" hidden>
-  <input name="bot-field">
-  <input name="first-name"><input name="last-name">
-  <input name="email"><input name="phone"><input name="country">
-  <input name="gender"><input name="age"><input name="height"><input name="weight">
-  <input name="health-markers"><input name="health-score"><input name="commitment-score">
-  <input name="primary-goal"><input name="prev-programs">
-  <input name="meals-per-day"><input name="cost-per-meal"><input name="monthly-budget">
-  <input name="tiktok-time"><input name="site-time">
-  <input name="lead-score"><input name="lead-tier"><input name="notes">
-</form>
 
 </body>
 </html>
