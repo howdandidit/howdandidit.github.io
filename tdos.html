@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The TDOS Syndrome — Why Everything You've Tried Hasn't Worked</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ink:#0B0B0B;--off-white:#F5F2EC;--amber:#F59E0B;--amber-dark:#D97706;
+    --amber-glow:rgba(245,158,11,0.1);--amber-border:rgba(245,158,11,0.2);
+    --green:#22C55E;--green-glow:rgba(34,197,94,0.1);--green-border:rgba(34,197,94,0.2);
+    --red:#EF4444;--red-glow:rgba(239,68,68,0.08);--red-border:rgba(239,68,68,0.18);
+    --blue:#3B82F6;--blue-glow:rgba(59,130,246,0.08);--blue-border:rgba(59,130,246,0.2);
+    --muted:rgba(245,242,236,0.55);--border:rgba(255,255,255,0.08);--card-bg:rgba(255,255,255,0.04);
+    --display:'Barlow Condensed',sans-serif;--body:'DM Sans',sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);background:var(--ink);color:var(--off-white);line-height:1.6;overflow-x:hidden}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:68px;background:rgba(11,11,11,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:var(--display);font-weight:800;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--off-white);text-decoration:none}
+  .nav-logo span{color:var(--amber)}
+  .nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none}
+  .nav-links a{font-size:.8rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--off-white)}
+  .btn-nav{background:var(--amber);color:var(--ink);padding:.5rem 1.1rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+  .btn-primary{background:var(--amber);color:var(--ink);padding:.85rem 1.75rem;border-radius:8px;font-weight:700;font-size:.875rem;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;display:inline-flex;align-items:center;gap:.4rem}
+  .btn-primary:hover{background:var(--amber-dark);transform:translateY(-2px);box-shadow:0 10px 28px rgba(245,158,11,.25)}
+  .btn-ghost{background:transparent;color:var(--off-white);padding:.85rem 1.75rem;border-radius:8px;border:1px solid rgba(245,242,236,.2);font-weight:600;font-size:.875rem;text-transform:uppercase;text-decoration:none;transition:border-color .2s}
+  .btn-ghost:hover{border-color:rgba(245,242,236,.45)}
+  section{padding:80px 2rem}
+  .container{max-width:1100px;margin:0 auto}
+  .container-sm{max-width:780px;margin:0 auto}
+  .slbl{font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+  .slbl::before{content:'';width:20px;height:2px;background:var(--amber);flex-shrink:0}
+  .stitle{font-family:var(--display);font-size:clamp(2.2rem,4vw,3.5rem);font-weight:800;text-transform:uppercase;line-height:1;margin-bottom:1.25rem}
+  .ssub{font-size:1rem;color:var(--muted);line-height:1.75;max-width:620px}
+
+  /* HERO */
+  .hero{min-height:90vh;padding:120px 2rem 80px;display:flex;align-items:center;text-align:center;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(239,68,68,0.06) 0%,transparent 60%)}
+  .hero-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red,#EF4444);display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:1.5rem}
+  .hero-eyebrow::before,.hero-eyebrow::after{content:'';width:28px;height:2px;background:#EF4444}
+  .hero h1{font-family:var(--display);font-size:clamp(3rem,7vw,6.5rem);font-weight:900;text-transform:uppercase;line-height:.93;margin-bottom:1.5rem}
+  .hero h1 em{font-style:normal;color:var(--amber);display:block}
+  .hero-sub{font-size:1.1rem;color:var(--muted);max-width:640px;margin:0 auto 2.5rem;line-height:1.75}
+  .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+  /* STATS BAND */
+  .stats-band{background:var(--red-glow);border-top:1px solid var(--red-border);border-bottom:1px solid var(--red-border);padding:48px 2rem}
+  .stats-inner{max-width:900px;margin:0 auto}
+  .stats-label{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,68,68,.6);text-align:center;margin-bottom:2rem}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(239,68,68,.15);border-radius:12px;overflow:hidden}
+  .stat-card{background:var(--ink);padding:1.5rem 1rem;text-align:center}
+  .stat-big{font-family:var(--display);font-size:clamp(2.5rem,4vw,3.5rem);font-weight:900;color:#EF4444;line-height:1}
+  .stat-lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:.4rem;line-height:1.4}
+
+  /* TDOS DEEP DIVE */
+  .tdos-section{background:#0f0f0f}
+  .tdos-item{display:grid;grid-template-columns:120px 1fr;gap:3rem;align-items:start;padding:3rem 0;border-bottom:1px solid var(--border)}
+  .tdos-item:last-child{border-bottom:none}
+  .tdos-letter-wrap{text-align:center;position:relative}
+  .tdos-big-letter{font-family:var(--display);font-size:8rem;font-weight:900;line-height:1;color:rgba(245,158,11,.15)}
+  .tdos-letter-label{font-family:var(--display);font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-top:-.5rem}
+  .tdos-content h3{font-family:var(--display);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:800;text-transform:uppercase;line-height:1;margin-bottom:1rem}
+  .tdos-content h3 em{font-style:normal;color:var(--amber)}
+  .tdos-content p{font-size:.95rem;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+  .tdos-content strong{color:var(--off-white)}
+  .tdos-stat-row{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.25rem}
+  .tdos-stat-pill{display:flex;align-items:center;gap:.5rem;background:var(--amber-glow);border:1px solid var(--amber-border);border-radius:8px;padding:.6rem 1rem;font-size:.83rem;font-weight:600}
+  .tdos-stat-pill .num{font-family:var(--display);font-size:1.4rem;font-weight:900;color:var(--amber);line-height:1}
+  .tdos-stat-pill .txt{color:var(--muted);font-size:.78rem;line-height:1.3}
+  .why-box{background:var(--red-glow);border:1px solid var(--red-border);border-radius:10px;padding:1rem 1.25rem;margin-top:1rem}
+  .why-box h5{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#EF4444;margin-bottom:.35rem}
+  .why-box p{font-size:.83rem;color:var(--muted);line-height:1.6;margin:0}
+
+  /* THE CONNECTION */
+  .connection-section{}
+  .connection-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3rem}
+  .connection-vis{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:2rem}
+  .conn-items{display:flex;flex-direction:column;gap:1.5rem}
+  .conn-row{display:flex;gap:1rem;align-items:flex-start}
+  .conn-letter{width:44px;height:44px;border-radius:10px;background:var(--amber-glow);border:1px solid var(--amber-border);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.4rem;font-weight:900;color:var(--amber);flex-shrink:0}
+  .conn-text h4{font-size:.9rem;font-weight:700;margin-bottom:.2rem}
+  .conn-text p{font-size:.8rem;color:var(--muted);line-height:1.55}
+  .conn-arrow{text-align:center;color:rgba(245,242,236,.15);font-size:1.2rem;margin:-.5rem 0}
+  .connection-content p{font-size:.95rem;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+  .connection-content strong{color:var(--off-white)}
+  .bq{font-family:var(--display);font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:700;text-transform:uppercase;line-height:1.15;border-left:3px solid var(--amber);padding-left:1.25rem;margin-bottom:.75rem}
+  .bq em{font-style:normal;color:var(--amber)}
+
+  /* WHY DIETS FAIL */
+  .fail-section{background:#0f0f0f}
+  .fail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
+  .fail-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;position:relative;overflow:hidden}
+  .fail-card::before{content:'✗';position:absolute;top:1rem;right:1.25rem;font-size:1.5rem;color:rgba(239,68,68,.2);font-weight:900}
+  .fail-card h4{font-family:var(--display);font-size:1.1rem;font-weight:700;text-transform:uppercase;margin-bottom:.5rem;color:var(--off-white)}
+  .fail-card p{font-size:.83rem;color:var(--muted);line-height:1.65}
+  .fail-card .why{font-size:.78rem;color:rgba(239,68,68,.6);margin-top:.75rem;font-weight:600}
+
+  /* PETER GREENLAW */
+  .peter-section{}
+  .peter-grid{display:grid;grid-template-columns:280px 1fr;gap:4rem;align-items:start}
+  .peter-card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:2rem;text-align:center}
+  .peter-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#1a1814,#2a2415);border:2px solid var(--amber-border);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.3rem;font-weight:800;color:var(--amber);margin:0 auto 1rem}
+  .peter-name{font-size:1rem;font-weight:700;margin-bottom:.3rem}
+  .peter-title{font-size:.78rem;color:var(--muted);line-height:1.5;margin-bottom:1.25rem}
+  .peter-creds{display:flex;flex-direction:column;gap:.5rem}
+  .peter-cred{font-size:.7rem;font-weight:600;padding:5px 10px;background:var(--amber-glow);border:1px solid var(--amber-border);border-radius:6px;color:var(--amber)}
+  .peter-content p{font-size:.95rem;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+  .peter-content strong{color:var(--off-white)}
+
+  /* CTA SECTION */
+  .cta-section{text-align:center;background:radial-gradient(ellipse 55% 40% at 50% 50%,rgba(245,158,11,.07) 0%,transparent 70%)}
+  .cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+
+  footer{background:#0B0B0B;border-top:1px solid var(--border);padding:2.5rem 2rem}
+  .footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+  .footer-inner p{font-size:.75rem;color:rgba(245,242,236,.25);line-height:1.6;max-width:700px}
+  .footer-copy{font-size:.75rem;color:rgba(245,242,236,.2);white-space:nowrap}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .fu{animation:fadeUp .6s ease both}
+  .fu2{animation:fadeUp .6s ease .12s both}
+  .fu3{animation:fadeUp .6s ease .24s both}
+
+  @media(max-width:900px){
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .tdos-item{grid-template-columns:1fr;gap:1rem}
+    .tdos-big-letter{font-size:4rem}
+    .connection-grid{grid-template-columns:1fr}
+    .fail-grid{grid-template-columns:1fr}
+    .peter-grid{grid-template-columns:1fr;gap:2rem}
+    nav .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html"><span>How</span> Dan Did It</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="science.html">The Science</a></li>
+    <li><a href="r2m-protocol.html">R2M Protocol</a></li>
+    <li><a href="bravo.html">Bravo</a></li>
+  </ul>
+  <a href="qualify.html" class="btn-nav">Free Assessment →</a>
+</nav>
+
+<section class="hero">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="hero-eyebrow fu">The Root Cause Framework</div>
+    <h1 class="fu2">Why Everything<br>You've Tried<br><em>Hasn't Worked</em></h1>
+    <p class="hero-sub fu3">It's not your willpower. It's not your genetics. It's not even your diet. The reason most people fail to fix their health long-term is because they're addressing symptoms while ignoring the four underlying factors driving all of them. That's what TDOS is.</p>
+    <div class="hero-actions fu3">
+      <a href="qualify.html" class="btn-primary">Take the Free Assessment →</a>
+      <a href="javascript:void(0)" class="btn-ghost" onclick="document.getElementById('tdos').scrollIntoView({behavior:'smooth'})">The Four Factors ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stats-label">The scale of the problem in the United States alone</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-big">80%</div><div class="stat-lbl">Of Americans are overweight or obese</div></div>
+      <div class="stat-card"><div class="stat-big">50%</div><div class="stat-lbl">Are pre-diabetic or have Type 2 diabetes</div></div>
+      <div class="stat-card"><div class="stat-big">9/10</div><div class="stat-lbl">Are metabolically unhealthy by 3+ markers</div></div>
+      <div class="stat-card"><div class="stat-big">$4.5T</div><div class="stat-lbl">Annual US healthcare spend — rising every year</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TDOS DEEP DIVE -->
+<section class="tdos-section" id="tdos">
+  <div class="container">
+    <div class="slbl">The Four Factors</div>
+    <h2 class="stitle">The TDOS Syndrome®<br><span style="color:var(--amber)">Explained</span></h2>
+    <p class="ssub">TDOS isn't four separate problems. It's one interconnected syndrome — and treating any single factor in isolation is why conventional approaches always fall short.</p>
+
+    <div style="margin-top:3rem">
+
+      <div class="tdos-item">
+        <div class="tdos-letter-wrap">
+          <div class="tdos-big-letter">T</div>
+          <div class="tdos-letter-label">Toxicity</div>
+        </div>
+        <div class="tdos-content">
+          <h3>Toxicity:<br><em>The Hidden Burden</em></h3>
+          <p>The average American is exposed to <strong>over 80,000 synthetic chemicals</strong> in their food, water, air, and household products. Many of these are fat-soluble — meaning the body stores them in fat cells when it can't eliminate them fast enough.</p>
+          <p>This creates a vicious cycle: the more toxic your fat cells become, the harder your body fights to hold onto that fat as a protective mechanism. This is why people with high toxic burdens often struggle to lose weight even with severe caloric restriction — the body is protecting them from a toxic release.</p>
+          <p>Environmental toxins also disrupt hormonal signaling, suppress thyroid function, impair liver detoxification, and chronically activate the immune system. No diet addresses this. No gym session clears it. It requires targeted cellular detoxification.</p>
+          <div class="tdos-stat-row">
+            <div class="tdos-stat-pill"><div class="num">80K+</div><div class="txt">Synthetic chemicals<br>registered for use in the US</div></div>
+            <div class="tdos-stat-pill"><div class="num">700+</div><div class="txt">Industrial chemicals found<br>in average human blood</div></div>
+          </div>
+          <div class="why-box" style="margin-top:1rem">
+            <h5>Why This Matters For Weight Loss</h5>
+            <p>Studies show that as people lose fat during weight loss, stored toxins are released into the bloodstream — triggering the body's stress response and often causing the metabolism to slow down and weight loss to stall. This is why clearing the toxic load first changes everything.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tdos-item">
+        <div class="tdos-letter-wrap">
+          <div class="tdos-big-letter">D</div>
+          <div class="tdos-letter-label">Deficiency</div>
+        </div>
+        <div class="tdos-content">
+          <h3>Deficiency:<br><em>Starving While Overfed</em></h3>
+          <p>This is one of the great paradoxes of modern health: Americans eat more calories than any generation in history — and are simultaneously <strong>the most micronutrient deficient population ever studied</strong>.</p>
+          <p>The reason: modern food production has stripped the nutrient density from our food supply. Soil depletion, industrial farming, food processing, and ultra-long supply chains mean that even "healthy" foods deliver a fraction of the vitamins and minerals they contained 50 years ago.</p>
+          <p>The result is a population that is chronically deficient in <strong>Vitamin D, magnesium, zinc, omega-3s, B vitamins, and antioxidants</strong> — the exact micronutrients needed to regulate metabolism, support immune function, produce energy, and detoxify effectively.</p>
+          <div class="tdos-stat-row">
+            <div class="tdos-stat-pill"><div class="num">70%</div><div class="txt">Of Americans are<br>Vitamin D deficient</div></div>
+            <div class="tdos-stat-pill"><div class="num">68%</div><div class="txt">Don't meet daily<br>magnesium requirements</div></div>
+          </div>
+          <div class="why-box">
+            <h5>Why Supplements Alone Don't Fix It</h5>
+            <p>A deficient body can't absorb nutrients efficiently. Taking supplements without first addressing gut health, toxic load, and metabolic function is like pouring water into a broken container. Sequencing matters — which is why the R2M protocol addresses this in a specific order.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tdos-item">
+        <div class="tdos-letter-wrap">
+          <div class="tdos-big-letter">O</div>
+          <div class="tdos-letter-label">Overweight</div>
+        </div>
+        <div class="tdos-content">
+          <h3>Overweight:<br><em>More Than a Weight Problem</em></h3>
+          <p>Excess body fat — particularly <strong>visceral fat</strong> stored around the organs — is not just a cosmetic issue. It is an active metabolic and hormonal disruptor. Visceral fat produces inflammatory cytokines, secretes hormones that increase insulin resistance, and stores and amplifies the toxic burden of the T factor.</p>
+          <p>This is why losing weight through calorie restriction alone rarely produces lasting results: the underlying hormonal and inflammatory environment hasn't changed. The body's fat-retention mechanisms are still fully engaged.</p>
+          <p>Peer-reviewed studies on the R2M Protocol show <strong>33% reduction in visceral fat in 8 weeks</strong> — not just total weight loss, but specifically the most metabolically dangerous fat — compared to 136% greater visceral fat loss than the Mediterranean diet.</p>
+          <div class="tdos-stat-row">
+            <div class="tdos-stat-pill"><div class="num">33%</div><div class="txt">Visceral fat reduction<br>in 8 weeks (R2M studies)</div></div>
+            <div class="tdos-stat-pill"><div class="num">136%</div><div class="txt">Greater visceral fat loss<br>vs Mediterranean diet</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tdos-item">
+        <div class="tdos-letter-wrap">
+          <div class="tdos-big-letter">S</div>
+          <div class="tdos-letter-label">Stress</div>
+        </div>
+        <div class="tdos-content">
+          <h3>Stress:<br><em>The Multiplier</em></h3>
+          <p>Chronic stress is not just psychological — it is a powerful physiological force that directly amplifies every other component of TDOS. Elevated cortisol increases fat storage (especially visceral), suppresses immune function, depletes micronutrients at an accelerated rate, and impairs the liver's detoxification capacity.</p>
+          <p>Modern chronic stress — financial pressure, relationship strain, work demands, digital overload, poor sleep — keeps the body in a <strong>permanent low-grade fight-or-flight state</strong>. In this state, the body actively resists weight loss, metabolic recovery, and healing.</p>
+          <p>Addressing stress isn't a lifestyle suggestion in the TDOS framework — it is a physiological necessity. Without managing the cortisol and stress response, the other three factors are significantly harder to resolve.</p>
+          <div class="tdos-stat-row">
+            <div class="tdos-stat-pill"><div class="num">77%</div><div class="txt">Of Americans report<br>physical symptoms of stress</div></div>
+            <div class="tdos-stat-pill"><div class="num">3×</div><div class="txt">Higher cortisol linked to<br>3× greater abdominal fat gain</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- THE CONNECTION -->
+<section>
+  <div class="container">
+    <div class="connection-grid">
+      <div class="connection-vis">
+        <p style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem">How the four factors interact</p>
+        <div class="conn-items">
+          <div class="conn-row"><div class="conn-letter">T</div><div class="conn-text"><h4>Toxicity stores in fat</h4><p>Toxins accumulate in fat cells, making fat loss trigger toxic release — activating the body's protective mechanisms</p></div></div>
+          <div class="conn-arrow">↓ triggers ↓</div>
+          <div class="conn-row"><div class="conn-letter">O</div><div class="conn-text"><h4>Overweight protects toxins</h4><p>Body resists losing fat to avoid releasing stored toxins — creating a biological lock on weight loss</p></div></div>
+          <div class="conn-arrow">↓ depletes ↓</div>
+          <div class="conn-row"><div class="conn-letter">D</div><div class="conn-text"><h4>Deficiency prevents detox</h4><p>Without adequate micronutrients, the liver's detox pathways can't function — toxins remain stored</p></div></div>
+          <div class="conn-arrow">↓ amplified by ↓</div>
+          <div class="conn-row"><div class="conn-letter">S</div><div class="conn-text"><h4>Stress accelerates all three</h4><p>Cortisol increases fat storage, depletes nutrients faster, and impairs detoxification simultaneously</p></div></div>
+        </div>
+      </div>
+      <div class="connection-content">
+        <div class="slbl">Why It's One Problem</div>
+        <h2 class="stitle">They Don't Work<br>In Isolation.<br><span style="color:var(--amber)">Neither Does The Fix.</span></h2>
+        <blockquote class="bq">"Treating one factor<br>without the others is why<br><em>diets always fail eventually.</em>"</blockquote>
+        <p style="font-size:.78rem;color:rgba(245,242,236,.35);margin-bottom:1.5rem;font-style:italic">— Peter Greenlaw, The TDOS Syndrome®</p>
+        <p>This is the core insight behind the TDOS framework: these four factors don't exist in parallel — they form a reinforcing loop. Toxicity drives fat retention. Fat stores more toxins. Deficiency impairs detoxification. Stress accelerates all three.</p>
+        <p>This is why someone can follow a perfect diet, exercise consistently, and still hit a wall. They're treating the output while the input is still running at full speed.</p>
+        <p>The R2M Protocol was built specifically to <strong>interrupt this loop at each of the four points simultaneously</strong> — not one factor at a time, but all four in a coordinated 9-step sequence.</p>
+        <a href="r2m-protocol.html" style="display:inline-flex;align-items:center;gap:.4rem;color:var(--amber);font-size:.875rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-decoration:none;margin-top:.5rem">See the R2M Protocol →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY DIETS FAIL -->
+<section class="fail-section">
+  <div class="container">
+    <div class="slbl">Why Nothing Has Worked</div>
+    <h2 class="stitle">Every Major Approach<br>Misses the Same Thing</h2>
+    <p class="ssub">It's not that these approaches are wrong. It's that they address one factor while the others continue unchecked.</p>
+    <div class="fail-grid">
+      <div class="fail-card"><h4>Calorie Restriction</h4><p>Reduces the O factor temporarily — but ignores Toxicity (stored in fat), Deficiency (worsened by restricted eating), and Stress (elevated by hunger and deprivation).</p><div class="why">Fails because: toxic release during fat loss slows metabolism and triggers rebound</div></div>
+      <div class="fail-card"><h4>Intermittent Fasting</h4><p>Can improve insulin sensitivity and address Overweight — but NEJM studies show significant lean muscle loss, and it does nothing for Toxicity, Deficiency, or physiological Stress.</p><div class="why">Fails because: muscle loss slows metabolism; toxic burden remains unchanged</div></div>
+      <div class="fail-card"><h4>Mediterranean Diet</h4><p>Addresses Deficiency through nutrient-dense food — but produces 80% less weight loss and 136% less visceral fat reduction than R2M in head-to-head peer-reviewed studies.</p><div class="why">Fails because: doesn't address Toxicity or the hormonal environment driving fat retention</div></div>
+      <div class="fail-card"><h4>Supplements Alone</h4><p>Can partially address Deficiency — but without first clearing the toxic load and supporting gut absorption, most supplements pass through without being properly utilized.</p><div class="why">Fails because: deficient body can't absorb nutrients efficiently regardless of quality</div></div>
+      <div class="fail-card"><h4>Exercise Programs</h4><p>Valuable for overall health and addresses Stress — but exercise alone cannot overcome a toxic cellular environment, nutritional deficiency, or the body's metabolic resistance.</p><div class="why">Fails because: doesn't address root cause; body fights fat loss hormonally</div></div>
+      <div class="fail-card"><h4>Medications</h4><p>GLP-1 drugs like semaglutide produce weight loss — but NEJM studies show 40% of weight lost is lean muscle, not fat, and none of the four TDOS factors are addressed.</p><div class="why">Fails because: metabolic dysfunction remains; 85%+ regain weight after stopping</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PETER GREENLAW -->
+<section>
+  <div class="container">
+    <div class="slbl">The Framework's Creator</div>
+    <h2 class="stitle">Developed By<br>Peter Greenlaw</h2>
+    <div class="peter-grid">
+      <div class="peter-card">
+        <div class="peter-avatar">PG</div>
+        <div class="peter-name">Peter Greenlaw</div>
+        <div class="peter-title">Author · Researcher<br>TDOS Syndrome® Co-Creator</div>
+        <div class="peter-creds">
+          <div class="peter-cred">The TDOS Syndrome® (Book)</div>
+          <div class="peter-cred">Why Diets Are Failing Us</div>
+          <div class="peter-cred">The TDOS Solutions</div>
+          <div class="peter-cred">Your Third Brain</div>
+          <div class="peter-cred">1,500+ Global Lectures</div>
+          <div class="peter-cred">ABC · Fox · PBS Media</div>
+        </div>
+      </div>
+      <div class="peter-content">
+        <p>Peter Greenlaw spent years researching why people fail to maintain health improvements despite genuine effort and commitment. The answer he found wasn't motivational — it was biochemical. The four factors of TDOS were creating a biological environment where lasting health improvement was essentially impossible, regardless of the approach used.</p>
+        <p>He co-developed the <strong>TDOS Syndrome® framework</strong> to give both practitioners and individuals a model for understanding chronic health challenges that goes deeper than symptoms, deeper than lifestyle, and deeper than any individual disease category.</p>
+        <p>Peter has presented this framework in over <strong>1,500 lectures globally</strong>, authored four books on the subject, and appeared as a health expert on ABC, Fox, and over 20 times on PBS.</p>
+        <p>Dan Maes and Peter work together — the TDOS framework is the diagnostic lens through which Dan's protocol addresses root causes rather than surface symptoms.</p>
+        <a href="science.html" style="display:inline-flex;align-items:center;gap:.4rem;color:var(--amber);font-size:.875rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-decoration:none;margin-top:.5rem">See the Peer-Reviewed Research →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="slbl" style="justify-content:center">Take the First Step</div>
+    <h2 class="stitle" style="text-align:center">Now You Know<br>Why. Ready to<br><span style="color:var(--amber)">Fix It?</span></h2>
+    <p class="ssub" style="margin:0 auto;text-align:center">The R2M Protocol was built specifically to interrupt the TDOS loop at all four points simultaneously. Start with a free assessment to see where you stand — and a free 30-minute consultation to map out your starting point.</p>
+    <div class="cta-actions">
+      <a href="qualify.html" class="btn-primary">Take the Free Assessment →</a>
+      <a href="r2m-protocol.html" class="btn-ghost">See the R2M Protocol</a>
+    </div>
+    <p style="font-size:.78rem;color:rgba(245,242,236,.28);margin-top:1rem;text-align:center">Free assessment · Free consultation · No obligation</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <p>The TDOS Syndrome® is a wellness education framework developed by Peter Greenlaw. This website provides general health information and is not intended as medical advice. Always consult a qualified healthcare professional before beginning any health program. Statistics cited are from publicly available health research data.</p>
+    <p class="footer-copy">© 2025 HowDanDidIt.com</p>
+  </div>
+</footer>
+</body>
+</html>
