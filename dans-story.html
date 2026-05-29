@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dan's Story — How Dan Did It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ink:#0B0B0B;--off-white:#F5F2EC;--amber:#F59E0B;--amber-dark:#D97706;
+    --amber-glow:rgba(245,158,11,0.1);--amber-border:rgba(245,158,11,0.2);
+    --green:#22C55E;--green-glow:rgba(34,197,94,0.1);--green-border:rgba(34,197,94,0.2);
+    --muted:rgba(245,242,236,0.55);--dim:rgba(245,242,236,0.35);
+    --border:rgba(255,255,255,0.08);--card-bg:rgba(255,255,255,0.04);
+    --display:'Barlow Condensed',sans-serif;--body:'DM Sans',sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);background:var(--ink);color:var(--off-white);line-height:1.6;overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:68px;background:rgba(11,11,11,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:var(--display);font-weight:800;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--off-white);text-decoration:none}
+  .nav-logo span{color:var(--amber)}
+  .nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none}
+  .nav-links a{font-size:.8rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--off-white)}
+  .btn-nav{background:var(--amber);color:var(--ink);padding:.5rem 1.1rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+  .btn-primary{background:var(--amber);color:var(--ink);padding:.85rem 1.75rem;border-radius:8px;font-weight:700;font-size:.875rem;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;display:inline-flex;align-items:center;gap:.4rem}
+  .btn-primary:hover{background:var(--amber-dark);transform:translateY(-2px);box-shadow:0 10px 28px rgba(245,158,11,.25)}
+  .btn-ghost{background:transparent;color:var(--off-white);padding:.85rem 1.75rem;border-radius:8px;border:1px solid rgba(245,242,236,.2);font-weight:600;font-size:.875rem;text-transform:uppercase;text-decoration:none;transition:border-color .2s}
+  .btn-ghost:hover{border-color:rgba(245,242,236,.45)}
+
+  /* HERO */
+  .hero{min-height:100vh;padding:120px 2rem 80px;display:flex;align-items:center;position:relative;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(245,158,11,.06) 0%,transparent 65%);pointer-events:none}
+  .hero-wm{position:absolute;right:-2rem;bottom:-2rem;font-family:var(--display);font-size:35vw;font-weight:900;color:rgba(245,158,11,.02);line-height:1;pointer-events:none;user-select:none}
+  .hero-inner{max-width:860px;margin:0 auto;position:relative}
+  .hero-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:.5rem;margin-bottom:1.5rem}
+  .hero-eyebrow::before{content:'';width:20px;height:2px;background:var(--amber)}
+  .hero h1{font-family:var(--display);font-size:clamp(4rem,8vw,8rem);font-weight:900;text-transform:uppercase;line-height:.9;letter-spacing:-.02em;margin-bottom:2rem}
+  .hero h1 .line2{color:var(--amber);display:block}
+  .hero h1 .line3{color:rgba(245,242,236,.25);display:block;font-size:.55em}
+  .hero-deck{font-size:1.15rem;color:var(--muted);max-width:620px;line-height:1.75;margin-bottom:2.5rem}
+  .hero-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+  .hero-date{display:inline-flex;align-items:center;gap:.5rem;background:var(--amber-glow);border:1px solid var(--amber-border);border-radius:100px;padding:4px 14px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:1.5rem}
+
+  /* CHAPTER STRUCTURE */
+  .chapter{padding:80px 2rem}
+  .chapter.alt{background:#0f0f0f}
+  .chapter.dark{background:#060908}
+  .chapter-inner{max-width:860px;margin:0 auto}
+  .chapter-num{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,242,236,.25);margin-bottom:.5rem}
+  .chapter-title{font-family:var(--display);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:900;text-transform:uppercase;line-height:.95;margin-bottom:2rem}
+  .chapter-title em{font-style:normal;color:var(--amber)}
+  .prose p{font-size:1rem;color:var(--muted);line-height:1.85;margin-bottom:1.25rem}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--off-white)}
+
+  /* PULL QUOTES */
+  .pullquote{font-family:var(--display);font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:800;text-transform:uppercase;line-height:1.05;margin:2.5rem 0;padding-left:1.5rem;border-left:4px solid var(--amber);color:var(--off-white)}
+  .pullquote em{font-style:normal;color:var(--amber)}
+  .pullquote-attr{font-family:var(--body);font-size:.82rem;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;margin-top:.5rem;padding-left:1.5rem;font-style:italic}
+
+  /* TIMELINE */
+  .timeline{position:relative;padding-left:2.5rem;margin:2.5rem 0}
+  .timeline::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--amber),rgba(245,158,11,.1))}
+  .tl-item{position:relative;margin-bottom:2rem}
+  .tl-item:last-child{margin-bottom:0}
+  .tl-dot{position:absolute;left:-2.9rem;top:4px;width:14px;height:14px;border-radius:50%;background:var(--amber);border:3px solid var(--ink);box-shadow:0 0 0 1px var(--amber)}
+  .tl-when{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:.3rem}
+  .tl-what{font-size:.95rem;font-weight:600;color:var(--off-white);margin-bottom:.3rem}
+  .tl-desc{font-size:.875rem;color:var(--muted);line-height:1.65}
+
+  /* STAT CALLOUTS */
+  .stat-row{display:flex;gap:1rem;flex-wrap:wrap;margin:2rem 0}
+  .stat-box{flex:1;min-width:140px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem;text-align:center}
+  .stat-box .num{font-family:var(--display);font-size:2.5rem;font-weight:900;color:var(--amber);line-height:1}
+  .stat-box .lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:.3rem;line-height:1.4}
+
+  /* TEAM CARDS */
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:2rem 0}
+  .team-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+  .team-card h4{font-family:var(--display);font-size:1rem;font-weight:700;text-transform:uppercase;margin-bottom:.3rem}
+  .team-card .field{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:.5rem}
+  .team-card p{font-size:.8rem;color:var(--muted);line-height:1.6}
+
+  /* DIVIDER */
+  .chapter-divider{border:none;border-top:1px solid var(--border);margin:3rem 0}
+
+  /* MISSION BAND */
+  .mission-band{background:var(--amber);color:var(--ink);padding:60px 2rem;text-align:center}
+  .mission-band h2{font-family:var(--display);font-size:clamp(2rem,5vw,4rem);font-weight:900;text-transform:uppercase;line-height:1;margin-bottom:1rem}
+  .mission-band p{font-size:1rem;max-width:620px;margin:0 auto;line-height:1.75;opacity:.8}
+
+  /* NOT CANCER PAGE DISCLAIMER */
+  .disclaimer-box{background:var(--amber-glow);border:1px solid var(--amber-border);border-radius:12px;padding:1.5rem;margin:2rem 0}
+  .disclaimer-box h4{font-family:var(--display);font-size:1rem;font-weight:700;text-transform:uppercase;color:var(--amber);margin-bottom:.5rem}
+  .disclaimer-box p{font-size:.85rem;color:var(--muted);line-height:1.65}
+
+  /* CTA */
+  .cta-section{padding:100px 2rem;text-align:center;background:radial-gradient(ellipse 55% 40% at 50% 50%,rgba(245,158,11,.07) 0%,transparent 70%)}
+  .cta-title{font-family:var(--display);font-size:clamp(2.5rem,5vw,5rem);font-weight:900;text-transform:uppercase;line-height:1;margin-bottom:1.25rem}
+  .cta-title em{font-style:normal;color:var(--amber);display:block}
+  .cta-sub{font-size:1rem;color:var(--muted);max-width:520px;margin:0 auto 2.5rem;line-height:1.75}
+  .cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+  footer{background:#0B0B0B;border-top:1px solid var(--border);padding:2.5rem 2rem}
+  .footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+  .footer-inner p{font-size:.75rem;color:rgba(245,242,236,.25);line-height:1.6;max-width:700px}
+  .footer-copy{font-size:.75rem;color:rgba(245,242,236,.2);white-space:nowrap}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .fu{animation:fadeUp .7s ease both}
+  .fu2{animation:fadeUp .7s ease .15s both}
+  .fu3{animation:fadeUp .7s ease .3s both}
+
+  @media(max-width:768px){
+    .team-grid{grid-template-columns:1fr}
+    .stat-row{flex-direction:column}
+    nav .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span>How</span> Dan Did It</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="science.html">The Science</a></li>
+    <li><a href="tdos.html">TDOS</a></li>
+    <li><a href="r2m-protocol.html">R2M Protocol</a></li>
+  </ul>
+  <a href="qualify.html" class="btn-nav">Free Assessment →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-wm">DAN</div>
+  <div class="hero-inner">
+    <div class="hero-date fu">Stage 3 · 2018 · Five-Month Prognosis</div>
+    <h1 class="fu2">
+      How
+      <span class="line2">Dan Did It.</span>
+      <span class="line3">And Why He's Sharing It With You.</span>
+    </h1>
+    <p class="hero-deck fu3">In 2018, Dan Maes was told he had five months to live. He had Stage 3 esophageal cancer and a medical team recommending immediate chemotherapy. He declined. What happened next became the foundation for everything on this site.</p>
+    <div class="hero-actions fu3">
+      <a href="qualify.html" class="btn-primary">Take the Free Assessment →</a>
+      <a href="javascript:void(0)" class="btn-ghost" onclick="document.getElementById('ch1').scrollIntoView({behavior:'smooth'})">Read the Story ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 1: BEFORE -->
+<section class="chapter" id="ch1">
+  <div class="chapter-inner">
+    <div class="chapter-num">Chapter 01</div>
+    <h2 class="chapter-title">25 Years In<br>The Room.<br><em>Then This.</em></h2>
+    <div class="prose">
+      <p>Before the diagnosis, Dan Maes had spent <strong>25 years in the health and wellness industry</strong>. Not as an outsider looking in — but deep inside it. He had studied, built businesses around, and personally applied the principles of functional nutrition, detoxification, and metabolic health for more than two decades.</p>
+      <p>He understood that most conventional medicine treats symptoms. He understood the concept of cellular health long before it became mainstream. He had spent years learning why people get sick and why they struggle to get well — and he had helped thousands of others navigate those questions.</p>
+      <p>Then in 2018, it became personal.</p>
+    </div>
+
+    <blockquote class="pullquote">
+      "I'd spent 25 years helping other people with their health. Now I was the patient — and everything I'd learned was about to be tested."
+    </blockquote>
+    <div class="pullquote-attr">— Dan Maes</div>
+
+    <div class="prose">
+      <p>The diagnosis was <strong>Stage 3 esophageal cancer</strong>. His oncologist was clear: the prognosis was poor, the window was short, and the recommended path was immediate chemotherapy and radiation.</p>
+      <p>Dan asked what his options were. He was told there weren't many. He asked what the data said about long-term outcomes with conventional treatment for Stage 3 esophageal cancer. The numbers were sobering.</p>
+      <p>He went home and started making calls.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 2: THE DECISION -->
+<section class="chapter alt">
+  <div class="chapter-inner">
+    <div class="chapter-num">Chapter 02</div>
+    <h2 class="chapter-title">The Decision<br>Nobody<br><em>Understood.</em></h2>
+    <div class="prose">
+      <p>Declining chemotherapy for Stage 3 cancer is not a decision made lightly. Dan's family was frightened. His doctors were concerned. The people around him couldn't understand why he wouldn't take the conventional path.</p>
+      <p>Dan's reasoning was this: <strong>he had 25 years of knowledge about how the body actually works at a cellular level</strong>. He had studied what creates the conditions in which disease thrives — and what removes those conditions. He had watched the research on cellular detoxification, nutritional density, and immune function long enough to have a strong conviction about what he believed the body needed.</p>
+      <p>The conventional treatment, as he understood it, would not address any of those root factors. It would attempt to destroy the cancer while simultaneously destroying much of what remained of his body's own ability to fight back.</p>
+      <p>He made a different choice.</p>
+    </div>
+
+    <blockquote class="pullquote">
+      "I wasn't fighting cancer.<br>I was building the environment<br><em>where my body could fight it for me.</em>"
+    </blockquote>
+    <div class="pullquote-attr">— Dan Maes</div>
+
+    <div class="disclaimer-box">
+      <h4>Important — What This Story Is and Isn't</h4>
+      <p>Dan's decision was deeply personal and based on 25 years of specific professional knowledge. This story is shared as his personal experience only — not as medical advice, and not as a recommendation that anyone else decline conventional treatment. Every person's situation is unique. Dan always encourages working with qualified healthcare professionals. The protocol he developed is designed for <strong>metabolic health support</strong> — not cancer treatment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 3: BUILDING THE TEAM -->
+<section class="chapter">
+  <div class="chapter-inner">
+    <div class="chapter-num">Chapter 03</div>
+    <h2 class="chapter-title">Building the<br>Team.<br><em>No Shortcuts.</em></h2>
+    <div class="prose">
+      <p>Within weeks of the diagnosis, Dan had assembled a team. Not a single integrative medicine practitioner — a genuine multidisciplinary group of experts, each bringing a different lens to the problem.</p>
+      <p>He was explicit about what he needed: people who understood cancer biology, people who understood cellular nutrition and detoxification, and people who understood the immune system's relationship with the gut microbiome. He needed them to work together, not in silos.</p>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="field">Oncology</div>
+        <h4>Cancer Biology</h4>
+        <p>Understanding the tumour environment, how cancer cells behave, and what conditions support or suppress their growth — the conventional science base.</p>
+      </div>
+      <div class="team-card">
+        <div class="field">Molecular Biology</div>
+        <h4>Cellular Science</h4>
+        <p>How cells detoxify, how nutrients are processed at a molecular level, and the mechanisms behind glutathione, oxidative stress, and immune signaling.</p>
+      </div>
+      <div class="team-card">
+        <div class="field">Naturopathic Medicine</div>
+        <h4>Root Cause Medicine</h4>
+        <p>Addressing the underlying terrain — the toxicity, deficiency, and inflammatory environment that allowed disease to develop in the first place.</p>
+      </div>
+      <div class="team-card">
+        <div class="field">Nutrition Science</div>
+        <h4>Nutritional Protocol</h4>
+        <p>Engineering the specific nutritional inputs — protein quality, micronutrient sequencing, detox support — needed to rebuild cellular function.</p>
+      </div>
+      <div class="team-card">
+        <div class="field">Immunology</div>
+        <h4>Immune Restoration</h4>
+        <p>Supporting and restoring the immune system's natural surveillance and response capabilities — starting with the gut microbiome as the foundation.</p>
+      </div>
+      <div class="team-card">
+        <div class="field">Integrative Medicine</div>
+        <h4>Whole-Body Approach</h4>
+        <p>Coordinating all elements into a coherent, sequenced protocol — ensuring each intervention supported rather than undermined the others.</p>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:1.5rem">
+      <p>This team became the foundation of what Dan calls his protocol. Every element — the cellular detox, the nutritional sequencing, the probiotic diversity, the protein specification — was informed by this group's collective expertise, tested against the research, and refined based on what was actually happening in Dan's body.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 4: THE YEAR -->
+<section class="chapter alt">
+  <div class="chapter-inner">
+    <div class="chapter-num">Chapter 04</div>
+    <h2 class="chapter-title">The Year<br><em>Everything</em><br>Changed.</h2>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-when">Late 2018 — Diagnosis</div>
+        <div class="tl-what">Stage 3 esophageal cancer. Five-month prognosis.</div>
+        <div class="tl-desc">Dan receives the diagnosis and begins assembling his team within days. The protocol development starts immediately — there is no time to wait.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-when">Month 1–2 — Foundation</div>
+        <div class="tl-what">TDOS framework identified as the root cause lens.</div>
+        <div class="tl-desc">Working with his team, Dan maps the four interconnected factors — Toxicity, Deficiency, Overweight, Stress — as the environment that had allowed the cancer to develop. The protocol is built around addressing all four simultaneously.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-when">Month 2–4 — Cellular Detox</div>
+        <div class="tl-what">The R2M Protocol begins. Cellular toxin clearance prioritised first.</div>
+        <div class="tl-desc">The 9-day R2M detox regimen is implemented as the first intervention — not to address the cancer directly, but to clear the toxic cellular environment that was suppressing the body's own immune and metabolic function.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-when">Month 4–8 — Nutritional Rebuild</div>
+        <div class="tl-what">Protein, Bravo probiotic, and micronutrient protocol introduced.</div>
+        <div class="tl-desc">With the cellular environment beginning to clear, the nutritional rebuild phase begins. 36g undenatured whey protein for glutathione support, Bravo's 300+ probiotic strains for immune system restoration through the gut, and a targeted micronutrient protocol to address the deficiency component of TDOS.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-when">Month 8–11 — Progress</div>
+        <div class="tl-what">Markers improving. Team cautiously optimistic.</div>
+        <div class="tl-desc">Dan's blood markers begin shifting. His energy, cognitive function, and physical condition improve measurably. His team continues refining the protocol based on real-time results. The five-month prognosis has already been exceeded.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--green);box-shadow:0 0 0 1px var(--green)"></div>
+        <div class="tl-when" style="color:var(--green)">12 Months — Scans</div>
+        <div class="tl-what" style="color:var(--off-white)">Cancer-free.</div>
+        <div class="tl-desc">One year after diagnosis — seven months past the prognosis — Dan's scans come back clean. His medical team is unable to detect active cancer. Dan considers this the result of his body's restored capacity to do what it was designed to do.</div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="num">5mo</div><div class="lbl">Original prognosis given</div></div>
+      <div class="stat-box"><div class="num">12mo</div><div class="lbl">When scans came back clean</div></div>
+      <div class="stat-box"><div class="num">25yr</div><div class="lbl">Background that made it possible</div></div>
+      <div class="stat-box" style="border-color:var(--green-border)"><div class="num" style="color:var(--green)">Free</div><div class="lbl">Cancer-free ever since</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 5: THE SHIFT -->
+<section class="chapter">
+  <div class="chapter-inner">
+    <div class="chapter-num">Chapter 05</div>
+    <h2 class="chapter-title">From Survival<br>To <em>Mission.</em></h2>
+    <div class="prose">
+      <p>After Dan's scans came back clean, the obvious question was: what now?</p>
+      <p>He had developed something genuinely powerful. But he was also aware of something important: the protocol he had built wasn't specifically a cancer protocol. It was a <strong>metabolic health protocol</strong>. The cancer was a symptom — an extreme symptom — of the same underlying dysfunction that affects the vast majority of Americans.</p>
+      <p>The TDOS Syndrome — Toxicity, Deficiency, Overweight, Stress — is not a rare condition. It is the default metabolic state of modern American life. Approximately <strong>88% of Americans</strong> show at least one metabolic marker associated with TDOS. Most show three or more.</p>
+      <p>Dan made a decision: he would share what he learned. Not to claim his protocol cures cancer — but because the same foundational approach that restored his cellular health addresses the exact conditions millions of people are struggling with right now.</p>
+      <p>Stubborn weight. High blood pressure. Blood sugar imbalances. High cholesterol. Chronic inflammation. Compromised immunity. Low energy. Brain fog.</p>
+      <p>These are not isolated problems. They are the same TDOS loop — just at an earlier stage.</p>
+    </div>
+
+    <blockquote class="pullquote">
+      "The protocol isn't about cancer.<br>It never was.<br><em>It's about restoring the environment</em><br>your body needs to work properly."
+    </blockquote>
+    <div class="pullquote-attr">— Dan Maes</div>
+  </div>
+</section>
+
+<!-- MISSION BAND -->
+<div class="mission-band">
+  <h2>HowDanDidIt.com<br>Is Built For You.</h2>
+  <p>Not for cancer patients. For the 88% of Americans whose metabolic health is silently declining — and who deserve the same protocol Dan used to restore his, available to them without a Stage 3 diagnosis to force the issue.</p>
+</div>
+
+<!-- CHAPTER 6: THE TEAM TODAY -->
+<section class="chapter alt">
+  <div class="chapter-inner">
+    <div class="chapter-num">Chapter 06</div>
+    <h2 class="chapter-title">The Team<br><em>Today.</em></h2>
+    <div class="prose">
+      <p>Dan doesn't work alone. The protocol on this site is backed by the same calibre of expertise that informed his own recovery — plus the peer-reviewed scientific validation of researchers who have studied the R2M approach in independent human trials.</p>
+    </div>
+
+    <hr class="chapter-divider">
+
+    <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem">
+      <div style="display:flex;gap:1.5rem;align-items:flex-start;padding:1.5rem;background:var(--card-bg);border:1px solid var(--border);border-radius:12px">
+        <div style="width:52px;height:52px;border-radius:50%;background:rgba(34,197,94,0.1);border:2px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.1rem;font-weight:800;color:var(--green);flex-shrink:0">PA</div>
+        <div>
+          <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.25rem">Nutrition Research</div>
+          <div style="font-size:.95rem;font-weight:700;margin-bottom:.35rem">Dr. Paul Arciero, Ph.D.</div>
+          <div style="font-size:.83rem;color:var(--muted);line-height:1.65">The world's leading nutritional researcher — 40 years of study, 9,400+ research citations. Dr. Arciero has conducted 10 independent peer-reviewed human trial studies validating the R2M Protocol, published in Nature Communications, the Obesity Journal, and Nutrition Journal. He developed the proprietary Protein Pacing® and Intermittent Nutritional Fasting® methodologies that form the scientific core of the protocol.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:1.5rem;align-items:flex-start;padding:1.5rem;background:var(--card-bg);border:1px solid var(--border);border-radius:12px">
+        <div style="width:52px;height:52px;border-radius:50%;background:var(--amber-glow);border:2px solid var(--amber-border);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.1rem;font-weight:800;color:var(--amber);flex-shrink:0">PG</div>
+        <div>
+          <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:.25rem">TDOS Framework & Education</div>
+          <div style="font-size:.95rem;font-weight:700;margin-bottom:.35rem">Peter Greenlaw</div>
+          <div style="font-size:.83rem;color:var(--muted);line-height:1.65">Author and researcher who co-developed the TDOS Syndrome® framework — the diagnostic lens through which the protocol addresses root causes. Author of four books including The TDOS Syndrome® and Why Diets Are Failing Us. Over 1,500 global lectures, and a regular guest on ABC, Fox, and PBS. Peter and Dan work in partnership, combining the TDOS educational framework with Dan's protocol and Dr. Arciero's research.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:1.5rem;align-items:flex-start;padding:1.5rem;background:var(--card-bg);border:1px solid var(--border);border-radius:12px">
+        <div style="width:52px;height:52px;border-radius:50%;background:rgba(20,184,166,0.1);border:2px solid rgba(20,184,166,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.1rem;font-weight:800;color:#14B8A6;flex-shrink:0">MR</div>
+        <div>
+          <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#14B8A6;margin-bottom:.25rem">Gut & Microbiome Science</div>
+          <div style="font-size:.95rem;font-weight:700;margin-bottom:.35rem">Dr. Marco Ruggiero, M.D., Ph.D.</div>
+          <div style="font-size:.83rem;color:var(--muted);line-height:1.65">Molecular biologist, immunologist, and former University of Florence professor with 200+ published scientific articles. Inventor of the Bravo Microbiome Restoration System — the 300+ strain probiotic fermented with bovine colostrum that forms Protocol Step 3. Dr. Ruggiero's research into gut microbiome diversity and immune function forms the scientific foundation of the probiotic component.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 7: NOW -->
+<section class="chapter">
+  <div class="chapter-inner">
+    <div class="chapter-num">Chapter 07</div>
+    <h2 class="chapter-title">What Dan<br>Wants For<br><em>You.</em></h2>
+    <div class="prose">
+      <p>Dan is not waiting for people to get a Stage 3 diagnosis before they access this protocol. That's the whole point of this site.</p>
+      <p>The same TDOS loop that created the cellular environment for his cancer is the same loop driving the epidemic of metabolic syndrome, obesity, diabetes, heart disease, and chronic inflammation that is affecting the majority of American adults right now.</p>
+      <p>The difference is that most people are at mile 3 of a marathon, not mile 26. The intervention is easier, the recovery is faster, and the results are more dramatic when the body hasn't been fighting the loop for decades.</p>
+      <p>Every free consultation on this site is Dan's team sitting down with someone who is at mile 3 — and giving them the same protocol, the same science, and the same standard of care that Dan applied to himself.</p>
+      <p>The consultation is free. The coaching is free if you move forward. The only thing required is the commitment to show up and do the work.</p>
+    </div>
+
+    <blockquote class="pullquote">
+      "Don't wait for a<br>diagnosis to take<br><em>your health seriously.</em>"
+    </blockquote>
+    <div class="pullquote-attr">— Dan Maes</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:1rem"><span style="display:block;width:18px;height:2px;background:var(--amber)"></span>Your Turn<span style="display:block;width:18px;height:2px;background:var(--amber)"></span></div>
+    <h2 class="cta-title">Dan Did It.<br><em>You Can Too.</em></h2>
+    <p class="cta-sub">Start with a free 5-minute assessment. Your coach will review your results and schedule a free 30-minute call to build your personal starting point — no obligation, no pressure.</p>
+    <div class="cta-actions">
+      <a href="qualify.html" class="btn-primary">Take the Free Assessment →</a>
+      <a href="science.html" class="btn-ghost">See the Research</a>
+    </div>
+    <p style="font-size:.75rem;color:rgba(245,242,236,.28);margin-top:1.25rem">Free assessment · Free consultation · Free coaching if you move forward</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <p>Dan Maes' personal health journey is shared for educational purposes only. His results are his own and are not a guarantee of outcomes for others. The protocol described on this site is a nutritional wellness protocol — not a medical treatment for cancer or any other disease. Always consult a qualified healthcare professional before making changes to your health regimen. These statements have not been evaluated by the FDA.</p>
+    <p class="footer-copy">© 2025 HowDanDidIt.com</p>
+  </div>
+</footer>
+</body>
+</html>
