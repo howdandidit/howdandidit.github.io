@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Dan Did It — Take Control of Your Metabolic Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0B0B0B;
+    --off-white: #F5F2EC;
+    --amber: #F59E0B;
+    --amber-dark: #D97706;
+    --amber-glow: rgba(245,158,11,0.12);
+    --green: #22C55E;
+    --green-muted: rgba(34,197,94,0.1);
+    --red-muted: rgba(239,68,68,0.08);
+    --muted: #6B7280;
+    --border: rgba(255,255,255,0.08);
+    --card-bg: rgba(255,255,255,0.04);
+    --display: 'Barlow Condensed', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    background: var(--ink);
+    color: var(--off-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+    background: rgba(11,11,11,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--display);
+    font-weight: 800; font-size: 1.2rem;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--off-white); text-decoration: none;
+  }
+  .nav-logo span { color: var(--amber); }
+  .nav-links {
+    display: flex; align-items: center; gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.875rem; font-weight: 500; letter-spacing: 0.03em;
+    color: rgba(245,242,236,0.6); text-decoration: none; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--off-white); }
+  .btn-nav {
+    background: var(--amber); color: var(--ink);
+    padding: 0.55rem 1.25rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-nav:hover { background: var(--amber-dark); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 2rem 80px;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(245,158,11,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 420px; gap: 5rem;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 28px; height: 2px; background: var(--amber);
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 900; line-height: 0.95;
+    letter-spacing: -0.01em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: normal; color: var(--amber);
+    display: block;
+  }
+  .hero-sub {
+    font-size: 1.1rem; line-height: 1.7;
+    color: rgba(245,242,236,0.7);
+    max-width: 520px; margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--amber); color: var(--ink);
+    padding: 0.9rem 2rem; border-radius: 8px;
+    font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em;
+    text-transform: uppercase; text-decoration: none; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-primary:hover {
+    background: var(--amber-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(245,158,11,0.3);
+  }
+  .btn-ghost {
+    background: transparent; color: var(--off-white);
+    padding: 0.9rem 2rem; border-radius: 8px; border: 1px solid rgba(245,242,236,0.2);
+    font-weight: 600; font-size: 0.9rem; letter-spacing: 0.04em;
+    text-transform: uppercase; text-decoration: none; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(245,242,236,0.5); background: rgba(255,255,255,0.04); }
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 3rem; padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: var(--display); font-size: 2.5rem; font-weight: 800;
+    line-height: 1; color: var(--off-white);
+  }
+  .stat-num span { color: var(--amber); }
+  .stat-label {
+    font-size: 0.75rem; color: rgba(245,242,236,0.5);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.25rem;
+  }
+
+  /* HERO CARD (right) */
+  .hero-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+  }
+  .hero-card h3 {
+    font-family: var(--display); font-size: 1.4rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+  }
+  .hero-card p {
+    font-size: 0.875rem; color: rgba(245,242,236,0.6); margin-bottom: 1.5rem;
+  }
+  .symptom-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .symptom-list li {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 0.9rem; padding: 0.6rem 0.75rem;
+    background: var(--red-muted); border-radius: 8px;
+    border: 1px solid rgba(239,68,68,0.12);
+  }
+  .symptom-list li .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #EF4444; flex-shrink: 0;
+  }
+  .hero-card .cta-area {
+    margin-top: 1.5rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .hero-card .cta-area .btn-primary { width: 100%; justify-content: center; }
+  .hero-card .cta-area p {
+    font-size: 0.75rem; color: rgba(245,242,236,0.4);
+    margin-top: 0.75rem; margin-bottom: 0;
+  }
+
+  /* SECTION BASE */
+  section { padding: 100px 2rem; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-label::before { content: ''; width: 20px; height: 2px; background: var(--amber); }
+  .section-title {
+    font-family: var(--display); font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800; line-height: 1; text-transform: uppercase; letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+  .section-sub {
+    font-size: 1.05rem; color: rgba(245,242,236,0.65); line-height: 1.7;
+    max-width: 580px;
+  }
+
+  /* PROBLEM BAND */
+  .problem-band {
+    background: var(--amber); color: var(--ink);
+    padding: 28px 2rem; text-align: center;
+  }
+  .problem-band p {
+    font-family: var(--display); font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; max-width: 900px; margin: 0 auto;
+  }
+
+  /* SYMPTOMS SECTION */
+  .symptoms-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    margin-top: 4rem;
+  }
+  .symptom-card {
+    background: var(--ink); padding: 2rem 1.5rem;
+    transition: background 0.2s;
+  }
+  .symptom-card:hover { background: var(--card-bg); }
+  .symptom-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--amber-glow); border: 1px solid rgba(245,158,11,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; margin-bottom: 1rem;
+  }
+  .symptom-card h4 {
+    font-family: var(--display); font-size: 1.1rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;
+  }
+  .symptom-card p { font-size: 0.83rem; color: rgba(245,242,236,0.55); line-height: 1.6; }
+
+  /* STORY SECTION */
+  .story-section { background: #111; }
+  .story-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+  .story-img-wrap {
+    position: relative; border-radius: 12px; overflow: hidden;
+  }
+  .story-img-wrap::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(245,158,11,0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .story-photo {
+    width: 100%; aspect-ratio: 4/5; object-fit: cover;
+    display: block; filter: grayscale(20%);
+    background: #222; /* placeholder */
+    min-height: 400px;
+  }
+  .story-badge {
+    position: absolute; bottom: 1.5rem; left: 1.5rem;
+    background: var(--amber); color: var(--ink);
+    padding: 0.5rem 1rem; border-radius: 6px;
+    font-family: var(--display); font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .story-content blockquote {
+    font-family: var(--display); font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    font-weight: 700; line-height: 1.2; text-transform: uppercase;
+    border-left: 3px solid var(--amber); padding-left: 1.5rem;
+    margin: 2rem 0; color: var(--off-white);
+  }
+  .story-content p { font-size: 0.95rem; color: rgba(245,242,236,0.65); line-height: 1.8; margin-bottom: 1rem; }
+  .story-content .disclaimer {
+    font-size: 0.78rem; color: rgba(245,242,236,0.3);
+    font-style: italic; margin-top: 0.5rem;
+  }
+
+  /* HOW IT WORKS */
+  .how-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem;
+  }
+  .step-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 2rem;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .step-card:hover { border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.04); }
+  .step-num {
+    font-family: var(--display); font-size: 4rem; font-weight: 900;
+    line-height: 1; color: rgba(245,158,11,0.12);
+    position: absolute; top: 1rem; right: 1.5rem;
+  }
+  .step-tag {
+    display: inline-block; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--amber-glow); color: var(--amber);
+    padding: 4px 10px; border-radius: 4px; margin-bottom: 1rem;
+  }
+  .step-card h3 {
+    font-family: var(--display); font-size: 1.5rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.75rem;
+  }
+  .step-card p { font-size: 0.875rem; color: rgba(245,242,236,0.6); line-height: 1.7; }
+  .step-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--amber); font-size: 1.5rem; align-self: center;
+  }
+
+  /* PROTOCOL / PRODUCTS */
+  .products-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem;
+  }
+  .product-card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: 2rem; transition: border-color 0.2s;
+  }
+  .product-card:hover { border-color: rgba(245,158,11,0.3); }
+  .product-num {
+    font-family: var(--display); font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.1em; color: var(--amber); text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .product-card h3 {
+    font-family: var(--display); font-size: 1.4rem; font-weight: 700;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .product-card p { font-size: 0.875rem; color: rgba(245,242,236,0.6); line-height: 1.7; margin-bottom: 1.25rem; }
+  .product-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 4px;
+    background: var(--green-muted); color: var(--green);
+    border: 1px solid rgba(34,197,94,0.15);
+  }
+
+  /* TESTIMONIALS */
+  .testimonials-section { background: #111; }
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem;
+  }
+  .testi-card {
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.75rem;
+  }
+  .stars { color: var(--amber); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 2px; }
+  .testi-card blockquote {
+    font-size: 0.9rem; line-height: 1.7; color: rgba(245,242,236,0.75);
+    margin-bottom: 1.25rem; font-style: italic;
+  }
+  .testi-author { font-size: 0.8rem; font-weight: 600; color: var(--off-white); }
+  .testi-detail { font-size: 0.75rem; color: rgba(245,242,236,0.4); }
+  .testi-note {
+    margin-top: 2.5rem; font-size: 0.78rem; color: rgba(245,242,236,0.35);
+    text-align: center; font-style: italic;
+  }
+
+  /* EMAIL CAPTURE */
+  .email-section {
+    background: var(--amber-glow); border-top: 1px solid rgba(245,158,11,0.15);
+    border-bottom: 1px solid rgba(245,158,11,0.15);
+    text-align: center;
+  }
+  .email-section .section-title { color: var(--off-white); }
+  .email-section .section-sub { margin: 0 auto 2.5rem; }
+  .email-form {
+    display: flex; gap: 0.75rem; max-width: 480px; margin: 0 auto;
+  }
+  .email-form input[type="email"] {
+    flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(245,242,236,0.15);
+    color: var(--off-white); padding: 0.85rem 1.1rem; border-radius: 8px;
+    font-family: var(--body); font-size: 0.9rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .email-form input[type="email"]::placeholder { color: rgba(245,242,236,0.3); }
+  .email-form input[type="email"]:focus { border-color: var(--amber); }
+  .email-form .btn-primary { white-space: nowrap; }
+  .email-section .fine-print {
+    margin-top: 1rem; font-size: 0.75rem; color: rgba(245,242,236,0.35);
+  }
+
+  /* QUIZ MODAL */
+  .quiz-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  .quiz-overlay.active { display: flex; }
+  .quiz-modal {
+    background: #161616; border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 560px;
+    position: relative;
+  }
+  .quiz-close {
+    position: absolute; top: 1.25rem; right: 1.25rem;
+    background: none; border: none; color: rgba(245,242,236,0.4);
+    font-size: 1.5rem; cursor: pointer; line-height: 1;
+  }
+  .quiz-close:hover { color: var(--off-white); }
+  .quiz-step { display: none; }
+  .quiz-step.active { display: block; }
+  .quiz-progress {
+    display: flex; gap: 4px; margin-bottom: 2rem;
+  }
+  .quiz-progress-dot {
+    flex: 1; height: 3px; background: rgba(245,242,236,0.1);
+    border-radius: 2px; transition: background 0.3s;
+  }
+  .quiz-progress-dot.done { background: var(--amber); }
+  .quiz-step h3 {
+    font-family: var(--display); font-size: 1.6rem; font-weight: 700;
+    text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .quiz-step p { font-size: 0.875rem; color: rgba(245,242,236,0.6); margin-bottom: 1.5rem; }
+  .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; }
+  .quiz-opt {
+    background: var(--card-bg); border: 1px solid var(--border);
+    color: var(--off-white); padding: 0.85rem 1rem; border-radius: 8px;
+    font-family: var(--body); font-size: 0.875rem; text-align: left; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .quiz-opt:hover { border-color: var(--amber); background: var(--amber-glow); }
+  .quiz-opt.selected { border-color: var(--amber); background: var(--amber-glow); }
+  .quiz-opt .opt-check {
+    width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(245,242,236,0.2);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  }
+  .quiz-opt.selected .opt-check { background: var(--amber); border-color: var(--amber); }
+  .quiz-nav {
+    display: flex; justify-content: space-between; align-items: center; margin-top: 1.75rem;
+  }
+  .quiz-back {
+    background: none; border: none; color: rgba(245,242,236,0.4);
+    font-size: 0.875rem; cursor: pointer; padding: 0;
+  }
+  .quiz-back:hover { color: var(--off-white); }
+  .quiz-name-form { display: flex; flex-direction: column; gap: 1rem; }
+  .quiz-input {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(245,242,236,0.15);
+    color: var(--off-white); padding: 0.85rem 1.1rem; border-radius: 8px;
+    font-family: var(--body); font-size: 0.9rem; outline: none;
+    transition: border-color 0.2s; width: 100%;
+  }
+  .quiz-input::placeholder { color: rgba(245,242,236,0.3); }
+  .quiz-input:focus { border-color: var(--amber); }
+  .result-screen { text-align: center; padding-top: 0.5rem; }
+  .result-score {
+    font-family: var(--display); font-size: 5rem; font-weight: 900;
+    color: var(--amber); line-height: 1; margin: 1rem 0 0.25rem;
+  }
+  .result-label {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: rgba(245,242,236,0.5); margin-bottom: 1.25rem;
+  }
+  .result-screen p { font-size: 0.9rem; color: rgba(245,242,236,0.7); line-height: 1.7; margin-bottom: 1.75rem; }
+
+  /* FOOTER */
+  footer {
+    background: #0B0B0B; border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 2rem;
+  }
+  .footer-brand .nav-logo { font-size: 1.1rem; }
+  .footer-brand p {
+    font-size: 0.8rem; color: rgba(245,242,236,0.4); margin-top: 0.75rem; max-width: 280px;
+    line-height: 1.6;
+  }
+  .footer-links { display: flex; gap: 3rem; flex-wrap: wrap; }
+  .footer-col h5 {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(245,242,236,0.4); margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .footer-col a {
+    font-size: 0.85rem; color: rgba(245,242,236,0.6); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--off-white); }
+  .footer-bottom {
+    max-width: 1200px; margin: 2rem auto 0;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .footer-bottom p { font-size: 0.75rem; color: rgba(245,242,236,0.3); line-height: 1.6; max-width: 700px; }
+  .footer-copy { font-size: 0.75rem; color: rgba(245,242,236,0.25); white-space: nowrap; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.7s ease both; }
+  .fade-up-2 { animation: fadeUp 0.7s ease 0.15s both; }
+  .fade-up-3 { animation: fadeUp 0.7s ease 0.3s both; }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-card { display: none; }
+    .story-grid { grid-template-columns: 1fr; }
+    .how-grid { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .email-form { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html"><span>How</span> Dan Did It</a>
+  <ul class="nav-links">
+    <li><a href="javascript:void(0)" onclick="scrollToSection('symptoms')">The Problem</a></li>
+    <li><a href="javascript:void(0)" onclick="scrollToSection('story')">Dan's Story</a></li>
+    <li><a href="science.html">The Science</a></li>
+    <li><a href="javascript:void(0)" onclick="scrollToSection('protocol')">Protocol</a></li>
+    <li><a href="javascript:void(0)" onclick="scrollToSection('community')">Community</a></li>
+  </ul>
+  <a href="javascript:void(0)" class="btn-nav" onclick="openQuiz()">Free Assessment →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow fade-up">Metabolic Health Transformation</div>
+      <h1 class="fade-up-2">
+        Your Body Was<br>Built To<br><em>Thrive.</em>
+      </h1>
+      <p class="hero-sub fade-up-3">
+        88% of Americans show at least one marker of metabolic dysfunction. Excess weight, high blood pressure, blood sugar imbalances, high cholesterol — these aren't inevitable. They're a signal. And they can change.
+      </p>
+      <div class="hero-actions fade-up-3">
+        <a href="javascript:void(0)" class="btn-primary" onclick="openQuiz()">Take the Free Assessment →</a>
+        <a href="javascript:void(0)" class="btn-ghost" onclick="scrollToSection('story')">Dan's Story</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">25<span>+</span></div>
+          <div class="stat-label">Years of Wellness</div>
+        </div>
+        <div>
+          <div class="stat-num">9</div>
+          <div class="stat-label">Step Protocol</div>
+        </div>
+        <div>
+          <div class="stat-num">1<span>k+</span></div>
+          <div class="stat-label">Lives Impacted</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card fade-up-3">
+      <h3>Do You Experience Any of These?</h3>
+      <p>Check all that apply to your current health situation:</p>
+      <ul class="symptom-list">
+        <li><span class="dot"></span>Stubborn weight you can't seem to lose</li>
+        <li><span class="dot"></span>High blood pressure readings</li>
+        <li><span class="dot"></span>Elevated blood sugar or pre-diabetes</li>
+        <li><span class="dot"></span>High cholesterol or triglycerides</li>
+        <li><span class="dot"></span>Low energy, brain fog, or inflammation</li>
+        <li><span class="dot"></span>Compromised immune system</li>
+      </ul>
+      <div class="cta-area">
+        <a href="javascript:void(0)" class="btn-primary" onclick="openQuiz()">Get My Free Health Assessment</a>
+        <p>Takes 2 minutes. No obligation. No spam.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BAND -->
+<div class="problem-band">
+  <p>Metabolic syndrome affects an estimated 1 in 3 American adults — most don't know they have it, and most don't know it can be addressed through lifestyle and nutrition.</p>
+</div>
+
+<!-- MEDIA / TRUST BAR -->
+<div style="background:#111; border-bottom:1px solid rgba(255,255,255,0.08); padding:24px 2rem;">
+  <div style="max-width:1000px; margin:0 auto;">
+    <p style="font-size:0.65rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:rgba(245,242,236,0.3); text-align:center; margin-bottom:1rem;">Research Published In & Featured By</p>
+    <div style="display:flex; align-items:center; justify-content:center; flex-wrap:wrap;">
+      <div style="padding:0.4rem 1.5rem; border-right:1px solid rgba(255,255,255,0.08); text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:800; text-transform:uppercase; color:#F59E0B;">Women's World</div>
+        <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(245,242,236,0.28); margin-top:2px;">Cover Story · June 2025</div>
+      </div>
+      <div style="padding:0.4rem 1.5rem; border-right:1px solid rgba(255,255,255,0.08); text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:800; text-transform:uppercase; color:rgba(245,242,236,0.45);">Nature Communications</div>
+        <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(245,242,236,0.25); margin-top:2px;">Peer-Reviewed Study</div>
+      </div>
+      <div style="padding:0.4rem 1.5rem; border-right:1px solid rgba(255,255,255,0.08); text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:800; text-transform:uppercase; color:rgba(245,242,236,0.45);">Obesity Journal</div>
+        <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(245,242,236,0.25); margin-top:2px;">Peer-Reviewed Study</div>
+      </div>
+      <div style="padding:0.4rem 1.5rem; border-right:1px solid rgba(255,255,255,0.08); text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:800; text-transform:uppercase; color:rgba(245,242,236,0.45);">ABC · Fox · PBS</div>
+        <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(245,242,236,0.25); margin-top:2px;">Media Appearances</div>
+      </div>
+      <div style="padding:0.4rem 1.5rem; text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:800; text-transform:uppercase; color:rgba(245,242,236,0.45);">9,400+ Citations</div>
+        <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(245,242,236,0.25); margin-top:2px;">Dr. Paul Arciero Research</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCIENCE TEASER -->
+<div style="background:#0B0B0B; padding:72px 2rem; border-bottom:1px solid rgba(255,255,255,0.08);">
+  <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center;">
+    <div>
+      <div style="font-size:0.7rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#F59E0B; display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;"><span style="display:inline-block;width:20px;height:2px;background:#F59E0B;flex-shrink:0;"></span>Backed by Peer-Reviewed Science</div>
+      <h2 style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(2.2rem,4vw,3.2rem); font-weight:800; text-transform:uppercase; line-height:1; margin-bottom:1.25rem;">16 Pounds.<br>30 Days.<br><span style="color:#F59E0B;">No Exercise.</span></h2>
+      <p style="font-size:0.95rem; color:rgba(245,242,236,0.55); line-height:1.75; margin-bottom:1.5rem;">Dr. Paul Arciero — the world's leading nutritional researcher with 9,400+ citations — independently validated the R2M Protocol in peer-reviewed human trials. Participants achieved in 30 days what conventional diets take 12 months to produce.</p>
+      <a href="science.html" style="display:inline-flex; align-items:center; gap:0.4rem; background:#F59E0B; color:#0B0B0B; padding:0.85rem 1.75rem; border-radius:8px; font-weight:700; font-size:0.875rem; letter-spacing:0.05em; text-transform:uppercase; text-decoration:none;">See All 5 Studies →</a>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:1.25rem; text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:2.8rem; font-weight:900; color:#F59E0B; line-height:1;">12×</div>
+        <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:rgba(245,242,236,0.5); margin-top:0.4rem; line-height:1.4;">Faster than conventional diets</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:1.25rem; text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:2.8rem; font-weight:900; color:#22C55E; line-height:1;">+9%</div>
+        <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:rgba(245,242,236,0.5); margin-top:0.4rem; line-height:1.4;">Lean muscle gained (other diets lose muscle)</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:1.25rem; text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:2.8rem; font-weight:900; color:#F59E0B; line-height:1;">33%</div>
+        <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:rgba(245,242,236,0.5); margin-top:0.4rem; line-height:1.4;">Reduction in visceral fat in 8 weeks</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:1.25rem; text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:2.8rem; font-weight:900; color:#22C55E; line-height:1;">25%</div>
+        <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:rgba(245,242,236,0.5); margin-top:0.4rem; line-height:1.4;">Reduction in inflammation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SYMPTOMS SECTION -->
+<section id="symptoms">
+  <div class="container">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Six Signals Your<br>Body Is Sending You</h2>
+    <p class="section-sub">Metabolic syndrome isn't one condition — it's a cluster of connected markers that tend to appear together. Sound familiar?</p>
+
+    <div class="symptoms-grid">
+      <div class="symptom-card">
+        <div class="symptom-icon">⚖️</div>
+        <h4>Excess Weight</h4>
+        <p>Especially around the midsection, visceral fat surrounds organs and contributes to a range of downstream health challenges.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="symptom-icon">🩸</div>
+        <h4>High Blood Pressure</h4>
+        <p>Often called the silent killer. Elevated blood pressure is one of the most common and overlooked metabolic markers.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="symptom-icon">🍬</div>
+        <h4>Blood Sugar Imbalance</h4>
+        <p>Pre-diabetes, insulin resistance, and elevated fasting glucose are warning signs that often go unaddressed for years.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="symptom-icon">🫀</div>
+        <h4>High Cholesterol / Triglycerides</h4>
+        <p>Lipid imbalances affect millions and are frequently tied to diet, toxin load, and nutrient deficiencies rather than genetics alone.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="symptom-icon">🔥</div>
+        <h4>Chronic Inflammation</h4>
+        <p>Low-grade inflammation throughout the body is now understood to be a driver of nearly every major chronic health concern.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="symptom-icon">🛡️</div>
+        <h4>Compromised Immunity</h4>
+        <p>Frequent illness, slow recovery, and general fatigue are often symptoms of a burdened immune system — not bad luck.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DAN'S STORY -->
+<section class="story-section" id="story">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-img-wrap">
+        <div class="story-photo" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display:flex; align-items:center; justify-content:center;">
+          <span style="font-family: var(--display); font-size: 6rem; font-weight: 900; color: rgba(245,158,11,0.2);">DAN</span>
+        </div>
+        <div class="story-badge">Cancer-Free Since 2019</div>
+      </div>
+      <div class="story-content">
+        <div class="section-label">Dan's Story</div>
+        <h2 class="section-title">25 Years.<br>One<br><span style="color:var(--amber)">Protocol.</span></h2>
+        <blockquote>"I didn't fight cancer. I built the environment where my body could fight it for me."</blockquote>
+        <p>In 2018, Dan Maes was diagnosed with Stage 3 esophageal cancer. Drawing on 25 years in the health and wellness industry, he assembled a team of experts in oncology, naturopathic medicine, and molecular biology — and developed a protocol built around a little-known health syndrome he calls TDOS: a combination of Toxicity, nutritional Deficiency, Overweight, and Stress.</p>
+        <p>Within one year, Dan's scans came back clean. He launched this site with one mission: to share what he learned with anyone struggling with metabolic health — cancer or not.</p>
+        <p>The same foundational protocol Dan used is available to anyone willing to commit to the process.</p>
+        <p class="disclaimer">Dan's results are his own. Individual experiences vary. This website does not provide medical advice — always consult a qualified health professional.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="protocol">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Three Steps To<br>Your Protocol</h2>
+    <p class="section-sub">We don't sell products first. We start by understanding your situation — then we build a personalized approach together.</p>
+
+    <div class="how-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-tag">Free · 2 Minutes</div>
+        <h3>Take the Assessment</h3>
+        <p>A quick 8-question health assessment helps us understand your current metabolic markers, lifestyle, and goals before anything else.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-tag">Free · 30 Minutes</div>
+        <h3>Book a Consultation</h3>
+        <p>Based on your assessment, we schedule a free 1-on-1 consultation to walk through your results and discuss a personalized approach.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-tag">Your Journey</div>
+        <h3>Start Your Protocol</h3>
+        <p>Armed with a clear roadmap, you'll have the tools, community support, and check-ins to follow through and track your progress.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="javascript:void(0)" class="btn-primary" onclick="openQuiz()">Start with the Free Assessment →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS / PROTOCOL ELEMENTS -->
+<section style="background:#111; padding: 80px 2rem;">
+  <div class="container">
+    <div class="section-label">The Foundation</div>
+    <h2 class="section-title">Protocol<br><span style="color:var(--amber)">Elements</span></h2>
+    <p class="section-sub">Three core pillars form the nutritional foundation of the protocol — each selected for specific roles in supporting the body's natural processes.</p>
+
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-num">Protocol Element 01</div>
+        <h3>R2M Detox Protocol</h3>
+        <p>A 9-day regimen designed to support the body's natural detox pathways. Formulated to help address toxin overload at the cellular level — a key component of the TDOS framework.</p>
+        <div class="product-tags">
+          <span class="tag">Detox Support</span>
+          <span class="tag">9 Days</span>
+          <span class="tag">Cellular</span>
+        </div>
+        <a href="r2m-protocol.html" style="display:inline-flex;align-items:center;gap:0.35rem;margin-top:1.25rem;font-size:0.82rem;font-weight:700;color:var(--amber);text-decoration:none;letter-spacing:0.04em;text-transform:uppercase;">Learn More →</a>
+      </div>
+      <div class="product-card">
+        <div class="product-num">Protocol Element 02</div>
+        <h3>Bravo Probiotic</h3>
+        <p>42 strains of probiotics versus the typical 3–5 found in most products. Designed to support gut diversity, immune function, and cognitive performance.</p>
+        <div class="product-tags">
+          <span class="tag">Gut Health</span>
+          <span class="tag">Immune Support</span>
+          <span class="tag">42 Strains</span>
+        </div>
+        <a href="bravo.html" style="display:inline-flex;align-items:center;gap:0.35rem;margin-top:1.25rem;font-size:0.82rem;font-weight:700;color:var(--amber);text-decoration:none;letter-spacing:0.04em;text-transform:uppercase;">Learn More →</a>
+      </div>
+      <div class="product-card">
+        <div class="product-num">Protocol Element 03</div>
+        <h3>Protein Foundation</h3>
+        <p>36g of undenatured whey protein with micronutrients engineered to support lean muscle, glutathione production, and healthy aging — not just calorie replacement.</p>
+        <div class="product-tags">
+          <span class="tag">Lean Muscle</span>
+          <span class="tag">Glutathione</span>
+          <span class="tag">36g Protein</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:0.8rem; color: rgba(245,242,236,0.3); text-align:center; margin-top:2rem; font-style:italic;">
+      *These statements have not been evaluated by the FDA. These products are not intended to diagnose, treat, cure, or prevent any disease. Always consult your healthcare provider.
+    </p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="community">
+  <div class="container">
+    <div class="section-label">Real Results</div>
+    <h2 class="section-title">What People<br>Are Saying</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"After two years of struggling with my weight and blood sugar numbers, I finally feel like I have a real plan. The consultation was no-pressure and incredibly informative."</blockquote>
+        <div class="testi-author">Maria T.</div>
+        <div class="testi-detail">Pre-diabetic, lost 22 lbs over 4 months</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"I came in skeptical. Left the call with a clear protocol and for the first time in years, a sense of control over my own health. Dan's story gives you hope — the protocol gives you a path."</blockquote>
+        <div class="testi-author">James R.</div>
+        <div class="testi-detail">Hypertension, 55 years old</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"The free assessment alone was eye-opening. I had no idea how many of those six markers applied to me. Starting the R2M protocol next week — excited to track my progress."</blockquote>
+        <div class="testi-author">Sandra K.</div>
+        <div class="testi-detail">Metabolic syndrome, recently diagnosed</div>
+      </div>
+    </div>
+    <p class="testi-note">Individual results vary. Testimonials reflect personal experiences and are not a guarantee of results. Consult your healthcare provider before starting any new health program.</p>
+  </div>
+</section>
+
+<!-- EMAIL CAPTURE -->
+<section class="email-section" id="email">
+  <div class="container">
+    <div class="section-label" style="justify-content:center;">Join the Community</div>
+    <h2 class="section-title" style="text-align:center;">Join 1,000+ Wellness<br>Warriors</h2>
+    <p class="section-sub" style="text-align:center; margin:0 auto 2.5rem;">
+      Get Dan's free TDOS Syndrome guide, weekly insights on metabolic health, and be first to know about events and resources.
+    </p>
+    <form class="email-form" onsubmit="handleEmail(event)">
+      <input type="email" placeholder="Your email address" required id="email-input">
+      <button type="submit" class="btn-primary">Get the Free Guide →</button>
+    </form>
+    <p class="fine-print">Free. Unsubscribe any time. We never sell or share your data.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="nav-logo" href="index.html"><span>How</span> Dan Did It</a>
+      <p>A wellness education platform built on 25 years of experience and one remarkable personal journey.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <ul>
+          <li><a href="javascript:void(0)">Home</a></li>
+          <li><a href="javascript:void(0)" onclick="scrollToSection('symptoms')">The Problem</a></li>
+          <li><a href="javascript:void(0)" onclick="scrollToSection('story')">Dan's Story</a></li>
+          <li><a href="javascript:void(0)" onclick="scrollToSection('protocol')">Protocol</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="science.html">Blog</a></li>
+          <li><a href="science.html">TDOS Explained</a></li>
+          <li><a href="science.html">Recommended Books</a></li>
+          <li><a href="booking.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Get Started</h5>
+        <ul>
+          <li><a href="javascript:void(0)" onclick="openQuiz()">Free Assessment</a></li>
+          <li><a href="javascript:void(0)" onclick="openQuiz()">Book a Call</a></li>
+          <li><a href="javascript:void(0)" onclick="scrollToSection('protocol')">Products</a></li>
+          <li><a href="javascript:void(0)">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>This website contains general wellness and educational information and is not intended as medical advice. Content is not intended to diagnose, treat, cure, or prevent any disease or medical condition. Always consult a qualified healthcare professional before making changes to your diet, nutrition, or exercise program. Statements on this website have not been evaluated by the Food and Drug Administration.</p>
+    <p class="footer-copy">© 2025 HowDanDidIt.com</p>
+  </div>
+</footer>
+
+<!-- QUIZ MODAL -->
+<div class="quiz-overlay" id="quizOverlay" onclick="closeQuizOutside(event)">
+  <div class="quiz-modal">
+    <button class="quiz-close" onclick="closeQuiz()">✕</button>
+    <div class="quiz-progress" id="quizProgress">
+      <div class="quiz-progress-dot done" id="dot0"></div>
+      <div class="quiz-progress-dot" id="dot1"></div>
+      <div class="quiz-progress-dot" id="dot2"></div>
+      <div class="quiz-progress-dot" id="dot3"></div>
+      <div class="quiz-progress-dot" id="dot4"></div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="quiz-step active" id="step0">
+      <h3>What brings you here today?</h3>
+      <p>Select the one that best fits your current situation.</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="selectOpt(this, 0)"><span class="opt-check"></span>I want to lose weight and keep it off</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 0)"><span class="opt-check"></span>I've been told I have high blood pressure or cholesterol</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 0)"><span class="opt-check"></span>I have blood sugar concerns or pre-diabetes</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 0)"><span class="opt-check"></span>I want to improve energy, inflammation, or immunity</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 0)"><span class="opt-check"></span>I'm dealing with several of these at once</button>
+      </div>
+      <div class="quiz-nav">
+        <span></span>
+        <button class="btn-primary" onclick="nextStep(1)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="quiz-step" id="step1">
+      <h3>How long have you been dealing with this?</h3>
+      <p>Understanding your timeline helps us tailor the right approach.</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="selectOpt(this, 1)"><span class="opt-check"></span>Less than 6 months — it's recent</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 1)"><span class="opt-check"></span>1–3 years — it's been building</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 1)"><span class="opt-check"></span>More than 3 years — it feels like my normal</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-back" onclick="prevStep(0)">← Back</button>
+        <button class="btn-primary" onclick="nextStep(2)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="quiz-step" id="step2">
+      <h3>Have you tried other approaches?</h3>
+      <p>Knowing what hasn't worked helps us focus on what might.</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="selectOpt(this, 2)"><span class="opt-check"></span>I've tried diets — they work short-term but don't stick</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 2)"><span class="opt-check"></span>I'm on medication and looking for complementary support</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 2)"><span class="opt-check"></span>I've tried supplements but haven't found the right ones</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 2)"><span class="opt-check"></span>I haven't really tried anything yet — starting fresh</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-back" onclick="prevStep(1)">← Back</button>
+        <button class="btn-primary" onclick="nextStep(3)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="quiz-step" id="step3">
+      <h3>What's your readiness level?</h3>
+      <p>Be honest — there's no wrong answer here.</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="selectOpt(this, 3)"><span class="opt-check"></span>I'm ready to commit to a serious protocol</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 3)"><span class="opt-check"></span>I'm curious but want to understand more first</button>
+        <button class="quiz-opt" onclick="selectOpt(this, 3)"><span class="opt-check"></span>I'm researching on behalf of someone I care about</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-back" onclick="prevStep(2)">← Back</button>
+        <button class="btn-primary" onclick="nextStep(4)">See My Results →</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Name / Email -->
+    <div class="quiz-step" id="step4">
+      <h3>Where Should We Send Your Results?</h3>
+      <p>We'll email you a personalized summary and follow up to schedule your free consultation.</p>
+      <div class="quiz-name-form">
+        <input class="quiz-input" type="text" placeholder="First name" id="qName">
+        <input class="quiz-input" type="email" placeholder="Email address" id="qEmail">
+        <button class="btn-primary" onclick="showResult()" style="width:100%; justify-content:center;">Get My Results →</button>
+        <p style="font-size:0.75rem; color:rgba(245,242,236,0.3); text-align:center; margin-top:0.25rem;">No spam. No selling. Just your results + a free call offer.</p>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-back" onclick="prevStep(3)">← Back</button>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="quiz-step" id="stepResult">
+      <div class="result-screen">
+        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--amber);">Your Metabolic Health Score</p>
+        <div class="result-score" id="resultScore">72</div>
+        <div class="result-label">Out of 100 — Moderate Risk</div>
+        <p>Based on your responses, you're showing signs of metabolic stress that are very common — and very addressable. A free 30-minute consultation with Dan's team will help map out a clear, personalized starting point.</p>
+        <a href="booking.html" class="btn-primary" style="width:100%; justify-content:center; display:flex;">Book My Free Consultation →</a>
+        <p style="font-size:0.78rem; color:rgba(245,242,236,0.35); margin-top:1rem;">
+          *This is an illustrative wellness tool, not a medical diagnosis. Always consult your healthcare provider.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  let currentStep = 0;
+
+  function openQuiz() {
+    document.getElementById('quizOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeQuiz() {
+    document.getElementById('quizOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function closeQuizOutside(e) {
+    if (e.target === document.getElementById('quizOverlay')) closeQuiz();
+  }
+
+  function selectOpt(el, step) {
+    document.querySelectorAll('#step' + step + ' .quiz-opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function nextStep(n) {
+    document.getElementById('step' + currentStep).classList.remove('active');
+    currentStep = n;
+    document.getElementById('step' + n).classList.add('active');
+    for (let i = 0; i <= n; i++) document.getElementById('dot' + i).classList.add('done');
+  }
+  function prevStep(n) {
+    document.getElementById('step' + currentStep).classList.remove('active');
+    currentStep = n;
+    document.getElementById('step' + n).classList.add('active');
+    document.getElementById('dot' + (n + 1)).classList.remove('done');
+  }
+
+  function showResult() {
+    const score = Math.floor(Math.random() * 25) + 58;
+    const name = encodeURIComponent(document.getElementById('qName').value || '');
+    const email = encodeURIComponent(document.getElementById('qEmail').value || '');
+    window.location.href = 'booking.html?score=' + score + '&name=' + name + '&email=' + email;
+  }
+
+  function handleEmail(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = '✓ You\'re in!';
+    btn.style.background = '#22C55E';
+    btn.disabled = true;
+  }
+</script>
+</body>
+</html>
