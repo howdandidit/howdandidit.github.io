@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Science Behind the Protocol — How Dan Did It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0B0B0B; --off-white: #F5F2EC; --amber: #F59E0B; --amber-dark: #D97706;
+    --amber-glow: rgba(245,158,11,0.1); --amber-border: rgba(245,158,11,0.2);
+    --green: #22C55E; --green-glow: rgba(34,197,94,0.1); --green-border: rgba(34,197,94,0.2);
+    --blue: #3B82F6; --blue-glow: rgba(59,130,246,0.08); --blue-border: rgba(59,130,246,0.2);
+    --red: #EF4444; --red-glow: rgba(239,68,68,0.08); --red-border: rgba(239,68,68,0.2);
+    --muted: rgba(245,242,236,0.55); --border: rgba(255,255,255,0.08); --card-bg: rgba(255,255,255,0.04);
+    --display: 'Barlow Condensed', sans-serif; --body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--ink); color: var(--off-white); line-height: 1.6; overflow-x: hidden; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 68px; background: rgba(11,11,11,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--display); font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--off-white); text-decoration: none; }
+  .nav-logo span { color: var(--amber); }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--off-white); }
+  .btn-nav { background: var(--amber); color: var(--ink); padding: 0.5rem 1.1rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
+  .btn-primary { background: var(--amber); color: var(--ink); padding: 0.85rem 1.75rem; border-radius: 8px; font-weight: 700; font-size: 0.875rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; }
+  .btn-primary:hover { background: var(--amber-dark); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(245,158,11,0.25); }
+  .btn-ghost { background: transparent; color: var(--off-white); padding: 0.85rem 1.75rem; border-radius: 8px; border: 1px solid rgba(245,242,236,0.2); font-weight: 600; font-size: 0.875rem; text-transform: uppercase; text-decoration: none; transition: border-color 0.2s; }
+  .btn-ghost:hover { border-color: rgba(245,242,236,0.45); }
+  section { padding: 80px 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .slbl { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .slbl::before { content: ''; width: 20px; height: 2px; background: var(--amber); }
+  .stitle { font-family: var(--display); font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 1.25rem; }
+  .ssub { font-size: 1rem; color: var(--muted); line-height: 1.75; max-width: 620px; }
+
+  /* HERO */
+  .hero { padding: 120px 2rem 80px; background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245,158,11,0.07) 0%, transparent 65%); text-align: center; }
+  .hero-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 1.5rem; }
+  .hero-eyebrow::before, .hero-eyebrow::after { content: ''; width: 28px; height: 2px; background: var(--amber); }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; margin-bottom: 1.5rem; }
+  .hero h1 em { font-style: normal; color: var(--amber); display: block; }
+  .hero-sub { font-size: 1.05rem; color: var(--muted); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.75; }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* MEDIA BAR */
+  .media-bar { background: #111; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 28px 2rem; }
+  .media-inner { max-width: 900px; margin: 0 auto; }
+  .media-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,242,236,0.3); text-align: center; margin-bottom: 1.25rem; }
+  .media-logos { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
+  .media-item { padding: 0.5rem 2rem; border-right: 1px solid var(--border); text-align: center; }
+  .media-item:last-child { border-right: none; }
+  .media-name { font-family: var(--display); font-size: 1.1rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(245,242,236,0.45); }
+  .media-detail { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(245,242,236,0.25); margin-top: 0.15rem; }
+  .media-item.featured .media-name { color: var(--amber); }
+  .media-item.featured .media-detail { color: rgba(245,158,11,0.5); }
+
+  /* NUMBERS BAND */
+  .numbers-band { background: var(--amber); color: var(--ink); padding: 60px 2rem; }
+  .numbers-inner { max-width: 1100px; margin: 0 auto; }
+  .numbers-label { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; text-align: center; margin-bottom: 0.75rem; opacity: 0.6; }
+  .numbers-title { font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 900; text-transform: uppercase; text-align: center; margin-bottom: 0.5rem; line-height: 1.1; }
+  .numbers-sub { font-size: 0.85rem; text-align: center; opacity: 0.65; max-width: 600px; margin: 0 auto 3rem; line-height: 1.6; }
+  .numbers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(0,0,0,0.12); border-radius: 12px; overflow: hidden; }
+  .num-card { background: rgba(0,0,0,0.08); padding: 1.5rem 1rem; text-align: center; }
+  .num-big { font-family: var(--display); font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 900; line-height: 1; }
+  .num-unit { font-size: 1.2rem; }
+  .num-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.7; margin-top: 0.4rem; line-height: 1.4; }
+  .num-source { font-size: 0.65rem; opacity: 0.5; margin-top: 0.3rem; font-style: italic; }
+  .numbers-note { font-size: 0.75rem; text-align: center; margin-top: 2rem; opacity: 0.5; font-style: italic; }
+
+  /* DR ARCIERO */
+  .arciero-section { background: #0f0f0f; }
+  .arciero-grid { display: grid; grid-template-columns: 320px 1fr; gap: 4rem; align-items: start; }
+  .arciero-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; text-align: center; }
+  .arc-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #1a1f14, #1e2a15); border: 2px solid var(--green-border); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1.6rem; font-weight: 800; color: var(--green); margin: 0 auto 1rem; }
+  .arc-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .arc-title { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.25rem; }
+  .arc-creds { display: flex; flex-direction: column; gap: 0.5rem; }
+  .arc-cred { font-size: 0.7rem; font-weight: 600; padding: 5px 10px; background: var(--green-glow); border: 1px solid var(--green-border); border-radius: 6px; color: var(--green); }
+  .arc-content p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+  .arc-content strong { color: var(--off-white); }
+  .arc-quote { font-family: var(--display); font-size: clamp(1.3rem, 2.5vw, 1.9rem); font-weight: 700; text-transform: uppercase; line-height: 1.15; border-left: 3px solid var(--amber); padding-left: 1.25rem; margin-bottom: 0.75rem; }
+  .arc-quote em { font-style: normal; color: var(--amber); }
+  .arc-attr { font-size: 0.78rem; color: rgba(245,242,236,0.35); padding-left: 1.25rem; margin-bottom: 2rem; font-style: italic; }
+
+  /* VIDEO SECTION */
+  .video-section { }
+  .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+  .video-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .video-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+  .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  .video-info { padding: 1.25rem 1.5rem; }
+  .video-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.4rem; }
+  .video-info h3 { font-family: var(--display); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .video-info p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+  /* PETER GREENLAW */
+  .greenlaw-section { background: #0f0f0f; }
+  .greenlaw-grid { display: grid; grid-template-columns: 1fr 320px; gap: 4rem; align-items: start; }
+  .gl-content p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+  .gl-content strong { color: var(--off-white); }
+  .gl-quote { font-family: var(--display); font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 700; text-transform: uppercase; line-height: 1.15; border-left: 3px solid var(--amber); padding-left: 1.25rem; margin-bottom: 0.75rem; }
+  .gl-quote em { font-style: normal; color: var(--amber); }
+  .gl-attr { font-size: 0.78rem; color: rgba(245,242,236,0.35); padding-left: 1.25rem; margin-bottom: 2rem; font-style: italic; }
+  .gl-media { display: flex; flex-direction: column; gap: 0.75rem; }
+  .gl-media-item { display: flex; gap: 0.75rem; align-items: center; padding: 0.85rem 1rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; }
+  .gl-media-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .gl-media-text h4 { font-size: 0.83rem; font-weight: 600; }
+  .gl-media-text p { font-size: 0.75rem; color: var(--muted); }
+  .gl-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; text-align: center; }
+  .gl-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #1a1814, #2a2415); border: 2px solid var(--amber-border); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1.3rem; font-weight: 800; color: var(--amber); margin: 0 auto 1rem; }
+  .gl-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .gl-title { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.25rem; }
+  .gl-creds { display: flex; flex-direction: column; gap: 0.5rem; }
+  .gl-cred { font-size: 0.7rem; font-weight: 600; padding: 5px 10px; background: var(--amber-glow); border: 1px solid var(--amber-border); border-radius: 6px; color: var(--amber); }
+
+  /* STUDIES */
+  .studies-section { }
+  .studies-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-top: 3rem; }
+  .study-card { background: var(--ink); padding: 2rem; display: grid; grid-template-columns: 180px 1fr auto; gap: 2rem; align-items: start; transition: background 0.2s; }
+  .study-card:hover { background: var(--card-bg); }
+  .study-journal { }
+  .study-journal-name { font-family: var(--display); font-size: 1rem; font-weight: 800; text-transform: uppercase; color: var(--off-white); margin-bottom: 0.2rem; line-height: 1.1; }
+  .study-journal-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber); }
+  .study-title { font-size: 0.78rem; color: rgba(245,242,236,0.4); margin-top: 0.4rem; line-height: 1.5; font-style: italic; }
+  .study-results { }
+  .study-result-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .study-result-list li { font-size: 0.83rem; color: var(--muted); display: flex; gap: 0.6rem; line-height: 1.5; }
+  .study-result-list li .stat { font-family: var(--display); font-size: 1.1rem; font-weight: 800; color: var(--amber); flex-shrink: 0; width: 52px; line-height: 1; }
+  .study-link { }
+  .study-link a { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--amber); text-decoration: none; white-space: nowrap; padding: 0.5rem 0.85rem; border: 1px solid var(--amber-border); border-radius: 6px; transition: background 0.2s; }
+  .study-link a:hover { background: var(--amber-glow); }
+
+  /* COMPARISON TABLE */
+  .comparison-section { background: #0f0f0f; }
+  .compare-table { width: 100%; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 3rem; border-collapse: collapse; }
+  .compare-table th { padding: 1rem 1.25rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); text-align: left; }
+  .compare-table th.r2m { color: var(--amber); }
+  .compare-table td { padding: 0.85rem 1.25rem; font-size: 0.875rem; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .td-metric { color: var(--off-white); font-weight: 500; font-size: 0.83rem; }
+  .td-r2m { color: var(--amber); font-weight: 700; }
+  .td-bad { color: rgba(239,68,68,0.6); }
+  .td-neutral { color: var(--muted); }
+  .win-badge { display: inline-block; background: var(--amber-glow); border: 1px solid var(--amber-border); border-radius: 4px; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 6px; color: var(--amber); margin-left: 0.5rem; }
+
+  /* TESTIMONIALS */
+  .testi-section { }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 3rem; }
+  .testi-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; }
+  .testi-header { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .testi-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #1a1a1a, #252525); border: 1px solid var(--amber-border); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1rem; font-weight: 800; color: var(--amber); flex-shrink: 0; }
+  .testi-name { font-size: 0.9rem; font-weight: 700; }
+  .testi-context { font-size: 0.75rem; color: var(--muted); }
+  .testi-result { display: inline-flex; gap: 0.35rem; align-items: baseline; margin-bottom: 0.75rem; }
+  .testi-big { font-family: var(--display); font-size: 1.8rem; font-weight: 900; color: var(--green); line-height: 1; }
+  .testi-desc { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .testi-card blockquote { font-size: 0.83rem; color: var(--muted); font-style: italic; line-height: 1.7; }
+  .testi-note { font-size: 0.72rem; color: rgba(245,242,236,0.25); margin-top: 2.5rem; text-align: center; font-style: italic; }
+
+  /* TDOS STATS */
+  .tdos-section { background: #0f0f0f; }
+  .tdos-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 3rem; }
+  .tdos-stat { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+  .tdos-num { font-family: var(--display); font-size: 3rem; font-weight: 900; color: var(--red); line-height: 1; }
+  .tdos-lbl { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-top: 0.5rem; line-height: 1.4; }
+
+  /* CTA */
+  .cta-section { text-align: center; background: radial-gradient(ellipse 55% 40% at 50% 50%, rgba(245,158,11,0.07) 0%, transparent 70%); }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+
+  /* FOOTER */
+  footer { background: #0B0B0B; border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-inner p { font-size: 0.75rem; color: rgba(245,242,236,0.25); line-height: 1.6; max-width: 700px; }
+  .footer-copy { font-size: 0.75rem; color: rgba(245,242,236,0.2); white-space: nowrap; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .fu { animation: fadeUp 0.6s ease both; }
+  .fu2 { animation: fadeUp 0.6s ease 0.12s both; }
+  .fu3 { animation: fadeUp 0.6s ease 0.24s both; }
+
+  @media (max-width: 960px) {
+    .arciero-grid, .greenlaw-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .video-grid { grid-template-columns: 1fr; }
+    .study-card { grid-template-columns: 1fr; gap: 1rem; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .numbers-grid { grid-template-columns: repeat(2, 1fr); }
+    .tdos-stats { grid-template-columns: repeat(2, 1fr); }
+    .media-logos { gap: 0; }
+    .media-item { padding: 0.5rem 1.25rem; }
+    nav .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span>How</span> Dan Did It</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="r2m-protocol.html">R2M Protocol</a></li>
+    <li><a href="bravo.html">Bravo</a></li>
+    <li><a href="booking.html">Book a Call</a></li>
+  </ul>
+  <a href="booking.html" class="btn-nav">Free Consultation →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow fu">10 Peer-Reviewed Human Trial Studies</div>
+  <h1 class="fu2">The Science<br>Is <em>Undeniable.</em></h1>
+  <p class="hero-sub fu3">The R2M Protocol is one of the most rigorously studied nutritional protocols in history — validated in peer-reviewed human trials published in Nature Communications, the Obesity Journal, and Nutrition Journal. These aren't lab studies. These are real people, real results, independently verified.</p>
+  <div class="hero-actions fu3">
+    <a href="booking.html" class="btn-primary">Book a Free Consultation →</a>
+    <a href="javascript:void(0)" class="btn-ghost" onclick="document.getElementById('studies').scrollIntoView({behavior:'smooth'})">View the Studies</a>
+  </div>
+</section>
+
+<!-- MEDIA BAR -->
+<div class="media-bar">
+  <div class="media-inner">
+    <div class="media-label">As Featured In & Published In</div>
+    <div class="media-logos">
+      <div class="media-item featured">
+        <div class="media-name">Women's World</div>
+        <div class="media-detail">Cover Story · June 2025</div>
+      </div>
+      <div class="media-item">
+        <div class="media-name">Nature Comms</div>
+        <div class="media-detail">Peer-Reviewed Study</div>
+      </div>
+      <div class="media-item">
+        <div class="media-name">Obesity Journal</div>
+        <div class="media-detail">Peer-Reviewed Study</div>
+      </div>
+      <div class="media-item">
+        <div class="media-name">Nutrition Journal</div>
+        <div class="media-detail">Peer-Reviewed Study</div>
+      </div>
+      <div class="media-item">
+        <div class="media-name">ABC TV</div>
+        <div class="media-detail">Windy City Live</div>
+      </div>
+      <div class="media-item">
+        <div class="media-name">Fox News</div>
+        <div class="media-detail">Los Angeles</div>
+      </div>
+      <div class="media-item">
+        <div class="media-name">PBS</div>
+        <div class="media-detail">20 Appearances</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NUMBERS BAND -->
+<div class="numbers-band">
+  <div class="numbers-inner">
+    <div class="numbers-label">From Peer-Reviewed Human Trial Studies</div>
+    <h2 class="numbers-title">Results That Have Never Been Seen in 40 Years of Diet Research</h2>
+    <p class="numbers-sub">Participants in Dr. Arciero's peer-reviewed human trials achieved results in 30 days that conventional diets take 12 months to produce — without exercise.</p>
+    <div class="numbers-grid">
+      <div class="num-card">
+        <div class="num-big">16<span class="num-unit">lbs</span></div>
+        <div class="num-label">Lost in 30 Days<br>(vs. 12 months on conventional diets)</div>
+        <div class="num-source">Nutrition Journal & Obesity Journal</div>
+      </div>
+      <div class="num-card">
+        <div class="num-big">33<span class="num-unit">%</span></div>
+        <div class="num-label">Reduction in Visceral (Toxic) Fat in 8 Weeks</div>
+        <div class="num-source">Obesity Journal</div>
+      </div>
+      <div class="num-card">
+        <div class="num-big">41<span class="num-unit">%</span></div>
+        <div class="num-label">Reduction in Insulin in 30 Days</div>
+        <div class="num-source">Nutrition Journal</div>
+      </div>
+      <div class="num-card">
+        <div class="num-big">25<span class="num-unit">%</span></div>
+        <div class="num-label">Reduction in Inflammation in 30 Days</div>
+        <div class="num-source">Obesity Journal</div>
+      </div>
+      <div class="num-card">
+        <div class="num-big">6-9<span class="num-unit">%</span></div>
+        <div class="num-label">Lean Muscle Gained<br>(Conventional diets LOSE muscle)</div>
+        <div class="num-source">All R2M Studies</div>
+      </div>
+      <div class="num-card">
+        <div class="num-big">24<span class="num-unit">%</span></div>
+        <div class="num-label">Reduction in Triglycerides in 30 Days</div>
+        <div class="num-source">Obesity Journal</div>
+      </div>
+      <div class="num-card">
+        <div class="num-big">136<span class="num-unit">%</span></div>
+        <div class="num-label">Greater Visceral Fat Loss vs. Mediterranean Diet</div>
+        <div class="num-source">Obesity Journal</div>
+      </div>
+      <div class="num-card">
+        <div class="num-big">4<span class="num-unit">in</span></div>
+        <div class="num-label">Average Waist Circumference Reduction</div>
+        <div class="num-source">Multiple Studies</div>
+      </div>
+    </div>
+    <p class="numbers-note">*Results from independent peer-reviewed human trial studies. Individual results vary. These studies are not intended to imply the R2M Protocol treats or cures any disease.</p>
+  </div>
+</div>
+
+<!-- DR ARCIERO -->
+<section class="arciero-section" id="arciero">
+  <div class="container">
+    <div class="arciero-grid">
+      <div>
+        <div class="arciero-card">
+          <div class="arc-avatar">PA</div>
+          <div class="arc-name">Dr. Paul Arciero</div>
+          <div class="arc-title">Ph.D. · World's Leading Nutritional Researcher · 40 Years of Research</div>
+          <div class="arc-creds">
+            <div class="arc-cred">Research Cited 9,400+ Times</div>
+            <div class="arc-cred">10 Peer-Reviewed Human Trial Studies</div>
+            <div class="arc-cred">Published in Nature Communications</div>
+            <div class="arc-cred">Published in Obesity Journal</div>
+            <div class="arc-cred">Published in Nutrition Journal</div>
+            <div class="arc-cred">Inventor of Protein Pacing® & INF®</div>
+          </div>
+        </div>
+      </div>
+      <div class="arc-content">
+        <div class="slbl">The Researcher Behind the Protocol</div>
+        <h2 class="stitle">Dr. Paul Arciero:<br>40 Years.<br>One Conclusion.</h2>
+        <blockquote class="arc-quote">"I have been looking for the magic bullet for weight loss and to maximize our quality-of-life potential for <em>40 years — and now I have found it.</em>"</blockquote>
+        <p class="arc-attr">— Dr. Paul Arciero, Ph.D., on the R2M Protocol</p>
+        <p>Dr. Arciero is considered one of the top nutritional researchers in the world. For nearly four decades, he has conducted independent, peer-reviewed human trial studies on diet, weight loss, and metabolic health. His research has been cited more than <strong>9,400 times</strong> by other scientists.</p>
+        <p>His studies on the R2M Protocol — published in Nature Communications, the Obesity Journal, and the Nutrition Journal — compared outcomes against the Mediterranean diet, intermittent fasting, and every major named diet program analyzed by JAMA. The R2M Protocol outperformed them all by a significant margin.</p>
+        <p>Two proprietary methods developed by Dr. Arciero form the scientific backbone of the R2M Protocol: <strong>Protein Pacing®</strong> and <strong>Intermittent Nutritional Fasting®</strong> — distinct from conventional intermittent fasting, which Dr. Arciero's research shows leads to lean muscle loss, not gain.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="container">
+    <div class="slbl">Watch & Learn</div>
+    <h2 class="stitle">The Research,<br>In Their Own Words</h2>
+    <p class="ssub">Two videos that will change how you think about weight loss and metabolic health — featuring the people behind the science.</p>
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-embed">
+          <iframe src="https://player.vimeo.com/video/912096379?color&autopause=0&loop=0&muted=0&title=1&portrait=1&byline=1" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">60-Minute Deep Dive · Dr. Paul Arciero</div>
+          <h3>The Interview That Changes Everything</h3>
+          <p>An exclusive podcast with Dr. Paul Arciero — the world's leading nutritional researcher — walking through 40 years of findings and explaining exactly why the R2M Protocol produces results no other protocol matches.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-embed">
+          <iframe src="https://player.vimeo.com/video/1086209670?color&autopause=0&loop=0&muted=0&title=1&portrait=1&byline=1" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">Women's World Cover Story · June 2025</div>
+          <h3>Cynde & Linda's Transformation</h3>
+          <p>Featured on the cover of Women's World magazine, Cynde and Linda share their full R2M Protocol journey — including how they sustained their results for 2½ years after completing the protocol.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PETER GREENLAW -->
+<section class="greenlaw-section">
+  <div class="container">
+    <div class="greenlaw-grid">
+      <div class="gl-content">
+        <div class="slbl">Co-Author & Partner</div>
+        <h2 class="stitle">Peter Greenlaw:<br>The TDOS<br><span style="color:var(--amber)">Framework</span></h2>
+        <blockquote class="gl-quote">"You do not know how bad you feel <em>until you realize how good you can feel.</em>"</blockquote>
+        <p class="gl-attr">— Peter Greenlaw, Author of The TDOS Syndrome®</p>
+        <p>Peter Greenlaw is a researcher, author, and health educator who co-developed the <strong>TDOS Syndrome®</strong> framework — the foundational model behind how Dan approaches metabolic health. TDOS stands for Toxicity, nutritional Deficiency, Overweight, and Stress: the four interconnected factors that drive most chronic metabolic conditions.</p>
+        <p>Peter has delivered <strong>over 1,500 lectures globally</strong> and co-authored several books including <em>The TDOS Syndrome</em> and <em>Why Diets Are Failing Us</em>. He is a frequent media guest — appearing on <strong>ABC Windy City Live</strong>, <strong>Fox Los Angeles</strong>, and over <strong>20 times on PBS</strong>.</p>
+        <p>Peter and Dan work together: the TDOS framework is the lens through which Dan's protocol addresses root causes rather than surface-level symptoms. Their shared mission is to reach millions of people who have been failed by conventional diet advice.</p>
+        <div class="gl-media">
+          <div class="gl-media-item"><div class="gl-media-icon">📺</div><div class="gl-media-text"><h4>ABC Windy City Live</h4><p>Featured health segment</p></div></div>
+          <div class="gl-media-item"><div class="gl-media-icon">📺</div><div class="gl-media-text"><h4>Fox News Los Angeles</h4><p>Health and wellness feature</p></div></div>
+          <div class="gl-media-item"><div class="gl-media-icon">📡</div><div class="gl-media-text"><h4>PBS — 20 Appearances</h4><p>Public television health programming</p></div></div>
+          <div class="gl-media-item"><div class="gl-media-icon">📚</div><div class="gl-media-text"><h4>1,500+ Global Lectures</h4><p>Health and wellness events worldwide</p></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="gl-card">
+          <div class="gl-avatar">PG</div>
+          <div class="gl-name">Peter Greenlaw</div>
+          <div class="gl-title">Author · Researcher · TDOS Syndrome® Co-Creator</div>
+          <div class="gl-creds">
+            <div class="gl-cred">Co-Author: The TDOS Syndrome®</div>
+            <div class="gl-cred">Co-Author: Why Diets Are Failing Us</div>
+            <div class="gl-cred">Co-Author: The TDOS Solutions</div>
+            <div class="gl-cred">Co-Author: Your Third Brain</div>
+            <div class="gl-cred">1,500+ Global Lectures</div>
+            <div class="gl-cred">ABC · Fox · PBS Media Appearances</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDIES -->
+<section id="studies">
+  <div class="container">
+    <div class="slbl">Peer-Reviewed Research</div>
+    <h2 class="stitle">5 Published Studies.<br>One Clear Conclusion.</h2>
+    <p class="ssub">These are independent, peer-reviewed human trial studies — not lab tests, not animal studies, not industry-funded research. Real people, measured results, published in top medical journals.</p>
+    <div class="studies-grid">
+
+      <div class="study-card">
+        <div class="study-journal">
+          <div class="study-journal-name">Nutrition<br>Journal</div>
+          <div class="study-journal-tag">Peer-Reviewed</div>
+          <div class="study-title">Intermittent Nutritional Fasting using R2M Protocol — 2-day vs. 1-day detox protocol</div>
+        </div>
+        <div class="study-results">
+          <ul class="study-result-list">
+            <li><span class="stat">34%</span> More weight loss with 2 detox days vs. 1 detox day</li>
+            <li><span class="stat">67%</span> Greater reduction in waist circumference</li>
+            <li><span class="stat">44%</span> Overall reduction in hunger for both groups</li>
+            <li><span class="stat">17%</span> Reduction in cholesterol across both groups</li>
+            <li><span class="stat">15%</span> Reduction in triglycerides across both groups</li>
+            <li><span class="stat">+2%</span> Increase in lean body mass — both groups gained muscle</li>
+          </ul>
+        </div>
+        <div class="study-link">
+          <a href="https://thenewhealthconversation.com/wp-content/uploads/2024/01/Nutrition-Journal.pdf" target="_blank">Read Study ↗</a>
+        </div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-journal">
+          <div class="study-journal-name">Obesity<br>Journal</div>
+          <div class="study-journal-tag">Peer-Reviewed</div>
+          <div class="study-title">R2M Protocol vs. Heart-Healthy Mediterranean Diet — 8 weeks, no exercise, matched calories</div>
+        </div>
+        <div class="study-results">
+          <ul class="study-result-list">
+            <li><span class="stat">80%</span> Greater weight loss vs. Mediterranean Diet</li>
+            <li><span class="stat">136%</span> Greater visceral fat loss vs. Mediterranean Diet</li>
+            <li><span class="stat">100%</span> Increase in proportion of lean body mass</li>
+            <li><span class="stat">17×</span> Greater decrease in desire to eat</li>
+            <li><span class="stat">91%</span> Reduction in sugar intake</li>
+            <li><span class="stat">6×</span> Increase in dietary fiber intake</li>
+          </ul>
+        </div>
+        <div class="study-link">
+          <a href="https://thenewhealthconversation.com/wp-content/uploads/2024/06/Obesity-2022-Arciero-Intermittent-fasting-and-protein-pacing-are-superior-to-caloric-restriction-for-weight-and.pdf" target="_blank">Read Study ↗</a>
+        </div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-journal">
+          <div class="study-journal-name">Nature<br>Comms</div>
+          <div class="study-journal-tag">Peer-Reviewed</div>
+          <div class="study-title">R2M Protocol vs. Mediterranean Diet — Gut Microbiome Outcomes — 8 weeks, no exercise</div>
+        </div>
+        <div class="study-results">
+          <ul class="study-result-list">
+            <li><span class="stat">80%</span> Greater total and visceral fat loss vs. Mediterranean Diet</li>
+            <li><span class="stat">25%</span> Greater gut microbial diversity vs. Mediterranean Diet</li>
+            <li><span class="stat">55%</span> Reduction in GI symptoms vs. Mediterranean Diet</li>
+            <li><span class="stat">105lb</span> One participant lost 105 lbs in 120 days, maintained for 1+ year</li>
+            <li><span class="stat">✓</span> Microbiome remodeling maintained a full year after protocol completion</li>
+          </ul>
+        </div>
+        <div class="study-link">
+          <a href="https://thenewhealthconversation.com/wp-content/uploads/2025/06/Nature-Communications-Journal.pdf" target="_blank">Read Study ↗</a>
+        </div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-journal">
+          <div class="study-journal-name">JAMA<br>Comparison</div>
+          <div class="study-journal-tag">Comparative Data</div>
+          <div class="study-title">JAMA Meta-Analysis: 12 months, 48 named diets, 7,286 people — the benchmark R2M is compared against</div>
+        </div>
+        <div class="study-results">
+          <ul class="study-result-list">
+            <li><span class="stat">16lbs</span> Average weight loss across ALL major diets — in 12 months</li>
+            <li><span class="stat">vs.</span> R2M achieves the same 16 lbs in 30 days — 12× faster</li>
+            <li><span class="stat">0</span> JAMA diets showed significant reductions in metabolic syndrome markers</li>
+            <li><span class="stat">0</span> JAMA diets showed reduction in inflammation</li>
+            <li><span class="stat">0</span> JAMA diets showed visceral fat reduction</li>
+          </ul>
+        </div>
+        <div class="study-link">
+          <a href="https://thenewhealthconversation.com/wp-content/uploads/2024/06/Jama-Comparison-of-Weight-Loss-Among-Named-Diet-Programs-in-Overweight-and-Obese-Adults-2.pdf" target="_blank">Read Study ↗</a>
+        </div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-journal">
+          <div class="study-journal-name">New England<br>Journal</div>
+          <div class="study-journal-tag">Comparative Data</div>
+          <div class="study-title">NEJM: Calorie restriction vs. 16:8 time-restricted eating — 12 months, two groups</div>
+        </div>
+        <div class="study-results">
+          <ul class="study-result-list">
+            <li><span class="stat">17.6lb</span> Weight lost in 12 months — calorie restriction group</li>
+            <li><span class="stat">13.8lb</span> Weight lost in 12 months — 16:8 intermittent fasting group</li>
+            <li><span class="stat">40%</span> Of weight lost in the 68-week NEJM semaglutide study was lean muscle mass</li>
+            <li><span class="stat">vs.</span> R2M participants gained 6–9% lean muscle without any exercise</li>
+            <li><span class="stat">✗</span> Both NEJM groups lost lean muscle — slowing metabolism long-term</li>
+          </ul>
+        </div>
+        <div class="study-link">
+          <a href="https://thenewhealthconversation.com/wp-content/uploads/2024/06/NEJMoa2032183.pdf" target="_blank">Read Study ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="comparison-section">
+  <div class="container">
+    <div class="slbl">Head to Head</div>
+    <h2 class="stitle">R2M vs.<br>Everything Else</h2>
+    <p class="ssub">How the peer-reviewed R2M data compares to every major alternative — based on published human trial studies.</p>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Outcome</th>
+          <th class="r2m">R2M Protocol <span style="font-weight:400;font-size:0.65rem;opacity:0.6">(30 days)</span></th>
+          <th>Conventional Diets <span style="font-weight:400;font-size:0.65rem;opacity:0.6">(12 months)</span></th>
+          <th>Mediterranean Diet <span style="font-weight:400;font-size:0.65rem;opacity:0.6">(8 weeks)</span></th>
+          <th>16:8 Fasting <span style="font-weight:400;font-size:0.65rem;opacity:0.6">(12 months)</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-metric">Weight lost</td>
+          <td class="td-r2m">16 lbs <span class="win-badge">12× faster</span></td>
+          <td class="td-neutral">16 lbs</td>
+          <td class="td-neutral">~9 lbs</td>
+          <td class="td-neutral">13.8 lbs</td>
+        </tr>
+        <tr>
+          <td class="td-metric">Lean muscle change</td>
+          <td class="td-r2m">+6–9% gained</td>
+          <td class="td-bad">Lost muscle</td>
+          <td class="td-bad">Lost muscle</td>
+          <td class="td-bad">Lost muscle</td>
+        </tr>
+        <tr>
+          <td class="td-metric">Visceral fat</td>
+          <td class="td-r2m">−33% in 8 weeks</td>
+          <td class="td-bad">Not measured</td>
+          <td class="td-neutral">Some reduction</td>
+          <td class="td-bad">Not measured</td>
+        </tr>
+        <tr>
+          <td class="td-metric">Blood sugar</td>
+          <td class="td-r2m">−6.2%</td>
+          <td class="td-neutral">Minimal change</td>
+          <td class="td-neutral">Minimal change</td>
+          <td class="td-neutral">Minimal change</td>
+        </tr>
+        <tr>
+          <td class="td-metric">Triglycerides</td>
+          <td class="td-r2m">−24%</td>
+          <td class="td-neutral">Not significant</td>
+          <td class="td-neutral">Not significant</td>
+          <td class="td-neutral">Not significant</td>
+        </tr>
+        <tr>
+          <td class="td-metric">Inflammation</td>
+          <td class="td-r2m">−25%</td>
+          <td class="td-bad">Not reduced</td>
+          <td class="td-neutral">Some reduction</td>
+          <td class="td-bad">Not reduced</td>
+        </tr>
+        <tr>
+          <td class="td-metric">Gut microbiome diversity</td>
+          <td class="td-r2m">+25% vs. Mediterranean</td>
+          <td class="td-bad">Not measured</td>
+          <td class="td-neutral">Baseline</td>
+          <td class="td-bad">Not measured</td>
+        </tr>
+        <tr>
+          <td class="td-metric">Exercise required</td>
+          <td class="td-r2m">None</td>
+          <td class="td-neutral">Usually yes</td>
+          <td class="td-neutral">Usually yes</td>
+          <td class="td-neutral">Usually yes</td>
+        </tr>
+        <tr>
+          <td class="td-metric">Hunger reduction</td>
+          <td class="td-r2m">−41% in 30 days</td>
+          <td class="td-bad">Often increases</td>
+          <td class="td-neutral">Mild</td>
+          <td class="td-bad">Often increases</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.75rem;color:rgba(245,242,236,0.25);text-align:center;margin-top:1.5rem;font-style:italic;">Based on published peer-reviewed studies. Comparisons are drawn from cited research. Individual results vary.</p>
+  </div>
+</section>
+
+<!-- REAL TESTIMONIALS -->
+<section class="testi-section" id="results">
+  <div class="container">
+    <div class="slbl">Real People, Real Results</div>
+    <h2 class="stitle">What Happened<br>When They Did It</h2>
+    <p class="ssub">These are unedited personal accounts from people who completed the R2M Protocol — their words, their numbers.</p>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-header">
+          <div class="testi-avatar">M</div>
+          <div><div class="testi-name">Matt</div><div class="testi-context">High cholesterol · High blood pressure · 50 days</div></div>
+        </div>
+        <div class="testi-result"><span class="testi-big">34 lbs</span><span class="testi-desc">Lost in 50 days</span></div>
+        <blockquote>"My father died of a massive heart attack at 64. My cholesterol went from 259 to below 200. My LDL dropped from 167 to 113. Blood pressure came down significantly. I feel better. I know I'm making a difference so I can see my son grow up."</blockquote>
+      </div>
+      <div class="testi-card">
+        <div class="testi-header">
+          <div class="testi-avatar">C</div>
+          <div><div class="testi-name">Chris</div><div class="testi-context">High blood pressure · Obese · 50 days</div></div>
+        </div>
+        <div class="testi-result"><span class="testi-big">75.6 lbs</span><span class="testi-desc">Lost in 50 days</span></div>
+        <blockquote>"I started at 375.4 lbs with high blood pressure. After 50 days I weighed 299.8 lbs and my blood pressure is now in the normal range. A healthier lifestyle is attainable with this program."</blockquote>
+      </div>
+      <div class="testi-card">
+        <div class="testi-header">
+          <div class="testi-avatar">J</div>
+          <div><div class="testi-name">Jaret</div><div class="testi-context">Cholesterol & blood pressure medication · 50 days</div></div>
+        </div>
+        <div class="testi-result"><span class="testi-big">Off Meds</span><span class="testi-desc">Perfect bloodwork, no medications</span></div>
+        <blockquote>"My main goal was to get off cholesterol and blood pressure medicines. That is exactly what happened. My final blood work showed perfect numbers — with no medications. It's amazing how when you put good nutrients in your body how much better you will sleep and feel."</blockquote>
+      </div>
+      <div class="testi-card">
+        <div class="testi-header">
+          <div class="testi-avatar">A</div>
+          <div><div class="testi-name">Alyson</div><div class="testi-context">Weight & self-confidence · 50 days</div></div>
+        </div>
+        <div class="testi-result"><span class="testi-big">38 in</span><span class="testi-desc">Total inches lost · 20 lbs</span></div>
+        <blockquote>"I lost 20 lbs and 38 total inches. Along the way I found my confidence and self-esteem all over again. My pep is back in my step. Not every step was as easy as I'd have liked, but it was totally worth it — I'd do it all over again in a heartbeat."</blockquote>
+      </div>
+      <div class="testi-card">
+        <div class="testi-header">
+          <div class="testi-avatar">An</div>
+          <div><div class="testi-name">Andy</div><div class="testi-context">15-year weight plateau · 50 days over holidays</div></div>
+        </div>
+        <div class="testi-result"><span class="testi-big">33+ lbs</span><span class="testi-desc">From 233 toward goal of 200</span></div>
+        <blockquote>"I weighed between 235 and 242 for 15 years. I started the program right before Thanksgiving and did not vary from it one bit — didn't sample anything outside the program, through Christmas. I was stoked at the weight I was losing."</blockquote>
+      </div>
+      <div class="testi-card">
+        <div class="testi-header">
+          <div class="testi-avatar">C+L</div>
+          <div><div class="testi-name">Cynde & Linda</div><div class="testi-context">Women's World Cover Story · June 2025</div></div>
+        </div>
+        <div class="testi-result"><span class="testi-big">2.5 yrs</span><span class="testi-desc">Sustained results — still going</span></div>
+        <blockquote>"Featured on the cover of Women's World magazine. Cynde and Linda's transformation became the cover story because of one thing most protocols can't show: results that last. 2½ years later, they've maintained their transformation."</blockquote>
+      </div>
+    </div>
+    <p class="testi-note">These are personal testimonials. The R2M Protocol is not intended to diagnose, treat, cure, or prevent any disease. Results are not typical and individual outcomes vary. Always consult your healthcare provider before beginning any new nutritional program.</p>
+  </div>
+</section>
+
+<!-- TDOS STATS -->
+<section class="tdos-section">
+  <div class="container">
+    <div class="slbl">The Scale of the Problem</div>
+    <h2 class="stitle">Why This Matters<br>Right Now</h2>
+    <p class="ssub">TDOS Syndrome — Toxicity, nutritional Deficiency, Overweight, and Stress — is at the root of the metabolic crisis facing most Americans.</p>
+    <div class="tdos-stats">
+      <div class="tdos-stat">
+        <div class="tdos-num">80%</div>
+        <div class="tdos-lbl">Of Americans are overweight</div>
+      </div>
+      <div class="tdos-stat">
+        <div class="tdos-num">50%</div>
+        <div class="tdos-lbl">Are pre-diabetic</div>
+      </div>
+      <div class="tdos-stat">
+        <div class="tdos-num">9/10</div>
+        <div class="tdos-lbl">Are metabolically unhealthy by 3+ markers</div>
+      </div>
+      <div class="tdos-stat">
+        <div class="tdos-num">50%</div>
+        <div class="tdos-lbl">Of American children are overweight</div>
+      </div>
+    </div>
+    <p style="font-size:0.8rem;color:rgba(245,242,236,0.3);text-align:center;margin-top:1.75rem;font-style:italic;max-width:600px;margin-left:auto;margin-right:auto;">Source: The New Health Conversation® / TDOS Syndrome® research framework. Statistics drawn from publicly available health data.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="slbl" style="justify-content:center;">Take the Next Step</div>
+    <h2 class="stitle" style="text-align:center;">The Science Is There.<br><span style="color:var(--amber)">Are You Ready?</span></h2>
+    <p class="ssub" style="margin:0 auto;text-align:center;">Book a free 30-minute consultation. We'll review your assessment, walk through what the studies mean for your specific situation, and build a starting plan together.</p>
+    <div class="cta-actions">
+      <a href="booking.html" class="btn-primary">Book My Free Consultation →</a>
+      <a href="r2m-protocol.html" class="btn-ghost">See the R2M Protocol</a>
+    </div>
+    <p style="font-size:0.78rem;color:rgba(245,242,236,0.28);margin-top:1rem;text-align:center;">Free 30-min call · No obligation · No credit card</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <p>The studies referenced on this page are independent peer-reviewed human trial studies. This website does not claim the R2M Protocol diagnoses, treats, cures, or prevents any disease. Individual results vary. Always consult a qualified healthcare professional before beginning any nutritional program. These statements have not been evaluated by the FDA.</p>
+    <p class="footer-copy">© 2025 HowDanDidIt.com</p>
+  </div>
+</footer>
+
+</body>
+</html>
