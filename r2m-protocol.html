@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R2M 9-Day Detox Protocol — How Dan Did It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0B0B0B;
+    --off-white: #F5F2EC;
+    --amber: #F59E0B;
+    --amber-dark: #D97706;
+    --amber-glow: rgba(245,158,11,0.12);
+    --amber-border: rgba(245,158,11,0.2);
+    --green: #22C55E;
+    --green-glow: rgba(34,197,94,0.1);
+    --muted: rgba(245,242,236,0.55);
+    --border: rgba(255,255,255,0.08);
+    --card-bg: rgba(255,255,255,0.04);
+    --display: 'Barlow Condensed', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--ink); color: var(--off-white); line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 2rem; display: flex; align-items: center; justify-content: space-between;
+    height: 68px; background: rgba(11,11,11,0.9); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: var(--display); font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--off-white); text-decoration: none; }
+  .nav-logo span { color: var(--amber); }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--off-white); }
+  .btn-nav { background: var(--amber); color: var(--ink); padding: 0.5rem 1.1rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+  .btn-nav:hover { background: var(--amber-dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; padding: 110px 2rem 80px;
+    display: flex; align-items: center;
+    background: radial-gradient(ellipse 80% 60% at 30% 50%, rgba(245,158,11,0.07) 0%, transparent 65%);
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: 'R2M';
+    position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
+    font-family: var(--display); font-size: 28vw; font-weight: 900;
+    color: rgba(245,158,11,0.03); line-height: 1; pointer-events: none; white-space: nowrap;
+  }
+  .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 400px; gap: 4rem; align-items: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--amber-glow); border: 1px solid var(--amber-border); border-radius: 100px; padding: 5px 14px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 1.5rem; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3.5rem, 6vw, 5.5rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 1.25rem; }
+  .hero h1 span { color: var(--amber); display: block; }
+  .hero-sub { font-size: 1rem; color: var(--muted); max-width: 480px; margin-bottom: 2rem; line-height: 1.75; }
+  .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .btn-primary { background: var(--amber); color: var(--ink); padding: 0.85rem 1.75rem; border-radius: 8px; font-weight: 700; font-size: 0.875rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; }
+  .btn-primary:hover { background: var(--amber-dark); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(245,158,11,0.25); }
+  .btn-ghost { background: transparent; color: var(--off-white); padding: 0.85rem 1.75rem; border-radius: 8px; border: 1px solid rgba(245,242,236,0.2); font-weight: 600; font-size: 0.875rem; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .btn-ghost:hover { border-color: rgba(245,242,236,0.45); background: rgba(255,255,255,0.04); }
+  .hero-stats { display: flex; gap: 2rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .stat-num { font-family: var(--display); font-size: 2.2rem; font-weight: 800; line-height: 1; }
+  .stat-num em { font-style: normal; color: var(--amber); }
+  .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 0.2rem; }
+
+  /* HERO PRODUCT CARD */
+  .product-visual {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+    padding: 2rem; display: flex; flex-direction: column; gap: 1.25rem;
+  }
+  .product-img-placeholder {
+    width: 100%; aspect-ratio: 1; border-radius: 12px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+    border: 1px solid var(--border); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 0.5rem;
+  }
+  .product-img-placeholder .prod-label { font-family: var(--display); font-size: 2.5rem; font-weight: 900; color: rgba(245,158,11,0.3); letter-spacing: 0.05em; }
+  .product-img-placeholder .prod-sub { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(245,242,236,0.2); }
+  .product-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .pill { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; background: var(--amber-glow); color: var(--amber); border: 1px solid var(--amber-border); }
+  .pill.green { background: var(--green-glow); color: var(--green); border-color: rgba(34,197,94,0.2); }
+  .consult-cta-card { background: rgba(245,158,11,0.06); border: 1px solid var(--amber-border); border-radius: 10px; padding: 1.1rem; text-align: center; }
+  .consult-cta-card p { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.75rem; line-height: 1.5; }
+  .consult-cta-card .btn-primary { width: 100%; justify-content: center; font-size: 0.82rem; }
+  .consult-note { font-size: 0.72rem; color: rgba(245,242,236,0.3); text-align: center; margin-top: 0.5rem; }
+
+  /* SECTION BASICS */
+  section { padding: 80px 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section-label::before { content: ''; width: 20px; height: 2px; background: var(--amber); }
+  .section-title { font-family: var(--display); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 1.25rem; }
+  .section-sub { font-size: 1rem; color: var(--muted); line-height: 1.75; max-width: 580px; }
+
+  /* WHAT IS IT */
+  .what-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .what-content p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+  .what-content strong { color: var(--off-white); }
+  .tdos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.5rem; }
+  .tdos-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; }
+  .tdos-letter { font-family: var(--display); font-size: 2rem; font-weight: 900; color: var(--amber); line-height: 1; }
+  .tdos-word { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin: 0.2rem 0 0.25rem; }
+  .tdos-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+  .big-quote { font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; text-transform: uppercase; line-height: 1.1; color: var(--off-white); border-left: 3px solid var(--amber); padding-left: 1.5rem; }
+  .big-quote em { font-style: normal; color: var(--amber); }
+
+  /* 9-DAY TIMELINE */
+  .timeline-section { background: #111; }
+  .days-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+  .day-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: border-color 0.2s; }
+  .day-card:hover { border-color: var(--amber-border); }
+  .day-num { font-family: var(--display); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.5rem; }
+  .day-card h3 { font-family: var(--display); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .day-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+  /* 6 ELEMENTS */
+  .elements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 3rem; }
+  .element-card { background: var(--ink); padding: 1.75rem; display: flex; gap: 1rem; align-items: flex-start; transition: background 0.2s; }
+  .element-card:hover { background: var(--card-bg); }
+  .el-num { font-family: var(--display); font-size: 2.5rem; font-weight: 900; color: rgba(245,158,11,0.15); line-height: 1; flex-shrink: 0; width: 40px; }
+  .el-content h4 { font-family: var(--display); font-size: 1.05rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.4rem; }
+  .el-content p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+  /* WHO IT'S FOR */
+  .for-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+  .for-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .for-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+  .for-card h4 { font-family: var(--display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .for-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+  /* TESTIMONIALS */
+  .testi-section { background: #111; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 3rem; }
+  .testi-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .stars { color: var(--amber); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 0.75rem; }
+  .testi-card blockquote { font-size: 0.875rem; color: var(--muted); font-style: italic; line-height: 1.7; margin-bottom: 1rem; }
+  .testi-author { font-size: 0.8rem; font-weight: 600; }
+  .testi-detail { font-size: 0.75rem; color: rgba(245,242,236,0.35); }
+  .testi-disclaimer { font-size: 0.75rem; color: rgba(245,242,236,0.25); text-align: center; margin-top: 2rem; font-style: italic; }
+
+  /* CTA SECTION */
+  .cta-section { text-align: center; background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(245,158,11,0.07) 0%, transparent 70%); }
+  .cta-section .section-title { font-size: clamp(2.5rem, 5vw, 4rem); }
+  .cta-section .section-sub { margin: 0 auto 2.5rem; text-align: center; }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 0; max-width: 720px; margin: 3rem auto 0; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+  .faq-q { width: 100%; background: none; border: none; color: var(--off-white); font-family: var(--body); font-size: 0.95rem; font-weight: 600; text-align: left; padding: 1.1rem 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .faq-arrow { font-size: 0.75rem; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
+  .faq-q.open .faq-arrow { transform: rotate(180deg); }
+  .faq-a { font-size: 0.875rem; color: var(--muted); line-height: 1.75; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+  .faq-a.open { max-height: 300px; padding-bottom: 1.1rem; }
+
+  /* FOOTER */
+  footer { background: #0B0B0B; border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-inner p { font-size: 0.75rem; color: rgba(245,242,236,0.25); line-height: 1.6; max-width: 680px; }
+  .footer-copy { font-size: 0.75rem; color: rgba(245,242,236,0.2); white-space: nowrap; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-up { animation: fadeUp 0.6s ease both; }
+  .fade-up-2 { animation: fadeUp 0.6s ease 0.12s both; }
+  .fade-up-3 { animation: fadeUp 0.6s ease 0.24s both; }
+
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .product-visual { display: none; }
+    .what-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .days-grid { grid-template-columns: 1fr; }
+    .elements-grid { grid-template-columns: 1fr; }
+    .for-grid { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    nav .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span>How</span> Dan Did It</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="bravo.html">Bravo</a></li>
+    <li><a href="science.html">The Science</a></li>
+    <li><a href="index.html#community">Community</a></li>
+  </ul>
+  <a href="qualify.html" class="btn-nav">Free Consultation →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge fade-up">9-Day Protocol · 6 Elements · Science-Backed</div>
+      <h1 class="fade-up-2">
+        The R2M
+        <span>Detox</span>
+        Protocol
+      </h1>
+      <p class="hero-sub fade-up-3">A 9-day nutritional regimen designed to support your body's natural detox and fat-clearance pathways — the foundational first step in Dan's protocol.</p>
+      <div class="hero-actions fade-up-3">
+        <a href="qualify.html" class="btn-primary">Start with a Free Consultation →</a>
+        <a href="javascript:void(0)" class="btn-ghost" onclick="document.getElementById('what').scrollIntoView({behavior:'smooth'})">Learn More</a>
+      </div>
+      <div class="hero-stats fade-up-3">
+        <div>
+          <div class="stat-num">9<em>days</em></div>
+          <div class="stat-label">Full Protocol</div>
+        </div>
+        <div>
+          <div class="stat-num">6<em></em></div>
+          <div class="stat-label">Core Elements</div>
+        </div>
+        <div>
+          <div class="stat-num">1<em>st</em></div>
+          <div class="stat-label">Step in Dan's Plan</div>
+        </div>
+      </div>
+    </div>
+    <div class="product-visual fade-up-3">
+      <div class="product-img-placeholder">
+        <div class="prod-label">R2M</div>
+        <div class="prod-sub">9-Day Protocol</div>
+      </div>
+      <div class="product-pills">
+        <span class="pill">Detox Support</span>
+        <span class="pill green">9 Days</span>
+        <span class="pill">Cellular Level</span>
+        <span class="pill green">6 Elements</span>
+      </div>
+      <div class="consult-cta-card">
+        <p>We recommend a free consultation before starting so we can confirm this is the right fit for your situation.</p>
+        <a href="qualify.html" class="btn-primary">Book a Free Call First</a>
+        <p class="consult-note">30 min · No pressure · No obligation</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS R2M -->
+<section id="what">
+  <div class="container">
+    <div class="what-grid">
+      <div class="what-content">
+        <div class="section-label">What Is R2M</div>
+        <h2 class="section-title">The Foundation<br>Of The Protocol</h2>
+        <p>R2M stands for <strong>Road to Metabolic Health</strong>. It's the first and most critical element of Dan's 9-step healing platform — the phase that prepares the body to respond to everything that follows.</p>
+        <p>Most wellness approaches focus on what to add: supplements, exercise, better food. R2M starts differently. It addresses what needs to be cleared first — specifically <strong>toxic load at the cellular level</strong>, particularly in visceral and adipose fat cells where environmental toxins accumulate over years.</p>
+        <p>The 9-day regimen combines six nutritional elements in a specific sequence and pattern. Each element serves a distinct purpose in the overall system. When used together in protocol order, they're designed to work synergistically to support the body's natural clearance processes.</p>
+      </div>
+      <div>
+        <blockquote class="big-quote">
+          "Step one wasn't about<br>fighting disease. It was about<br><em>removing what blocked healing.</em>"
+        </blockquote>
+        <div class="tdos-grid">
+          <div class="tdos-card">
+            <div class="tdos-letter">T</div>
+            <div class="tdos-word">Toxicity</div>
+            <div class="tdos-desc">Environmental toxins stored in fat cells that accumulate over time</div>
+          </div>
+          <div class="tdos-card">
+            <div class="tdos-letter">D</div>
+            <div class="tdos-word">Deficiency</div>
+            <div class="tdos-desc">Nutritional gaps most people don't know they have</div>
+          </div>
+          <div class="tdos-card">
+            <div class="tdos-letter">O</div>
+            <div class="tdos-word">Overweight</div>
+            <div class="tdos-desc">Excess fat that stores toxins and stresses metabolic function</div>
+          </div>
+          <div class="tdos-card">
+            <div class="tdos-letter">S</div>
+            <div class="tdos-word">Stress</div>
+            <div class="tdos-desc">Chronic stress that compounds and accelerates the other three</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9-DAY BREAKDOWN -->
+<section class="timeline-section">
+  <div class="container">
+    <div class="section-label">The 9 Days</div>
+    <h2 class="section-title">What Happens<br>Each Phase</h2>
+    <p class="section-sub">The protocol follows a deliberate three-phase structure. Each phase builds on the last. Skipping ahead or changing the order reduces effectiveness.</p>
+    <div class="days-grid">
+      <div class="day-card">
+        <div class="day-num">Phase 1 · Days 1–2</div>
+        <h3>Prepare & Prime</h3>
+        <p>The body is introduced to the nutritional elements at a lower intensity. This phase supports initial cellular preparation and sets the foundation for what follows.</p>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Phase 2 · Days 3–7</div>
+        <h3>Active Support</h3>
+        <p>The core of the protocol. All six elements are used in full rotation. This is where the primary work happens — supporting the body's natural clearance and fat-mobilization processes.</p>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Phase 3 · Days 8–9</div>
+        <h3>Consolidate & Transition</h3>
+        <p>A gentle wind-down that supports the body in stabilizing results and prepares it for the next phase of Dan's 9-step protocol.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 ELEMENTS -->
+<section>
+  <div class="container">
+    <div class="section-label">What's Included</div>
+    <h2 class="section-title">The 6 Elements</h2>
+    <p class="section-sub">R2M isn't a single product — it's a system of six nutritional components designed to be used together in a specific pattern.</p>
+    <div class="elements-grid">
+      <div class="element-card">
+        <div class="el-num">01</div>
+        <div class="el-content">
+          <h4>Cellular Cleanse Support</h4>
+          <p>A high-grade nutrient blend formulated to support the body's natural cellular detox pathways, particularly targeting fat-stored toxin mobilization.</p>
+        </div>
+      </div>
+      <div class="element-card">
+        <div class="el-num">02</div>
+        <div class="el-content">
+          <h4>Protein Nutrition Base</h4>
+          <p>Undenatured whey protein to support lean muscle preservation during the protocol — critical for maintaining metabolic rate while the body undergoes change.</p>
+        </div>
+      </div>
+      <div class="element-card">
+        <div class="el-num">03</div>
+        <div class="el-content">
+          <h4>Micronutrient Infusion</h4>
+          <p>A synergistic blend of vitamins, minerals, and phytonutrients to address common deficiency gaps and support normal bodily functions throughout the 9 days.</p>
+        </div>
+      </div>
+      <div class="element-card">
+        <div class="el-num">04</div>
+        <div class="el-content">
+          <h4>Gut Support Formula</h4>
+          <p>Probiotic and prebiotic support to maintain gut integrity during the protocol — the digestive system plays a central role in the body's natural elimination processes.</p>
+        </div>
+      </div>
+      <div class="element-card">
+        <div class="el-num">05</div>
+        <div class="el-content">
+          <h4>Inflammatory Response Support</h4>
+          <p>Botanical and nutritional compounds selected for their well-researched roles in supporting a normal, healthy inflammatory response.</p>
+        </div>
+      </div>
+      <div class="element-card">
+        <div class="el-num">06</div>
+        <div class="el-content">
+          <h4>Metabolic Support Blend</h4>
+          <p>A targeted combination designed to support healthy blood sugar balance and normal lipid metabolism — two of the key metabolic markers in the TDOS framework.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section style="background: #111;">
+  <div class="container">
+    <div class="section-label">Is This Right For You</div>
+    <h2 class="section-title">Who The R2M<br>Protocol Is For</h2>
+    <div class="for-grid">
+      <div class="for-card">
+        <div class="for-icon">⚖️</div>
+        <h4>Weight Management</h4>
+        <p>For those who've struggled to lose weight despite diet and exercise — particularly stubborn fat around the midsection tied to toxin accumulation.</p>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">🧬</div>
+        <h4>Metabolic Reset</h4>
+        <p>For those with elevated blood sugar, high triglycerides, or cholesterol concerns who want a nutritional foundation to build on alongside their healthcare plan.</p>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">⚡</div>
+        <h4>Energy & Clarity</h4>
+        <p>For those experiencing chronic fatigue, brain fog, or sluggishness that standard approaches haven't resolved — often linked to cellular toxic load.</p>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">🛡️</div>
+        <h4>Immune Support</h4>
+        <p>For those who get sick frequently or whose recovery feels slower than it should — the protocol creates conditions that support the immune system's normal function.</p>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">🔄</div>
+        <h4>Protocol Starter</h4>
+        <p>For anyone starting Dan's full 9-step protocol. R2M is Step 1 for a reason — it prepares the body to respond to every subsequent element.</p>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">🙅</div>
+        <h4>Not Right If...</h4>
+        <p>R2M is not for pregnant or nursing women, those under 18, or anyone with serious medical conditions without prior consultation with their healthcare provider.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="container">
+    <div class="section-label">Results</div>
+    <h2 class="section-title">What People<br>Experienced</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"I'd tried every diet. Nothing ever lasted. After the 9 days I was down 9 pounds and felt like my brain had been switched back on. That was 4 months ago — I've kept it off."</blockquote>
+        <div class="testi-author">Sandra K., 47</div>
+        <div class="testi-detail">High triglycerides, weight management</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"My doctor was actually surprised at my lipid panel after 60 days. I told him about the protocol. He asked me to bring in the materials. That told me everything I needed to know."</blockquote>
+        <div class="testi-author">James T., 58</div>
+        <div class="testi-detail">High cholesterol, pre-diabetic</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"The first 3 days were an adjustment. Days 4 through 9 I felt genuinely different — clearer, lighter, more energy. Finished the full protocol and immediately ordered the next round."</blockquote>
+        <div class="testi-author">Maria G., 52</div>
+        <div class="testi-detail">Fatigue, inflammation concerns</div>
+      </div>
+    </div>
+    <p class="testi-disclaimer">Individual results vary. Testimonials reflect personal experience and are not a guarantee of results. These statements have not been evaluated by the FDA. R2M is not intended to diagnose, treat, cure, or prevent any disease.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <div class="section-label" style="justify-content:center;">Common Questions</div>
+    <h2 class="section-title" style="text-align:center;">Frequently Asked</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do I need to follow a specific diet during the 9 days? <span class="faq-arrow">▼</span></button>
+        <div class="faq-a">Yes — dietary guidelines are included with the protocol. They're designed to support the six elements and are an important part of achieving the best results. They're not extreme, but they do require commitment for the 9 days.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I exercise during the protocol? <span class="faq-arrow">▼</span></button>
+        <div class="faq-a">Light to moderate exercise is generally encouraged. Intense training is not recommended during the protocol as the body's resources are directed toward the detox and support processes.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">I'm on medication. Is R2M safe to use? <span class="faq-arrow">▼</span></button>
+        <div class="faq-a">We always recommend consulting your healthcare provider before starting any new nutritional protocol, especially if you're on prescription medications. This is why we recommend a free consultation call first.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What happens after the 9 days? <span class="faq-arrow">▼</span></button>
+        <div class="faq-a">R2M is Step 1. After completing it, your consultation will map out the next steps in the protocol — which typically involves continuing with the protein, Bravo probiotic, and lifestyle elements of the full plan.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Why do you recommend a consultation before purchasing? <span class="faq-arrow">▼</span></button>
+        <div class="faq-a">Because not everyone starts in the same place. A quick 30-minute call lets us understand your specific markers and confirm R2M is the right first step for you — or suggest a modified starting point if needed. It's free and there's no obligation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="section-label" style="justify-content:center;">Get Started</div>
+    <h2 class="section-title">Ready to Start<br><span style="color:var(--amber)">Your 9 Days?</span></h2>
+    <p class="section-sub">Book a free 30-minute consultation first. We'll confirm R2M is the right fit, walk you through the protocol, and answer every question you have.</p>
+    <div class="cta-actions">
+      <a href="qualify.html" class="btn-primary">Book My Free Consultation →</a>
+      <a href="index.html" class="btn-ghost">Back to Home</a>
+    </div>
+    <p style="font-size:0.78rem; color:rgba(245,242,236,0.3); margin-top:1.25rem;">Free 30-min call · No obligation · No credit card</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <p>R2M is a nutritional supplement protocol. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Always consult a qualified healthcare professional before beginning any new nutritional program. Individual results vary.</p>
+    <p class="footer-copy">© 2025 HowDanDidIt.com</p>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const a = btn.nextElementSibling;
+    const open = a.classList.contains('open');
+    document.querySelectorAll('.faq-a.open').forEach(x => x.classList.remove('open'));
+    document.querySelectorAll('.faq-q.open').forEach(x => x.classList.remove('open'));
+    if (!open) { a.classList.add('open'); btn.classList.add('open'); }
+  }
+</script>
+</body>
+</html>
