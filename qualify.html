@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request Your Free Consultation — How Dan Did It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0B0B0B; --off-white: #F5F2EC; --amber: #F59E0B; --amber-dark: #D97706;
+    --amber-glow: rgba(245,158,11,0.1); --amber-border: rgba(245,158,11,0.2);
+    --green: #22C55E; --green-glow: rgba(34,197,94,0.1); --green-border: rgba(34,197,94,0.2);
+    --red: #EF4444; --red-glow: rgba(239,68,68,0.08); --red-border: rgba(239,68,68,0.18);
+    --muted: rgba(245,242,236,0.55); --border: rgba(255,255,255,0.08); --card-bg: rgba(255,255,255,0.04);
+    --display: 'Barlow Condensed', sans-serif; --body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--ink); color: var(--off-white); line-height: 1.6; min-height: 100vh; }
+
+  /* NAV */
+  nav { padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--display); font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--off-white); text-decoration: none; }
+  .nav-logo span { color: var(--amber); }
+  .nav-back { font-size: 0.8rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; }
+  .nav-back:hover { color: var(--off-white); }
+
+  /* PROGRESS BAR */
+  .progress-wrap { background: rgba(255,255,255,0.04); border-bottom: 1px solid var(--border); padding: 0.75rem 2rem; }
+  .progress-inner { max-width: 680px; margin: 0 auto; }
+  .progress-steps { display: flex; align-items: center; gap: 0; }
+  .prog-step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; }
+  .prog-step::after { content: ''; position: absolute; top: 14px; left: 50%; width: 100%; height: 2px; background: var(--border); z-index: 0; }
+  .prog-step:last-child::after { display: none; }
+  .prog-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border); background: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; color: var(--muted); position: relative; z-index: 1; transition: all 0.3s; flex-shrink: 0; }
+  .prog-step.done .prog-dot { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+  .prog-step.active .prog-dot { border-color: var(--amber); color: var(--amber); box-shadow: 0 0 0 3px var(--amber-glow); }
+  .prog-step.done::after { background: var(--amber); }
+  .prog-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-top: 0.35rem; text-align: center; white-space: nowrap; }
+  .prog-step.active .prog-label { color: var(--amber); }
+  .prog-step.done .prog-label { color: var(--off-white); }
+
+  /* MAIN CONTENT */
+  .main { max-width: 680px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+  /* STEP CONTAINERS */
+  .step { display: none; }
+  .step.active { display: block; animation: fadeUp 0.4s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .step-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .step-eyebrow::before { content: ''; width: 18px; height: 2px; background: var(--amber); }
+  .step-title { font-family: var(--display); font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 0.75rem; }
+  .step-sub { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 2rem; }
+
+  /* VIDEO GATE */
+  .video-wrap { position: relative; border-radius: 12px; overflow: hidden; background: #111; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+  .video-embed { position: relative; padding-bottom: 56.25%; }
+  .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  .video-overlay { position: absolute; inset: 0; background: rgba(11,11,11,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; z-index: 10; transition: opacity 0.4s; }
+  .video-overlay.hidden { opacity: 0; pointer-events: none; }
+  .video-overlay-icon { font-size: 3rem; }
+  .video-overlay-text { font-family: var(--display); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; text-align: center; }
+  .video-overlay-sub { font-size: 0.85rem; color: var(--muted); text-align: center; max-width: 300px; }
+  .video-progress-bar { background: rgba(255,255,255,0.08); height: 4px; border-radius: 2px; margin-bottom: 1rem; overflow: hidden; }
+  .video-progress-fill { height: 100%; background: var(--amber); border-radius: 2px; transition: width 0.5s; width: 0%; }
+  .video-status { font-size: 0.8rem; color: var(--muted); text-align: center; margin-bottom: 1.5rem; }
+  .video-status strong { color: var(--amber); }
+  .video-placeholder { background: linear-gradient(135deg, #111 0%, #1a1a1a 100%); aspect-ratio: 16/9; border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+  .video-placeholder-icon { font-size: 3rem; }
+  .video-placeholder h3 { font-family: var(--display); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; color: var(--off-white); }
+  .video-placeholder p { font-size: 0.83rem; color: var(--muted); max-width: 360px; line-height: 1.6; }
+  .video-placeholder .upload-note { background: var(--amber-glow); border: 1px solid var(--amber-border); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.78rem; color: rgba(245,242,236,0.7); margin-top: 0.5rem; }
+
+  /* VALUE BULLETS */
+  .value-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
+  .value-list li { display: flex; gap: 0.75rem; font-size: 0.875rem; color: var(--muted); align-items: flex-start; }
+  .value-list li .vcheck { width: 20px; height: 20px; border-radius: 50%; background: var(--amber-glow); border: 1px solid var(--amber-border); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--amber); flex-shrink: 0; margin-top: 1px; font-weight: 700; }
+
+  /* UNLOCK BUTTON */
+  .unlock-btn { width: 100%; background: var(--amber); color: var(--ink); padding: 1rem; border-radius: 10px; font-family: var(--body); font-weight: 800; font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; border: none; cursor: not-allowed; opacity: 0.4; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+  .unlock-btn.ready { opacity: 1; cursor: pointer; }
+  .unlock-btn.ready:hover { background: var(--amber-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,158,11,0.3); }
+
+  /* FORM ELEMENTS */
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label { display: block; font-size: 0.83rem; font-weight: 600; color: var(--off-white); margin-bottom: 0.4rem; }
+  .form-group label .req { color: var(--amber); margin-left: 2px; }
+  .form-group .hint { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+  .form-input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(245,242,236,0.15); color: var(--off-white); padding: 0.8rem 1rem; border-radius: 8px; font-family: var(--body); font-size: 0.9rem; outline: none; transition: border-color 0.2s, background 0.2s; -webkit-appearance: none; }
+  .form-input::placeholder { color: rgba(245,242,236,0.3); }
+  .form-input:focus { border-color: var(--amber); background: rgba(245,158,11,0.04); }
+  .form-input.error { border-color: var(--red); }
+  select.form-input { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23F5F2EC' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+  select.form-input option { background: #1a1a1a; color: var(--off-white); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+  /* GENDER TOGGLE */
+  .gender-toggle { display: flex; gap: 0.75rem; }
+  .gender-btn { flex: 1; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--muted); font-family: var(--body); font-size: 0.875rem; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; }
+  .gender-btn.selected { border-color: var(--amber); background: var(--amber-glow); color: var(--off-white); }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 0.5rem; }
+  .check-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s; user-select: none; }
+  .check-item:hover { border-color: rgba(245,242,236,0.2); }
+  .check-item.checked { border-color: var(--amber-border); background: var(--amber-glow); }
+  .check-item input[type="checkbox"] { display: none; }
+  .check-box { width: 20px; height: 20px; border-radius: 5px; border: 1.5px solid rgba(245,242,236,0.2); background: transparent; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+  .check-item.checked .check-box { background: var(--amber); border-color: var(--amber); }
+  .check-box-inner { font-size: 0.65rem; color: var(--ink); font-weight: 800; opacity: 0; transition: opacity 0.2s; }
+  .check-item.checked .check-box-inner { opacity: 1; }
+  .check-label { font-size: 0.875rem; color: var(--muted); }
+  .check-item.checked .check-label { color: var(--off-white); }
+
+  /* SCALE SLIDER */
+  .scale-wrap { margin-top: 0.5rem; }
+  .scale-track { display: flex; justify-content: space-between; gap: 0.4rem; }
+  .scale-btn { flex: 1; padding: 0.55rem 0; border-radius: 6px; border: 1px solid var(--border); background: var(--card-bg); color: var(--muted); font-family: var(--display); font-size: 1rem; font-weight: 700; cursor: pointer; text-align: center; transition: all 0.2s; }
+  .scale-btn:hover { border-color: rgba(245,242,236,0.3); }
+  .scale-btn.selected { border-color: var(--amber); background: var(--amber-glow); color: var(--amber); }
+  .scale-labels { display: flex; justify-content: space-between; font-size: 0.68rem; color: rgba(245,242,236,0.3); margin-top: 0.3rem; }
+
+  /* BUDGET CALCULATOR */
+  .budget-calc { background: rgba(245,158,11,0.06); border: 1px solid var(--amber-border); border-radius: 12px; padding: 1.5rem; margin-top: 1.25rem; }
+  .budget-calc h4 { font-family: var(--display); font-size: 1rem; font-weight: 700; text-transform: uppercase; color: var(--amber); margin-bottom: 0.5rem; }
+  .budget-calc p { font-size: 0.83rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.6; }
+  .budget-result { display: flex; align-items: baseline; gap: 0.5rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--amber-border); }
+  .budget-amount { font-family: var(--display); font-size: 3.5rem; font-weight: 900; color: var(--amber); line-height: 1; }
+  .budget-label { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  .budget-note { font-size: 0.75rem; color: rgba(245,242,236,0.35); margin-top: 0.75rem; font-style: italic; }
+
+  /* COUNTRY REJECTION */
+  .country-error { background: var(--red-glow); border: 1px solid var(--red-border); border-radius: 10px; padding: 1.25rem; display: none; }
+  .country-error h4 { font-family: var(--display); font-size: 1rem; font-weight: 700; text-transform: uppercase; color: var(--red); margin-bottom: 0.4rem; }
+  .country-error p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+  /* DIVIDER */
+  .form-divider { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
+
+  /* NAVIGATION BUTTONS */
+  .step-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; gap: 1rem; }
+  .btn-next { background: var(--amber); color: var(--ink); padding: 0.9rem 2rem; border-radius: 8px; font-family: var(--body); font-weight: 700; font-size: 0.875rem; letter-spacing: 0.05em; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem; flex: 1; justify-content: center; }
+  .btn-next:hover { background: var(--amber-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,158,11,0.25); }
+  .btn-back { background: transparent; color: var(--muted); padding: 0.9rem 1.25rem; border-radius: 8px; border: 1px solid var(--border); font-family: var(--body); font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
+  .btn-back:hover { color: var(--off-white); border-color: rgba(245,242,236,0.3); }
+  .btn-submit { background: var(--green); color: var(--ink); padding: 1rem 2.25rem; border-radius: 8px; font-family: var(--body); font-weight: 800; font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.2s; flex: 1; }
+  .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(34,197,94,0.3); }
+
+  /* RESULTS */
+  .result-wrap { text-align: center; padding: 1rem 0; }
+  .result-score-ring { position: relative; width: 140px; height: 140px; margin: 0 auto 1.5rem; }
+  .result-score-ring svg { transform: rotate(-90deg); }
+  .score-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 8; }
+  .score-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1.2s ease; }
+  .score-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .score-number { font-family: var(--display); font-size: 2.8rem; font-weight: 900; line-height: 1; }
+  .score-max { font-size: 0.72rem; color: var(--muted); }
+  .result-title { font-family: var(--display); font-size: 2rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .result-tier { display: inline-block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 14px; border-radius: 100px; margin-bottom: 1.5rem; }
+  .tier-high { background: var(--green-glow); border: 1px solid var(--green-border); color: var(--green); }
+  .tier-mid { background: var(--amber-glow); border: 1px solid var(--amber-border); color: var(--amber); }
+  .tier-low { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted); }
+  .result-summary { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; text-align: left; }
+  .result-summary-row { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+  .result-summary-row:last-child { border-bottom: none; }
+  .result-summary-row .label { color: var(--muted); }
+  .result-summary-row .val { font-weight: 600; color: var(--off-white); }
+  .result-summary-row .val.highlight { color: var(--amber); }
+  .result-cta-box { background: rgba(245,158,11,0.06); border: 1px solid var(--amber-border); border-radius: 12px; padding: 1.75rem; margin-top: 1.5rem; text-align: center; }
+  .result-cta-box h3 { font-family: var(--display); font-size: 1.3rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .result-cta-box p { font-size: 0.875rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.6; }
+  .btn-book { display: block; width: 100%; background: var(--amber); color: var(--ink); padding: 1rem; border-radius: 8px; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; text-align: center; transition: all 0.2s; }
+  .btn-book:hover { background: var(--amber-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,158,11,0.3); }
+  .result-note { font-size: 0.75rem; color: rgba(245,242,236,0.3); margin-top: 0.75rem; font-style: italic; }
+
+  /* DISCLAIMER */
+  .disclaimer { font-size: 0.75rem; color: rgba(245,242,236,0.25); text-align: center; padding: 2rem; line-height: 1.6; }
+
+  @media (max-width: 640px) {
+    .form-row, .form-row-3 { grid-template-columns: 1fr; }
+    .prog-label { display: none; }
+    .step-nav { flex-direction: column-reverse; }
+    .btn-back { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span>How</span> Dan Did It</a>
+  <a class="nav-back" href="index.html">← Back to Home</a>
+</nav>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-steps" id="progressSteps">
+      <div class="prog-step active" id="prog-0"><div class="prog-dot">1</div><div class="prog-label">Watch Video</div></div>
+      <div class="prog-step" id="prog-1"><div class="prog-dot">2</div><div class="prog-label">Your Info</div></div>
+      <div class="prog-step" id="prog-2"><div class="prog-dot">3</div><div class="prog-label">Health Check</div></div>
+      <div class="prog-step" id="prog-3"><div class="prog-dot">4</div><div class="prog-label">Food Budget</div></div>
+      <div class="prog-step" id="prog-4"><div class="prog-dot">5</div><div class="prog-label">Commitment</div></div>
+      <div class="prog-step" id="prog-5"><div class="prog-dot">✓</div><div class="prog-label">Your Results</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ═══ STEP 0: VIDEO GATE ═══ -->
+  <div class="step active" id="step-0">
+    <div class="step-eyebrow">Step 1 of 5 — Watch First</div>
+    <h1 class="step-title">Before We Talk,<br>Watch This.</h1>
+    <p class="step-sub">Peter has a short message for you. It explains exactly what this protocol is, why the free consultation is worth your time, and what your dedicated coach will help you with. The form unlocks after you watch.</p>
+
+    <!-- VIDEO PLACEHOLDER — Replace src with Peter's actual video URL -->
+    <div class="video-placeholder">
+      <div class="video-placeholder-icon">🎬</div>
+      <h3>Peter's Introduction Video</h3>
+      <p>Upload a 2–3 minute video from Peter to this section. It should cover: what R2M is, why the consultation is valuable, and an introduction to the coaching team.</p>
+      <div class="upload-note">
+        <strong>For the team:</strong> Replace this placeholder with an embedded Vimeo or YouTube video. Set <code>VIDEO_DURATION_SECONDS</code> in the script below to the video length. The "Continue" button unlocks after 80% of the video is watched.
+      </div>
+    </div>
+
+    <!-- Simulated progress for demo (remove when real video is added) -->
+    <div class="video-progress-bar"><div class="video-progress-fill" id="videoProgress"></div></div>
+    <p class="video-status" id="videoStatus">Watching video... <strong id="videoPercent">0%</strong> complete</p>
+
+    <ul class="value-list">
+      <li><span class="vcheck">✓</span><span>This is not a diet. It's a cellular-level detox and high-performance nutrition system.</span></li>
+      <li><span class="vcheck">✓</span><span>Health consultations in this space typically cost $100+ per hour. Yours is completely free.</span></li>
+      <li><span class="vcheck">✓</span><span>If you move forward with the protocol, ongoing coaching support is also included at no charge.</span></li>
+      <li><span class="vcheck">✓</span><span>Your personal coach is an expert. They have helped hundreds of people through this exact journey.</span></li>
+    </ul>
+
+    <button class="unlock-btn" id="unlockBtn" onclick="unlockStep()">
+      <span id="unlockBtnText">⏳ Finish Watching to Continue</span>
+    </button>
+  </div>
+
+  <!-- ═══ STEP 1: BASIC INFO ═══ -->
+  <div class="step" id="step-1">
+    <div class="step-eyebrow">Step 2 of 5 — About You</div>
+    <h1 class="step-title">A Bit About<br>Yourself</h1>
+    <p class="step-sub">Your coach will use this to personalize your consultation before you even speak. Everything is confidential.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name <span class="req">*</span></label>
+        <input class="form-input" type="text" id="firstName" placeholder="Your first name">
+      </div>
+      <div class="form-group">
+        <label>Last Name <span class="req">*</span></label>
+        <input class="form-input" type="text" id="lastName" placeholder="Your last name">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email Address <span class="req">*</span></label>
+        <input class="form-input" type="email" id="email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Phone / Mobile <span class="req">*</span></label>
+        <input class="form-input" type="tel" id="phone" placeholder="+1 (555) 000-0000">
+        <p class="hint">Your coach will reach out via text — please use your mobile number.</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Country of Residence <span class="req">*</span></label>
+      <select class="form-input" id="country" onchange="checkCountry()">
+        <option value="">Select your country...</option>
+        <option value="US">United States</option>
+        <option value="CA">Canada</option>
+        <option value="AU">Australia</option>
+        <option value="NZ">New Zealand</option>
+        <option value="GB">United Kingdom</option>
+        <option value="IE">Ireland</option>
+        <option value="NL">Netherlands</option>
+        <option value="BE">Belgium</option>
+        <option value="MX">Mexico</option>
+        <option value="CO">Colombia</option>
+        <option value="GT">Guatemala</option>
+        <option value="HN">Honduras</option>
+        <option value="SV">El Salvador</option>
+        <option value="CR">Costa Rica</option>
+        <option value="DO">Dominican Republic</option>
+        <option value="TW">Taiwan</option>
+        <option value="HK">Hong Kong</option>
+        <option value="MY">Malaysia</option>
+        <option value="SG">Singapore</option>
+        <option value="ID">Indonesia</option>
+        <option value="PH">Philippines</option>
+        <option value="KR">South Korea</option>
+        <option value="JP">Japan</option>
+        <option value="IN">India</option>
+        <option value="IL">Israel</option>
+        <option value="OTHER">Other country...</option>
+      </select>
+    </div>
+
+    <div class="country-error" id="countryError">
+      <h4>Shipping Not Currently Available</h4>
+      <p>Unfortunately, the R2M Protocol products are not currently available for shipping to your country. We're working to expand to more regions — please <a href="index.html#email" style="color:var(--amber)">join our email list</a> and we'll notify you when your country becomes eligible.</p>
+    </div>
+
+    <div class="form-group">
+      <label>Gender <span class="req">*</span></label>
+      <div class="gender-toggle">
+        <button class="gender-btn" onclick="selectGender('Male', this)" type="button">Male</button>
+        <button class="gender-btn" onclick="selectGender('Female', this)" type="button">Female</button>
+        <button class="gender-btn" onclick="selectGender('Prefer not to say', this)" type="button">Prefer not to say</button>
+      </div>
+    </div>
+
+    <div class="form-row-3">
+      <div class="form-group">
+        <label>Age <span class="req">*</span></label>
+        <input class="form-input" type="number" id="age" placeholder="e.g. 45" min="18" max="99">
+      </div>
+      <div class="form-group">
+        <label>Height</label>
+        <input class="form-input" type="text" id="height" placeholder='e.g. 5&apos;9"'>
+      </div>
+      <div class="form-group">
+        <label>Current Weight</label>
+        <input class="form-input" type="text" id="weight" placeholder="e.g. 195 lbs">
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goToStep(0)">← Back</button>
+      <button class="btn-next" onclick="goToStep(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2: HEALTH CHECKLIST ═══ -->
+  <div class="step" id="step-2">
+    <div class="step-eyebrow">Step 3 of 5 — Health Profile</div>
+    <h1 class="step-title">Your Current<br>Health Profile</h1>
+    <p class="step-sub">Check everything that currently applies to you. This is private and helps your coach prepare a personalized starting point before your call.</p>
+
+    <div class="form-group">
+      <label>Current Health Markers — Check All That Apply</label>
+      <div class="checklist" id="healthChecklist">
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" value="overweight"><div class="check-box"><div class="check-box-inner">✓</div></div>
+          <span class="check-label">I am overweight or obese</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" value="blood_pressure"><div class="check-box"><div class="check-box-inner">✓</div></div>
+          <span class="check-label">High blood pressure (diagnosed or suspected)</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" value="cholesterol"><div class="check-box"><div class="check-box-inner">✓</div></div>
+          <span class="check-label">High cholesterol</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" value="triglycerides"><div class="check-box"><div class="check-box-inner">✓</div></div>
+          <span class="check-label">High triglycerides</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" value="blood_sugar"><div class="check-box"><div class="check-box-inner">✓</div></div>
+          <span class="check-label">Elevated blood sugar, pre-diabetes, or Type 2 diabetes</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" value="inflammation"><div class="check-box"><div class="check-box-inner">✓</div></div>
+          <span class="check-label">Chronic inflammation or joint pain</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" value="fatigue"><div class="check-box"><div class="check-box-inner">✓</div></div>
+          <span class="check-label">Chronic fatigue, low energy, or brain fog</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" value="immune"><div class="check-box"><div class="check-box-inner">✓</div></div>
+          <span class="check-label">Compromised immune system / get sick frequently</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" value="medications"><div class="check-box"><div class="check-box-inner">✓</div></div>
+          <span class="check-label">Currently taking prescription medications</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top:1.5rem;">
+      <label>On a scale of 1–10, how would you rate your current health? <span class="req">*</span></label>
+      <p class="hint" style="margin-bottom:0.75rem;">1 = very poor, 10 = excellent</p>
+      <div class="scale-wrap">
+        <div class="scale-track" id="healthScale">
+          <button class="scale-btn" onclick="selectScale('health',1,this)" type="button">1</button>
+          <button class="scale-btn" onclick="selectScale('health',2,this)" type="button">2</button>
+          <button class="scale-btn" onclick="selectScale('health',3,this)" type="button">3</button>
+          <button class="scale-btn" onclick="selectScale('health',4,this)" type="button">4</button>
+          <button class="scale-btn" onclick="selectScale('health',5,this)" type="button">5</button>
+          <button class="scale-btn" onclick="selectScale('health',6,this)" type="button">6</button>
+          <button class="scale-btn" onclick="selectScale('health',7,this)" type="button">7</button>
+          <button class="scale-btn" onclick="selectScale('health',8,this)" type="button">8</button>
+          <button class="scale-btn" onclick="selectScale('health',9,this)" type="button">9</button>
+          <button class="scale-btn" onclick="selectScale('health',10,this)" type="button">10</button>
+        </div>
+        <div class="scale-labels"><span>Very Poor</span><span>Excellent</span></div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goToStep(1)">← Back</button>
+      <button class="btn-next" onclick="goToStep(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 3: FOOD BUDGET CALCULATOR ═══ -->
+  <div class="step" id="step-3">
+    <div class="step-eyebrow">Step 4 of 5 — Food Budget</div>
+    <h1 class="step-title">What Does<br>Food Cost You?</h1>
+    <p class="step-sub">Most people don't realize how much they currently spend on food each month. These two questions will show you your real number — and it often puts the cost of the protocol in a completely different light.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Average meals per day <span class="req">*</span></label>
+        <select class="form-input" id="mealsPerDay" onchange="calcBudget()">
+          <option value="">Select...</option>
+          <option value="1">1 meal</option>
+          <option value="2">2 meals</option>
+          <option value="3">3 meals</option>
+          <option value="4">4 meals</option>
+          <option value="5">5+ meals / snacks</option>
+        </select>
+        <p class="hint">Include snacks, coffee, drinks, delivery — everything food-related.</p>
+      </div>
+      <div class="form-group">
+        <label>Average cost per meal / sitting <span class="req">*</span></label>
+        <select class="form-input" id="costPerMeal" onchange="calcBudget()">
+          <option value="">Select...</option>
+          <option value="5">Under $5</option>
+          <option value="8">$5–$10</option>
+          <option value="13">$10–$15</option>
+          <option value="18">$15–$20</option>
+          <option value="25">$20–$30</option>
+          <option value="35">$30–$40</option>
+          <option value="50">$40+</option>
+        </select>
+        <p class="hint">Include drinks, tips, delivery fees when eating out.</p>
+      </div>
+    </div>
+
+    <div class="budget-calc" id="budgetCalc" style="display:none;">
+      <h4>📊 Your Estimated Monthly Food Spend</h4>
+      <p>Based on your answers, here's what you're likely spending on food each month. Your coach will walk you through what this means in the context of the R2M Protocol cost.</p>
+      <div class="budget-result">
+        <div class="budget-amount" id="budgetAmount">$0</div>
+        <div class="budget-label">estimated<br>per month<br>on food</div>
+      </div>
+      <p class="budget-note" id="budgetBreakdown">Calculation: — meals/day × $— per meal × 30 days</p>
+    </div>
+
+    <hr class="form-divider">
+
+    <div class="form-group">
+      <label>Approximately how long did you watch Peter's TikTok Live? <span class="req">*</span></label>
+      <select class="form-input" id="tiktokTime">
+        <option value="">Select...</option>
+        <option value="1">I just saw a clip or short</option>
+        <option value="2">Less than 5 minutes</option>
+        <option value="3">5–15 minutes</option>
+        <option value="4">15–30 minutes</option>
+        <option value="5">30+ minutes — I watched most of it</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>How much time did you spend reviewing our website before submitting? <span class="req">*</span></label>
+      <select class="form-input" id="siteTime">
+        <option value="">Select...</option>
+        <option value="1">I came straight here without looking around</option>
+        <option value="2">Less than 2 minutes</option>
+        <option value="3">2–10 minutes</option>
+        <option value="4">10–20 minutes</option>
+        <option value="5">20+ minutes — I read most of the content</option>
+      </select>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goToStep(2)">← Back</button>
+      <button class="btn-next" onclick="goToStep(4)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 4: COMMITMENT ═══ -->
+  <div class="step" id="step-4">
+    <div class="step-eyebrow">Step 5 of 5 — Almost Done</div>
+    <h1 class="step-title">One Last Thing:<br>Your Commitment</h1>
+    <p class="step-sub">Be honest. There's no wrong answer here — your coach needs to know where you're starting from so they can meet you there.</p>
+
+    <div class="form-group">
+      <label>On a scale of 1–10, how committed are you to improving your health right now? <span class="req">*</span></label>
+      <p class="hint" style="margin-bottom:0.75rem;">1 = just browsing, 10 = ready to start immediately</p>
+      <div class="scale-wrap">
+        <div class="scale-track" id="commitScale">
+          <button class="scale-btn" onclick="selectScale('commit',1,this)" type="button">1</button>
+          <button class="scale-btn" onclick="selectScale('commit',2,this)" type="button">2</button>
+          <button class="scale-btn" onclick="selectScale('commit',3,this)" type="button">3</button>
+          <button class="scale-btn" onclick="selectScale('commit',4,this)" type="button">4</button>
+          <button class="scale-btn" onclick="selectScale('commit',5,this)" type="button">5</button>
+          <button class="scale-btn" onclick="selectScale('commit',6,this)" type="button">6</button>
+          <button class="scale-btn" onclick="selectScale('commit',7,this)" type="button">7</button>
+          <button class="scale-btn" onclick="selectScale('commit',8,this)" type="button">8</button>
+          <button class="scale-btn" onclick="selectScale('commit',9,this)" type="button">9</button>
+          <button class="scale-btn" onclick="selectScale('commit',10,this)" type="button">10</button>
+        </div>
+        <div class="scale-labels"><span>Just Browsing</span><span>Ready Now</span></div>
+      </div>
+    </div>
+
+    <hr class="form-divider">
+
+    <div class="form-group">
+      <label>What is your primary health goal? <span class="req">*</span></label>
+      <select class="form-input" id="primaryGoal">
+        <option value="">Select your main goal...</option>
+        <option value="weight">Lose weight and keep it off</option>
+        <option value="bp">Lower blood pressure</option>
+        <option value="sugar">Improve blood sugar / address pre-diabetes</option>
+        <option value="cholesterol">Improve cholesterol / triglycerides</option>
+        <option value="energy">More energy and mental clarity</option>
+        <option value="immunity">Strengthen immune system</option>
+        <option value="inflammation">Reduce inflammation / joint pain</option>
+        <option value="overall">Overall metabolic health reset</option>
+        <option value="medications">Get off prescription medications</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Have you tried other weight loss or health programs before?</label>
+      <select class="form-input" id="prevPrograms">
+        <option value="">Select...</option>
+        <option value="none">No — this is my first time trying something structured</option>
+        <option value="some">Yes — a few diets or programs, mostly short-term</option>
+        <option value="many">Yes — I've tried many things without lasting results</option>
+        <option value="medical">Yes — including medically supervised programs</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Anything you'd like your coach to know before the call?</label>
+      <textarea class="form-input" id="notes" rows="3" placeholder="Health conditions, medications, goals, concerns — anything relevant..." style="resize:vertical;"></textarea>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goToStep(3)">← Back</button>
+      <button class="btn-submit" onclick="submitForm()">See My Results →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 5: RESULTS ═══ -->
+  <div class="step" id="step-5">
+    <div class="result-wrap">
+      <div class="step-eyebrow" style="justify-content:center;">Your Assessment Complete</div>
+      <h1 class="step-title" id="resultHeading">Your Results</h1>
+
+      <div class="result-score-ring">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <circle class="score-bg" cx="70" cy="70" r="58"/>
+          <circle class="score-fill" id="scoreFill" cx="70" cy="70" r="58" stroke="#F59E0B"
+            stroke-dasharray="364.4" stroke-dashoffset="364.4"/>
+        </svg>
+        <div class="score-center">
+          <div class="score-number" id="scoreNumber">—</div>
+          <div class="score-max">out of 100</div>
+        </div>
+      </div>
+
+      <div class="result-tier tier-mid" id="resultTier">Calculating...</div>
+      <p style="font-size:0.95rem;color:var(--muted);max-width:480px;margin:0 auto 1.5rem;line-height:1.7;" id="resultMessage">Loading your personalized summary...</p>
+
+      <div class="result-summary" id="resultSummary"></div>
+
+      <div class="result-cta-box" id="resultCTA">
+        <h3 id="ctaTitle">Book Your Free Consultation</h3>
+        <p id="ctaMessage">Your coach has everything they need to make this call count. Select a time that works for you.</p>
+        <a href="booking.html" class="btn-book" id="ctaButton">Schedule My Free Consultation →</a>
+        <p class="result-note">Free 30-min call · No obligation · Your coach has already reviewed your profile</p>
+      </div>
+
+      <p style="font-size:0.75rem;color:rgba(245,242,236,0.25);margin-top:2rem;font-style:italic;text-align:center;">
+        Your responses have been submitted. A confirmation email is on its way, and your coach will reach out by text within 1 business day.
+      </p>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="disclaimer">
+  <p>This assessment is for wellness education purposes only and does not constitute medical advice. The information you provide is used solely to prepare your free consultation. Always consult a qualified healthcare professional before beginning any new nutritional program.</p>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+const state = {
+  videoWatched: false,
+  gender: '',
+  healthScore: null,
+  commitScore: null,
+  healthMarkers: [],
+  mealsPerDay: 0,
+  costPerMeal: 0,
+  monthlyBudget: 0,
+  tiktokTime: 0,
+  siteTime: 0,
+  countryOk: true
+};
+
+// ═══════════════════════════════════════
+// VIDEO GATE — Simulated timer (replace with real video event listener)
+// Set VIDEO_DURATION_SECONDS to match Peter's actual video length
+// ═══════════════════════════════════════
+const VIDEO_DURATION_SECONDS = 150; // 2.5 minutes — adjust to match actual video
+let videoTimer = null;
+let videoElapsed = 0;
+const UNLOCK_THRESHOLD = 0.80; // unlock at 80% watched
+
+function startVideoTimer() {
+  if (videoTimer) return;
+  videoTimer = setInterval(() => {
+    videoElapsed++;
+    const pct = Math.min(videoElapsed / VIDEO_DURATION_SECONDS, 1);
+    const pctDisplay = Math.round(pct * 100);
+    document.getElementById('videoProgress').style.width = pctDisplay + '%';
+    document.getElementById('videoPercent').textContent = pctDisplay + '%';
+    if (pct >= UNLOCK_THRESHOLD && !state.videoWatched) {
+      state.videoWatched = true;
+      clearInterval(videoTimer);
+      const btn = document.getElementById('unlockBtn');
+      btn.classList.add('ready');
+      document.getElementById('unlockBtnText').textContent = '✓ Video Complete — Continue to Form →';
+      document.getElementById('videoStatus').innerHTML = '<strong style="color:var(--green)">✓ Video complete — you\'re ready to continue.</strong>';
+    }
+  }, 1000);
+}
+
+// Pre-fill from homepage quiz params
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('name')) {
+  const decoded = decodeURIComponent(urlParams.get('name'));
+  const parts = decoded.trim().split(' ');
+  const fnEl = document.getElementById('firstName');
+  const lnEl = document.getElementById('lastName');
+  if (fnEl && parts[0]) fnEl.value = parts[0];
+  if (lnEl && parts[1]) lnEl.value = parts.slice(1).join(' ');
+}
+if (urlParams.get('email')) {
+  const emailEl = document.getElementById('email');
+  if (emailEl) emailEl.value = decodeURIComponent(urlParams.get('email'));
+}
+
+// Auto-start timer after 1.5s (simulates video autoplay)
+// When you add a real video, trigger startVideoTimer() on the video 'play' event
+setTimeout(startVideoTimer, 1500);
+
+function unlockStep() {
+  if (!state.videoWatched) return;
+  goToStep(1);
+}
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+let currentStep = 0;
+
+function goToStep(n) {
+  // Validate before moving forward
+  if (n > currentStep && !validateStep(currentStep)) return;
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  document.getElementById('step-' + n).classList.add('active');
+  // Update progress
+  for (let i = 0; i < 6; i++) {
+    const el = document.getElementById('prog-' + i);
+    el.classList.remove('active', 'done');
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+  }
+  currentStep = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (n === 5) buildResults();
+}
+
+function validateStep(n) {
+  if (n === 1) {
+    const first = document.getElementById('firstName').value.trim();
+    const last = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const country = document.getElementById('country').value;
+    if (!first || !last || !email || !phone || !country) {
+      alert('Please fill in all required fields before continuing.'); return false;
+    }
+    if (!state.countryOk) {
+      alert('The protocol is not currently available in your selected country.'); return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      alert('Please enter a valid email address.'); return false;
+    }
+    if (!state.gender) {
+      alert('Please select your gender.'); return false;
+    }
+    return true;
+  }
+  if (n === 2) {
+    if (state.healthScore === null) {
+      alert('Please rate your current health on the scale.'); return false;
+    }
+    return true;
+  }
+  if (n === 3) {
+    const meals = document.getElementById('mealsPerDay').value;
+    const cost = document.getElementById('costPerMeal').value;
+    const tiktok = document.getElementById('tiktokTime').value;
+    const site = document.getElementById('siteTime').value;
+    if (!meals || !cost || !tiktok || !site) {
+      alert('Please answer all questions on this page.'); return false;
+    }
+    return true;
+  }
+  if (n === 4) {
+    if (state.commitScore === null) {
+      alert('Please rate your commitment level on the scale.'); return false;
+    }
+    if (!document.getElementById('primaryGoal').value) {
+      alert('Please select your primary health goal.'); return false;
+    }
+    return true;
+  }
+  return true;
+}
+
+// ═══════════════════════════════════════
+// FORM INTERACTIONS
+// ═══════════════════════════════════════
+const ELIGIBLE_COUNTRIES = ['US','CA','AU','NZ','GB','IE','NL','BE','MX','CO','GT','HN','SV','CR','DO','TW','HK','MY','SG','ID','PH','KR','JP','IN','IL'];
+
+function checkCountry() {
+  const val = document.getElementById('country').value;
+  const errEl = document.getElementById('countryError');
+  if (val === 'OTHER' || (val && !ELIGIBLE_COUNTRIES.includes(val))) {
+    errEl.style.display = 'block';
+    state.countryOk = false;
+  } else {
+    errEl.style.display = 'none';
+    state.countryOk = true;
+  }
+}
+
+function selectGender(g, el) {
+  state.gender = g;
+  document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  const val = el.querySelector('input').value;
+  if (el.classList.contains('checked')) {
+    if (!state.healthMarkers.includes(val)) state.healthMarkers.push(val);
+  } else {
+    state.healthMarkers = state.healthMarkers.filter(v => v !== val);
+  }
+}
+
+function selectScale(type, val, el) {
+  const trackId = type === 'health' ? 'healthScale' : 'commitScale';
+  document.querySelectorAll('#' + trackId + ' .scale-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  if (type === 'health') state.healthScore = val;
+  if (type === 'commit') state.commitScore = val;
+}
+
+function calcBudget() {
+  const meals = parseFloat(document.getElementById('mealsPerDay').value) || 0;
+  const cost = parseFloat(document.getElementById('costPerMeal').value) || 0;
+  if (!meals || !cost) return;
+  const monthly = Math.round(meals * cost * 30);
+  state.mealsPerDay = meals;
+  state.costPerMeal = cost;
+  state.monthlyBudget = monthly;
+  document.getElementById('budgetCalc').style.display = 'block';
+  document.getElementById('budgetAmount').textContent = '$' + monthly.toLocaleString();
+  document.getElementById('budgetBreakdown').textContent =
+    `Calculation: ${meals} meals/day × $${cost} per meal × 30 days`;
+}
+
+// ═══════════════════════════════════════
+// SCORING ALGORITHM
+// ═══════════════════════════════════════
+function calcLeadScore() {
+  let score = 0;
+  // Commitment (0-30 points — heaviest weight)
+  if (state.commitScore) score += Math.round((state.commitScore / 10) * 30);
+  // Health markers count (0-20 points)
+  score += Math.min(state.healthMarkers.length * 3, 20);
+  // Health self-rating — lower = more need = higher signal (0-15 points)
+  if (state.healthScore) score += Math.round(((10 - state.healthScore) / 9) * 15);
+  // TikTok engagement (0-15 points)
+  const tiktok = parseInt(document.getElementById('tiktokTime').value) || 0;
+  score += (tiktok / 5) * 15;
+  // Site engagement (0-10 points)
+  const site = parseInt(document.getElementById('siteTime').value) || 0;
+  score += (site / 5) * 10;
+  // Age bonus — 35-65 prime demographic (0-5 points)
+  const age = parseInt(document.getElementById('age').value) || 0;
+  if (age >= 35 && age <= 65) score += 5;
+  // Previous programs tried (0-5 points — more tried = more motivated)
+  const prev = document.getElementById('prevPrograms').value;
+  if (prev === 'many') score += 5;
+  else if (prev === 'some' || prev === 'medical') score += 3;
+  return Math.min(Math.round(score), 100);
+}
+
+function getResultTier(score) {
+  if (score >= 70) return { tier: 'high', label: 'Highly Qualified Lead', color: '#22C55E', ringColor: '#22C55E' };
+  if (score >= 45) return { tier: 'mid', label: 'Strong Candidate', color: '#F59E0B', ringColor: '#F59E0B' };
+  return { tier: 'low', label: 'Early Stage', color: '#6B7280', ringColor: '#6B7280' };
+}
+
+// ═══════════════════════════════════════
+// BUILD RESULTS PAGE
+// ═══════════════════════════════════════
+function buildResults() {
+  const score = calcLeadScore();
+  const tier = getResultTier(score);
+  const firstName = document.getElementById('firstName').value.trim();
+  const goal = document.getElementById('primaryGoal').options[document.getElementById('primaryGoal').selectedIndex]?.text || '';
+
+  // Score ring animation
+  const circumference = 364.4;
+  const offset = circumference - (score / 100) * circumference;
+  const fill = document.getElementById('scoreFill');
+  fill.style.stroke = tier.ringColor;
+  setTimeout(() => { fill.style.strokeDashoffset = offset; }, 200);
+  document.getElementById('scoreNumber').textContent = score;
+  document.getElementById('scoreNumber').style.color = tier.color;
+
+  // Tier badge
+  const tierEl = document.getElementById('resultTier');
+  tierEl.textContent = tier.label;
+  tierEl.className = 'result-tier tier-' + tier.tier;
+
+  // Heading
+  document.getElementById('resultHeading').innerHTML =
+    firstName ? firstName + ',<br>Your Results Are Ready.' : 'Your Results<br>Are Ready.';
+
+  // Message
+  const messages = {
+    high: `Your profile shows strong readiness and clear metabolic health needs that the R2M Protocol is specifically designed to address. Your coach is going to be excited to speak with you — this is exactly who the protocol works best for.`,
+    mid: `Your profile shows real opportunity and genuine motivation to improve your health. Your coach will help you understand exactly which parts of the protocol apply most to your situation and what a realistic timeline looks like.`,
+    low: `You're in an early research phase — and that's completely fine. Your coach won't pressure you. The goal of the call is simply to give you the clearest possible picture of whether this is right for you, on your timeline.`
+  };
+  document.getElementById('resultMessage').textContent = messages[tier.tier];
+
+  // Summary table
+  const markers = state.healthMarkers.length;
+  const budgetStr = state.monthlyBudget > 0 ? '$' + state.monthlyBudget.toLocaleString() + '/mo' : 'Not calculated';
+  document.getElementById('resultSummary').innerHTML = `
+    <div class="result-summary-row"><span class="label">Primary Goal</span><span class="val highlight">${goal || 'Not specified'}</span></div>
+    <div class="result-summary-row"><span class="label">Health Markers Identified</span><span class="val highlight">${markers} of 9</span></div>
+    <div class="result-summary-row"><span class="label">Current Health Self-Rating</span><span class="val">${state.healthScore || '—'} / 10</span></div>
+    <div class="result-summary-row"><span class="label">Commitment Level</span><span class="val">${state.commitScore || '—'} / 10</span></div>
+    <div class="result-summary-row"><span class="label">Estimated Monthly Food Spend</span><span class="val highlight">${budgetStr}</span></div>
+    <div class="result-summary-row"><span class="label">Consultation Status</span><span class="val" style="color:var(--green)">✓ Ready to Book</span></div>
+  `;
+
+  // CTA messaging by tier
+  const ctas = {
+    high: { title: 'You\'re Ready. Let\'s Book Your Call.', msg: 'Your coach has reviewed your profile. Based on your health markers and commitment level, they already have a strong starting point prepared for your call. Select a time now.' },
+    mid: { title: 'Book Your Free Consultation', msg: 'Your coach will walk through your specific health situation, answer every question, and build a clear starting plan — whether or not you move forward.' },
+    low: { title: 'No Pressure. Let\'s Just Talk.', msg: 'A free 30-minute call with zero obligation. Your coach won\'t sell you anything you\'re not ready for. Come with questions — leave with clarity.' }
+  };
+  document.getElementById('ctaTitle').textContent = ctas[tier.tier].title;
+  document.getElementById('ctaMessage').textContent = ctas[tier.tier].msg;
+
+  // Pass data to booking page via URL params
+  const params = new URLSearchParams({
+    score,
+    name: firstName,
+    goal: goal.substring(0, 30),
+    markers,
+    commit: state.commitScore || ''
+  });
+  document.getElementById('ctaButton').href = 'booking.html?' + params.toString();
+  document.getElementById('ctaButton').setAttribute('data-after-booking', 'thank-you.html');
+}
+
+function submitForm() {
+  if (!validateStep(4)) return;
+
+  const firstName  = document.getElementById('firstName').value.trim();
+  const lastName   = document.getElementById('lastName').value.trim();
+  const email      = document.getElementById('email').value.trim();
+  const phone      = document.getElementById('phone').value.trim();
+  const country    = document.getElementById('country').value;
+  const age        = document.getElementById('age').value;
+  const height     = document.getElementById('height').value;
+  const weight     = document.getElementById('weight').value;
+  const goal       = document.getElementById('primaryGoal').value;
+  const prev       = document.getElementById('prevPrograms').value;
+  const notes      = document.getElementById('notes').value;
+  const mealsDay   = document.getElementById('mealsPerDay').value;
+  const costMeal   = document.getElementById('costPerMeal').value;
+  const tiktok     = document.getElementById('tiktokTime').value;
+  const site       = document.getElementById('siteTime').value;
+  const score      = calcLeadScore();
+  const tier       = getResultTier(score);
+  const markers    = state.healthMarkers.join(', ');
+  const budget     = state.monthlyBudget;
+
+  const leadData = {
+    'form-name':        'lead-qualification',
+    'first-name':       firstName,
+    'last-name':        lastName,
+    'email':            email,
+    'phone':            phone,
+    'country':          country,
+    'gender':           state.gender,
+    'age':              age,
+    'height':           height,
+    'weight':           weight,
+    'health-markers':   markers,
+    'health-score':     state.healthScore,
+    'commitment-score': state.commitScore,
+    'primary-goal':     goal,
+    'prev-programs':    prev,
+    'meals-per-day':    mealsDay,
+    'cost-per-meal':    '$' + costMeal,
+    'monthly-budget':   '$' + budget,
+    'tiktok-time':      tiktok,
+    'site-time':        site,
+    'lead-score':       score,
+    'lead-tier':        tier.label,
+    'notes':            notes
+  };
+
+  // ── 1. NETLIFY FORMS (email notification to YOUR_NOTIFICATION_EMAIL)
+  // Set up in Netlify dashboard: Forms → Notifications → Email
+  // Add your team email there — no code change needed.
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(leadData).toString()
+  }).catch(err => console.warn('Netlify form submission error:', err));
+
+  // ── 2. SMS WEBHOOK (triggers automated text to prospect's phone)
+  // SETUP: Create a free Make.com account → New Scenario →
+  //   Trigger: Webhooks → Custom Webhook (copy the URL it gives you)
+  //   Action:  SimpleTexting or Twilio → Send SMS
+  //   SMS text: "Hi! Thanks for requesting your consultation. Your email
+  //              contains the details — please check your inbox now, and
+  //              your spam folder if you don't see it."
+  // Then replace PASTE_YOUR_MAKE_WEBHOOK_URL_HERE with that webhook URL.
+  const SMS_WEBHOOK_URL = 'PASTE_YOUR_MAKE_WEBHOOK_URL_HERE';
+  if (SMS_WEBHOOK_URL !== 'PASTE_YOUR_MAKE_WEBHOOK_URL_HERE') {
+    fetch(SMS_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to:    phone,
+        name:  firstName,
+        email: email,
+        score: score,
+        tier:  tier.label
+      })
+    }).catch(err => console.warn('SMS webhook error:', err));
+  }
+
+  // ── 3. COACH NOTIFICATION WEBHOOK (sends full lead profile to coach)
+  // Same setup as above in Make.com — separate scenario, email action
+  // to coach with the full lead profile formatted for easy reading.
+  const COACH_WEBHOOK_URL = 'PASTE_YOUR_COACH_NOTIFICATION_WEBHOOK_HERE';
+  if (COACH_WEBHOOK_URL !== 'PASTE_YOUR_COACH_NOTIFICATION_WEBHOOK_HERE') {
+    fetch(COACH_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(leadData)
+    }).catch(err => console.warn('Coach webhook error:', err));
+  }
+
+  // ── 4. Show results, then redirect to thank-you after booking click
+  goToStep(5);
+}
+</script>
+
+<!-- NETLIFY FORMS: Hidden form so Netlify detects fields at build time -->
+<!-- Do not remove this — it's required for Netlify Forms to work -->
+<form name="lead-qualification" netlify netlify-honeypot="bot-field" hidden>
+  <input name="bot-field">
+  <input name="first-name"><input name="last-name">
+  <input name="email"><input name="phone"><input name="country">
+  <input name="gender"><input name="age"><input name="height"><input name="weight">
+  <input name="health-markers"><input name="health-score"><input name="commitment-score">
+  <input name="primary-goal"><input name="prev-programs">
+  <input name="meals-per-day"><input name="cost-per-meal"><input name="monthly-budget">
+  <input name="tiktok-time"><input name="site-time">
+  <input name="lead-score"><input name="lead-tier"><input name="notes">
+</form>
+
+</body>
+</html>
