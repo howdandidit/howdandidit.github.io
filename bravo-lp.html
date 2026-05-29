@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Your Probiotic Isn't Working — Bravo: 300+ Strains</title>
+<meta name="description" content="Most probiotics have 3-5 strains. Bravo has 300+. Swiss-made, fermented with colostrum, invented by Dr. Marco Ruggiero. The only true Microbiome Restoration System.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #080C0B;
+    --forest: #0A1F18;
+    --off-white: #F0EDE6;
+    --teal: #0FC4B0;
+    --teal-dark: #0A9E8E;
+    --teal-glow: rgba(15,196,176,0.1);
+    --teal-border: rgba(15,196,176,0.2);
+    --amber: #F59E0B;
+    --amber-glow: rgba(245,158,11,0.1);
+    --amber-border: rgba(245,158,11,0.2);
+    --green: #22C55E;
+    --green-glow: rgba(34,197,94,0.1);
+    --green-border: rgba(34,197,94,0.2);
+    --red: #EF4444;
+    --red-glow: rgba(239,68,68,0.08);
+    --red-border: rgba(239,68,68,0.18);
+    --muted: rgba(240,237,230,0.55);
+    --border: rgba(255,255,255,0.08);
+    --card-bg: rgba(255,255,255,0.04);
+    --display: 'Barlow Condensed', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--ink); color: var(--off-white); line-height: 1.6; overflow-x: hidden; padding-bottom: 80px; }
+
+  /* STICKY TOP BAR */
+  .top-bar {
+    background: var(--teal); color: var(--ink); padding: 10px 1.5rem;
+    text-align: center; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em;
+    position: sticky; top: 0; z-index: 200;
+  }
+  .top-bar a { color: var(--ink); text-decoration: underline; }
+
+  /* STICKY BOTTOM CTA */
+  .sticky-cta {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(8,12,11,0.97); backdrop-filter: blur(16px);
+    border-top: 1px solid var(--teal-border);
+    padding: 14px 2rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  }
+  .sticky-cta-text { font-size: 0.875rem; color: var(--muted); }
+  .sticky-cta-text strong { color: var(--off-white); }
+  .btn-cta {
+    background: var(--teal); color: var(--ink); padding: 0.7rem 1.75rem; border-radius: 8px;
+    font-weight: 800; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none; white-space: nowrap; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s; display: inline-flex; align-items: center; gap: 0.4rem;
+    flex-shrink: 0;
+  }
+  .btn-cta:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(15,196,176,0.3); }
+  .btn-ghost {
+    background: transparent; color: var(--off-white); padding: 0.7rem 1.5rem; border-radius: 8px;
+    border: 1px solid rgba(240,237,230,0.2); font-weight: 600; font-size: 0.85rem;
+    text-transform: uppercase; text-decoration: none; white-space: nowrap;
+    transition: border-color 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(240,237,230,0.45); }
+
+  /* LOGO BAR */
+  .logo-bar {
+    padding: 1.1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: var(--display); font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; color: var(--off-white); }
+  .logo span { color: var(--amber); }
+  .logo-cta { display: flex; align-items: center; gap: 0.75rem; }
+  .logo-note { font-size: 0.75rem; color: var(--muted); }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh; padding: 60px 2rem 80px; display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(15,196,176,0.07) 0%, transparent 65%);
+  }
+  .hero-wm {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    font-family: var(--display); font-size: 55vw; font-weight: 900;
+    color: rgba(15,196,176,0.02); line-height: 1; pointer-events: none; white-space: nowrap;
+  }
+  .hero-inner { max-width: 900px; margin: 0 auto; text-align: center; position: relative; }
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--teal-glow); border: 1px solid var(--teal-border);
+    border-radius: 100px; padding: 6px 16px; margin-bottom: 2rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal);
+  }
+  .hero-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero h1 {
+    font-family: var(--display); font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 900;
+    text-transform: uppercase; line-height: 0.93; letter-spacing: -0.01em; margin-bottom: 1.75rem;
+  }
+  .hero h1 .line-teal { color: var(--teal); display: block; }
+  .hero h1 .line-muted { color: rgba(240,237,230,0.4); display: block; font-size: 0.7em; }
+  .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.75; }
+  .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-hero {
+    background: var(--teal); color: var(--ink); padding: 1rem 2.25rem; border-radius: 10px;
+    font-weight: 800; font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none; transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-hero:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(15,196,176,0.3); }
+  .hero-proof { display: flex; gap: 2rem; justify-content: center; margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .proof-item { text-align: center; }
+  .proof-num { font-family: var(--display); font-size: 2.5rem; font-weight: 900; line-height: 1; color: var(--teal); }
+  .proof-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 0.2rem; }
+
+  /* SECTIONS */
+  .sec { padding: 80px 2rem; }
+  .sec.dark { background: var(--forest); }
+  .sec.darker { background: #060908; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .container-sm { max-width: 720px; margin: 0 auto; }
+  .slbl { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .slbl::before { content: ''; width: 18px; height: 2px; background: var(--teal); flex-shrink: 0; }
+  .stitle { font-family: var(--display); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 1.25rem; }
+  .ssub { font-size: 1rem; color: var(--muted); line-height: 1.75; }
+
+  /* PAIN SECTION */
+  .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+  .pain-card { background: var(--red-glow); border: 1px solid var(--red-border); border-radius: 12px; padding: 1.5rem; }
+  .pain-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .pain-card h4 { font-family: var(--display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .pain-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+  /* STRAIN GAP */
+  .gap-section { text-align: center; }
+  .gap-visual { display: flex; align-items: center; justify-content: center; gap: 0; margin: 3rem auto; max-width: 700px; }
+  .gap-side { flex: 1; padding: 2rem 1.5rem; border-radius: 12px; }
+  .gap-side.them { background: var(--red-glow); border: 1px solid var(--red-border); }
+  .gap-side.us { background: var(--teal-glow); border: 1px solid var(--teal-border); }
+  .gap-num { font-family: var(--display); font-size: 4.5rem; font-weight: 900; line-height: 1; }
+  .gap-num.bad { color: rgba(239,68,68,0.7); }
+  .gap-num.good { color: var(--teal); }
+  .gap-unit { font-family: var(--display); font-size: 1.5rem; font-weight: 700; }
+  .gap-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 0.5rem; line-height: 1.4; }
+  .gap-vs { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 1.5rem; }
+  .vs-circle { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1rem; font-weight: 800; color: var(--muted); }
+  .vs-arrow { font-size: 1.5rem; color: rgba(255,255,255,0.15); margin: 0.25rem 0; }
+  .gap-caption { font-size: 0.9rem; color: var(--muted); max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+  /* WHY DIFFERENT */
+  .diff-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-top: 3rem; }
+  .diff-item { background: var(--ink); padding: 1.5rem 1.75rem; display: flex; gap: 1.25rem; align-items: flex-start; transition: background 0.2s; }
+  .diff-item:hover { background: var(--card-bg); }
+  .diff-check { width: 28px; height: 28px; border-radius: 50%; background: var(--teal-glow); border: 1px solid var(--teal-border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--teal); flex-shrink: 0; margin-top: 2px; font-weight: 700; }
+  .diff-text h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .diff-text p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+  .diff-text .highlight { color: var(--teal); font-weight: 600; }
+
+  /* TESTIMONIALS */
+  .testi-stack { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 3rem; }
+  .testi-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start; }
+  .testi-left { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: 80px; }
+  .testi-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #0d2520, #122e28); border: 2px solid var(--teal-border); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1.1rem; font-weight: 800; color: var(--teal); }
+  .testi-result-big { font-family: var(--display); font-size: 1.5rem; font-weight: 900; color: var(--green); line-height: 1; text-align: center; }
+  .testi-result-unit { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); text-align: center; line-height: 1.3; margin-top: 0.2rem; }
+  .testi-right blockquote { font-size: 0.9rem; color: var(--muted); font-style: italic; line-height: 1.75; margin-bottom: 0.75rem; }
+  .testi-name { font-size: 0.83rem; font-weight: 700; }
+  .testi-detail { font-size: 0.75rem; color: rgba(240,237,230,0.35); }
+  .stars { color: var(--amber); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 0.5rem; }
+
+  /* DR RUGGIERO STRIP */
+  .ruggiero-strip { background: rgba(15,196,176,0.05); border-top: 1px solid var(--teal-border); border-bottom: 1px solid var(--teal-border); padding: 48px 2rem; }
+  .ruggiero-inner { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center; }
+  .rug-avatar { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, #0d2520, #152e28); border: 3px solid var(--teal-border); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1.8rem; font-weight: 900; color: var(--teal); flex-shrink: 0; }
+  .rug-content h3 { font-family: var(--display); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .rug-content .role { font-size: 0.8rem; color: var(--teal); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; margin-bottom: 0.75rem; }
+  .rug-content blockquote { font-family: var(--display); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; line-height: 1.2; border-left: 2px solid var(--teal); padding-left: 1rem; color: var(--off-white); margin-bottom: 0.75rem; }
+  .rug-content blockquote em { color: var(--teal); font-style: normal; }
+  .rug-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .rug-pill { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 100px; background: var(--teal-glow); border: 1px solid var(--teal-border); color: var(--teal); }
+
+  /* FORMS */
+  .forms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+  .form-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; position: relative; overflow: hidden; transition: border-color 0.2s, background 0.2s; cursor: pointer; }
+  .form-card:hover { border-color: var(--teal-border); background: var(--teal-glow); }
+  .form-card.best { border-color: var(--teal-border); }
+  .form-card.best::before { content: 'Most Potent'; position: absolute; top: 0; right: 0; background: var(--teal); color: var(--ink); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-bottom-left-radius: 8px; }
+  .form-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .form-card h4 { font-family: var(--display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .form-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* COMPARISON */
+  .compare-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 3rem; }
+  .compare-col { border-radius: 12px; overflow: hidden; }
+  .compare-head { padding: 1rem 1.25rem; font-family: var(--display); font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .compare-head.bad { background: rgba(239,68,68,0.1); color: rgba(239,68,68,0.7); border: 1px solid var(--red-border); border-bottom: none; border-radius: 12px 12px 0 0; }
+  .compare-head.good { background: var(--teal-glow); color: var(--teal); border: 1px solid var(--teal-border); border-bottom: none; border-radius: 12px 12px 0 0; }
+  .compare-body { border: 1px solid var(--border); border-top: none; border-radius: 0 0 12px 12px; }
+  .compare-body.bad { border-color: var(--red-border); }
+  .compare-body.good { border-color: var(--teal-border); }
+  .compare-row { padding: 0.8rem 1.25rem; display: flex; gap: 0.75rem; align-items: center; border-bottom: 1px solid var(--border); font-size: 0.83rem; }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row .icon { flex-shrink: 0; font-size: 0.9rem; }
+  .compare-row.bad .icon { color: rgba(239,68,68,0.6); }
+  .compare-row.good .icon { color: var(--teal); }
+
+  /* OBJECTIONS / FAQ */
+  .faq-list { display: flex; flex-direction: column; margin-top: 3rem; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+  .faq-q { width: 100%; background: none; border: none; color: var(--off-white); font-family: var(--body); font-size: 0.95rem; font-weight: 600; text-align: left; padding: 1rem 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .faq-arr { font-size: 0.72rem; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
+  .faq-q.open .faq-arr { transform: rotate(180deg); }
+  .faq-a { font-size: 0.875rem; color: var(--muted); line-height: 1.75; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s; }
+  .faq-a.open { max-height: 300px; padding-bottom: 1rem; }
+
+  /* FINAL CTA */
+  .final-cta { text-align: center; padding: 100px 2rem; background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(15,196,176,0.09) 0%, transparent 70%); }
+  .final-cta h2 { font-family: var(--display); font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 1.25rem; }
+  .final-cta h2 em { font-style: normal; color: var(--teal); display: block; }
+  .final-cta p { font-size: 1rem; color: var(--muted); max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; }
+  .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+  .cta-trust { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+  .trust-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: rgba(240,237,230,0.4); }
+  .trust-item .ti { color: var(--teal); font-size: 0.9rem; }
+
+  /* DISCLAIMER */
+  .disclaimer { background: #060908; border-top: 1px solid var(--border); padding: 2rem; text-align: center; }
+  .disclaimer p { font-size: 0.72rem; color: rgba(240,237,230,0.25); line-height: 1.6; max-width: 700px; margin: 0 auto 0.5rem; }
+  .disclaimer a { color: rgba(15,196,176,0.5); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .fu { animation: fadeUp 0.7s ease both; }
+  .fu2 { animation: fadeUp 0.7s ease 0.15s both; }
+  .fu3 { animation: fadeUp 0.7s ease 0.3s both; }
+
+  @media (max-width: 768px) {
+    .pain-grid { grid-template-columns: 1fr; }
+    .gap-visual { flex-direction: column; gap: 1rem; }
+    .gap-vs { flex-direction: row; padding: 0; }
+    .vs-arrow { transform: rotate(90deg); }
+    .testi-card { grid-template-columns: 1fr; }
+    .testi-left { flex-direction: row; width: auto; align-items: center; }
+    .ruggiero-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    .forms-grid { grid-template-columns: 1fr; }
+    .compare-strip { grid-template-columns: 1fr; }
+    .sticky-cta { flex-direction: column; gap: 0.75rem; text-align: center; }
+    .hero h1 { font-size: clamp(2.5rem, 10vw, 5rem); }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP ANNOUNCEMENT BAR -->
+<div class="top-bar">
+  🏆 Featured in Women's World Magazine · Research cited 9,400+ times · <a href="#consult">Free 30-min consultation available now</a>
+</div>
+
+<!-- LOGO BAR -->
+<div class="logo-bar">
+  <a class="logo" href="index.html"><span>How</span> Dan Did It</a>
+  <div class="logo-cta">
+    <span class="logo-note">Free consultation included</span>
+    <a href="qualify.html" class="btn-cta">Get Started →</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-wm">B</div>
+  <div class="hero-inner">
+    <div class="hero-pill fu"><span class="dot"></span> Microbiome Restoration System · Swiss-Made</div>
+    <h1 class="fu2">
+      Your Probiotic
+      <span class="line-muted">Has 3–5 Strains.</span>
+      <span class="line-teal">Bravo Has 300+.</span>
+    </h1>
+    <p class="hero-sub fu3">That's not a small difference. That's the difference between dabbling and actually restoring your gut. Bravo is the only probiotic on earth fermented with bovine colostrum, containing prebiotics, probiotics, AND postbiotics — developed by a molecular biologist with 200+ published studies.</p>
+    <div class="hero-cta fu3">
+      <a href="qualify.html" class="btn-hero">Book a Free Consultation →</a>
+      <a href="javascript:void(0)" class="btn-ghost" onclick="document.getElementById('why').scrollIntoView({behavior:'smooth'})">Why It's Different ↓</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item"><div class="proof-num">300+</div><div class="proof-label">Microbial Strains</div></div>
+      <div class="proof-item"><div class="proof-num">82B</div><div class="proof-label">CFU Colony Count</div></div>
+      <div class="proof-item"><div class="proof-num">10×</div><div class="proof-label">More Than Top Competitors</div></div>
+      <div class="proof-item"><div class="proof-num">3-in-1</div><div class="proof-label">Pre + Pro + Postbiotic</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN: WHY YOUR GUT IS STRUGGLING -->
+<section class="sec dark">
+  <div class="container">
+    <div class="slbl">The Real Problem</div>
+    <h2 class="stitle">If You're Experiencing<br>Any of These — <span style="color:var(--teal)">Keep Reading.</span></h2>
+    <p class="ssub">These aren't random complaints. They're symptoms of a depleted microbiome — and they're connected to the same root cause.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">🔥</div>
+        <h4>Bloating & Gut Issues</h4>
+        <p>Bloating, constipation, irregularity, or discomfort after eating — signs your microbial ecosystem lacks the diversity to process food efficiently.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🧠</div>
+        <h4>Brain Fog & Low Energy</h4>
+        <p>70% of your immune activity and a major part of your neurotransmitter production happen in your gut. A depleted microbiome directly impacts cognitive clarity and energy levels.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🛡️</div>
+        <h4>Getting Sick Too Often</h4>
+        <p>Frequent illness, slow recovery, or a persistent feeling of being "run down" often traces back to a gut microbiome that's lost its diversity and protective function.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">⚖️</div>
+        <h4>Stubborn Weight</h4>
+        <p>Gut microbiome diversity is closely linked to metabolic health and weight management. People with lower diversity tend to struggle more with body composition despite healthy eating.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">😴</div>
+        <h4>Poor Sleep & Mood</h4>
+        <p>The gut-brain axis runs both directions. Gut dysbiosis — an imbalanced microbiome — is now directly associated with disrupted sleep patterns and mood instability.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">💊</div>
+        <h4>"I've Tried Probiotics"</h4>
+        <p>Most people who've tried probiotics and felt nothing aren't imagining it. 3–5 strains simply can't replicate the complexity your microbiome needs. That's not a you problem. That's a product problem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE GAP: VISUAL STRAIN COMPARISON -->
+<section class="sec gap-section">
+  <div class="container-sm">
+    <div class="slbl" style="justify-content:center;">The Strain Gap</div>
+    <h2 class="stitle" style="text-align:center;">This Is Why Your<br>Probiotic Isn't Working</h2>
+    <div class="gap-visual">
+      <div class="gap-side them">
+        <div class="gap-num bad">3–5</div>
+        <div class="gap-unit" style="color:rgba(239,68,68,0.5);">strains</div>
+        <div class="gap-label">What most probiotics<br>on the market deliver</div>
+      </div>
+      <div class="gap-vs">
+        <div class="vs-circle">VS</div>
+      </div>
+      <div class="gap-side us">
+        <div class="gap-num good">300+</div>
+        <div class="gap-unit" style="color:var(--teal);">strains</div>
+        <div class="gap-label">What Bravo delivers —<br>verified by microarray DNA testing</div>
+      </div>
+    </div>
+    <p class="gap-caption">Your gut microbiome naturally contains hundreds of species working in a complex, interdependent ecosystem. Restoring it with 3–5 strains is like rebuilding a rainforest by planting three types of grass. Bravo was designed to mirror the actual complexity of a healthy human gut.</p>
+  </div>
+</section>
+
+<!-- WHY BRAVO IS DIFFERENT -->
+<section class="sec dark" id="why">
+  <div class="container">
+    <div class="slbl">What Makes It Different</div>
+    <h2 class="stitle">Six Reasons Bravo<br>Is In a Category<br><span style="color:var(--teal)">Of Its Own</span></h2>
+    <div class="diff-list">
+      <div class="diff-item">
+        <div class="diff-check">✓</div>
+        <div class="diff-text">
+          <h4>The Only Probiotic Fermented With Bovine Colostrum</h4>
+          <p>Colostrum is the most nutrient-dense substance produced by mammals. Bravo's proprietary fermentation process uses organic Swiss bovine colostrum as the fermentation medium — creating a unique array of <span class="highlight">bioactive postbiotics</span> that simply cannot exist in any other product. No other probiotic on the market does this.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-check">✓</div>
+        <div class="diff-text">
+          <h4>Pre + Pro + Postbiotics — All Three, Not Just One</h4>
+          <p>Most probiotics deliver live bacteria (probiotics) only. Bravo includes <span class="highlight">prebiotics</span> (the fuel bacteria need), <span class="highlight">probiotics</span> (300+ live strains), and <span class="highlight">postbiotics</span> (the bioactive compounds produced during fermentation). This is the complete system — not a single component of it.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-check">✓</div>
+        <div class="diff-text">
+          <h4>300+ Strains Verified by Microarray DNA Technology</h4>
+          <p>Bravo's diversity isn't an estimate or a label claim — it's verified using advanced microarray technology capable of detecting DNA from <span class="highlight">12,000 different microbes</span>. The result: over 300 confirmed strains, including Lactobacillus, Bifidobacterium, Saccharomyces, and bacteriophages found in no other commercial probiotic.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-check">✓</div>
+        <div class="diff-text">
+          <h4>Swiss-Made to Demeter Biodynamic Standards</h4>
+          <p>Every batch is produced in a <span class="highlight">Swiss FDA-registered facility</span> certified to Demeter Biodynamic standards — the most rigorous organic certification in the world, more demanding than USDA Organic. Every ingredient is sourced from certified Swiss and European suppliers.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-check">✓</div>
+        <div class="diff-text">
+          <h4>Invented by a Molecular Biologist with 200+ Published Studies</h4>
+          <p>Dr. Marco Ruggiero, M.D., Ph.D. — molecular biologist, immunologist, and former University of Florence professor — designed Bravo with a single goal: <span class="highlight">reproduce the complexity of a healthy human microbiome</span>. This isn't a product developed by a marketing team. It's the result of decades of microbiome research.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-check">✓</div>
+        <div class="diff-text">
+          <h4>Contains Bacteriophages — No Other Probiotic Does</h4>
+          <p>Bacteriophages are micro-organisms that colonize inside gut bacteria, forming their own microbiome layer. They're anti-inflammatory, support pathogen control, and are a critical component of a complex, healthy gut ecosystem. <span class="highlight">Bravo is one of the only products in the world to include them.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec">
+  <div class="container">
+    <div class="slbl">Real Results</div>
+    <h2 class="stitle">People Who Were<br>Where You Are Now</h2>
+    <div class="testi-stack">
+      <div class="testi-card">
+        <div class="testi-left">
+          <div class="testi-avatar">M</div>
+          <div class="testi-result-big">27lb</div>
+          <div class="testi-result-unit">lost in 5 months</div>
+        </div>
+        <div class="testi-right">
+          <div class="stars">★★★★★</div>
+          <blockquote>"I did the R2M first, then added Bravo as part of the protocol. The combination changed everything. Down 27 lbs over 5 months, inflammation markers improved, and my doctor reduced one of my medications. That's not something I ever thought I'd be saying."</blockquote>
+          <div class="testi-name">Michelle T., 41</div>
+          <div class="testi-detail">Metabolic syndrome · Inflammation · Protocol Step 3</div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-left">
+          <div class="testi-avatar">D</div>
+          <div class="testi-result-big">3wk</div>
+          <div class="testi-result-unit">to clear brain fog</div>
+        </div>
+        <div class="testi-right">
+          <div class="stars">★★★★★</div>
+          <blockquote>"I was skeptical about the gut-brain connection — I'm an engineer, I need evidence. But by week three I was thinking more clearly at work than I had in years. My wife noticed before I did. That was the moment I stopped being skeptical."</blockquote>
+          <div class="testi-name">David R., 49</div>
+          <div class="testi-detail">Brain fog · Chronic fatigue · Capsule form</div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-left">
+          <div class="testi-avatar">L</div>
+          <div class="testi-result-big">14mo</div>
+          <div class="testi-result-unit">without illness</div>
+        </div>
+        <div class="testi-right">
+          <div class="stars">★★★★★</div>
+          <blockquote>"I used to catch every cold my kids brought home. Before Bravo I was sick constantly. It's been over 14 months and I've been sick once. I've taken probiotics my whole life — this is the first one that actually changed something."</blockquote>
+          <div class="testi-name">Michelle T., 41</div>
+          <div class="testi-detail">Frequent illness · Compromised immunity · Yogurt kit</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:0.75rem;color:rgba(240,237,230,0.25);text-align:center;margin-top:2rem;font-style:italic;">Individual results vary. Testimonials reflect personal experiences and are not a guarantee of results. Bravo is not intended to diagnose, treat, cure, or prevent any disease.</p>
+  </div>
+</section>
+
+<!-- DR RUGGIERO STRIP -->
+<div class="ruggiero-strip">
+  <div class="ruggiero-inner">
+    <div class="rug-avatar">MR</div>
+    <div class="rug-content">
+      <h3>Dr. Marco Ruggiero, M.D., Ph.D.</h3>
+      <div class="role">Inventor of Bravo · Molecular Biologist · Immunologist</div>
+      <blockquote>"I designed Bravo to reproduce the complexity of a <em>healthy gut microbiome.</em>"</blockquote>
+      <div class="rug-pills">
+        <span class="rug-pill">200+ Published Studies</span>
+        <span class="rug-pill">University of Florence</span>
+        <span class="rug-pill">Molecular Biologist</span>
+        <span class="rug-pill">Immunologist</span>
+        <span class="rug-pill">Swiss Manufacturing</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THREE FORMS -->
+<section class="sec dark">
+  <div class="container">
+    <div class="slbl">Choose Your Form</div>
+    <h2 class="stitle">Three Ways to<br>Take Bravo</h2>
+    <p class="ssub">Same proprietary formula. Three delivery methods. Your consultation will determine the right starting point based on your lifestyle and protocol stage.</p>
+    <div class="forms-grid">
+      <div class="form-card best" onclick="window.location.href='qualify.html'">
+        <div class="form-icon">🥛</div>
+        <h4>Yogurt Kit</h4>
+        <p>Home-fermented yogurt/kefir — the most potent form. Mix with milk, ferment overnight. Live cultures in their natural active medium. 1-week, 4-week, and 13-week kits.</p>
+      </div>
+      <div class="form-card" onclick="window.location.href='qualify.html'">
+        <div class="form-icon">💊</div>
+        <h4>Freeze-Dried Capsules</h4>
+        <p>Same formula as the yogurt kit, gastro-resistant and shelf-stable. 30 caps per bottle. Ideal for travel or when yogurt preparation isn't practical.</p>
+      </div>
+      <div class="form-card" onclick="window.location.href='qualify.html'">
+        <div class="form-icon">🌿</div>
+        <h4>Edestiny (Vegan)</h4>
+        <p>100% dairy-free. Same probiotic diversity, fermented with hemp seed protein instead of colostrum. Delayed-release vegetable capsules for those avoiding all animal products.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIDE-BY-SIDE COMPARISON -->
+<section class="sec">
+  <div class="container">
+    <div class="slbl" style="justify-content:center;">The Honest Comparison</div>
+    <h2 class="stitle" style="text-align:center;">What You're<br>Getting vs.<br><span style="color:var(--teal)">What You Had</span></h2>
+    <div class="compare-strip">
+      <div class="compare-col">
+        <div class="compare-head bad">❌ Your Current Probiotic</div>
+        <div class="compare-body bad">
+          <div class="compare-row bad"><span class="icon">✗</span> 3–10 microbial strains</div>
+          <div class="compare-row bad"><span class="icon">✗</span> No postbiotics</div>
+          <div class="compare-row bad"><span class="icon">✗</span> No colostrum fermentation</div>
+          <div class="compare-row bad"><span class="icon">✗</span> No bacteriophages</div>
+          <div class="compare-row bad"><span class="icon">✗</span> Probiotics only — not a full ecosystem</div>
+          <div class="compare-row bad"><span class="icon">✗</span> Standard manufacturing</div>
+          <div class="compare-row bad"><span class="icon">✗</span> Not part of a protocol</div>
+          <div class="compare-row bad"><span class="icon">✗</span> No consultation or guidance included</div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-head good">✓ Bravo Probiotic</div>
+        <div class="compare-body good">
+          <div class="compare-row good"><span class="icon">✓</span> 300+ microbial strains (verified)</div>
+          <div class="compare-row good"><span class="icon">✓</span> Pre + Pro + Postbiotics included</div>
+          <div class="compare-row good"><span class="icon">✓</span> Fermented with organic colostrum</div>
+          <div class="compare-row good"><span class="icon">✓</span> Contains bacteriophages</div>
+          <div class="compare-row good"><span class="icon">✓</span> Complete Microbiome Restoration System</div>
+          <div class="compare-row good"><span class="icon">✓</span> Swiss FDA + Demeter Biodynamic certified</div>
+          <div class="compare-row good"><span class="icon">✓</span> Part of Dan's 9-step protocol</div>
+          <div class="compare-row good"><span class="icon">✓</span> Free consultation included before purchase</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTION HANDLING / FAQ -->
+<section class="sec dark" id="faq">
+  <div class="container-sm">
+    <div class="slbl">Honest Answers</div>
+    <h2 class="stitle">Your Questions,<br>Answered Directly</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Why haven't I heard of Bravo if it's so different? <span class="faq-arr">▼</span></button>
+        <div class="faq-a">Bravo isn't sold in big-box retail or through mainstream supplement channels. It's a Swiss-made, scientifically complex product that requires education to understand — and is best started with guidance on which form and dosage is right for your situation. It's not the type of product that gets a Super Bowl ad. It spreads through people who've actually used it.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">I've tried probiotics before and felt nothing. Why would this be different? <span class="faq-arr">▼</span></button>
+        <div class="faq-a">The most common reason probiotics "don't work" is insufficient diversity. 3–5 strains can't create a meaningful shift in a complex ecosystem. Bravo's 300+ strains — combined with prebiotics, postbiotics, and the colostrum fermentation medium — work on the microbiome in a fundamentally different way. Most people who've "tried probiotics" have never tried anything at this level of complexity.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is the yogurt kit hard to make? <span class="faq-arr">▼</span></button>
+        <div class="faq-a">It's simpler than it sounds: mix the powder blends with milk, keep it at around 95–100°F for 24 hours, refrigerate. The whole active prep time is about 10 minutes. Your consultation will walk through the process step by step, and you'll receive the Blueprint for Success with video instructions.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">I'm lactose intolerant. Can I still take Bravo? <span class="faq-arr">▼</span></button>
+        <div class="faq-a">Very likely yes. The 24-hour fermentation process causes the bacterial cultures to consume virtually all of the lactose — so the finished yogurt contains very little to none. Many lactose-sensitive individuals tolerate it well. If you prefer to avoid all dairy entirely, the Edestiny vegan capsule is the dairy-free alternative with the same probiotic diversity.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Why do you recommend a consultation before purchasing? <span class="faq-arr">▼</span></button>
+        <div class="faq-a">Because not everyone starts in the same place. Bravo is Step 3 in Dan's protocol — and understanding where you are in the sequence, which form fits your lifestyle, and how to set expectations properly makes a significant difference in results. The consultation is free, takes 30 minutes, and you're under zero obligation to purchase anything afterward.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is there a guarantee? <span class="faq-arr">▼</span></button>
+        <div class="faq-a">We stand behind the protocol. Our consultation-first approach means you understand exactly what you're starting before spending anything. Speak with our team, get your questions answered, and make a fully informed decision. We're not in the business of selling products to people who aren't the right fit.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="consult">
+  <div class="container-sm">
+    <h2>Start With a<br><em>Free Consultation.</em></h2>
+    <p>Tell us where you are. We'll tell you exactly where Bravo fits in your protocol, which form is right for you, and what to realistically expect in your first 90 days.</p>
+    <div class="cta-stack">
+      <a href="qualify.html" class="btn-hero" style="font-size:1rem; padding:1.1rem 2.5rem;">Book My Free 30-Min Consultation →</a>
+      <div class="cta-trust">
+        <span class="trust-item"><span class="ti">✓</span> Completely free</span>
+        <span class="trust-item"><span class="ti">✓</span> No credit card</span>
+        <span class="trust-item"><span class="ti">✓</span> No obligation to buy</span>
+        <span class="trust-item"><span class="ti">✓</span> 30 minutes via phone or Zoom</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <p>Bravo is a nutritional supplement. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Always consult a qualified healthcare professional before beginning any new nutritional program, especially if you are pregnant, nursing, taking medications, or have a medical condition. Individual results vary.</p>
+  <p><a href="index.html">← Back to HowDanDidIt.com</a> · <a href="bravo.html">Full Bravo Product Page</a> · <a href="science.html">See the Science</a></p>
+</div>
+
+<!-- STICKY BOTTOM CTA -->
+<div class="sticky-cta">
+  <div class="sticky-cta-text"><strong>Bravo: 300+ Strains.</strong> The only probiotic fermented with colostrum. Free consultation included.</div>
+  <div style="display:flex;gap:0.75rem;align-items:center;">
+    <a href="javascript:void(0)" onclick="document.getElementById('why').scrollIntoView({behavior:'smooth'})" class="btn-ghost" style="padding:0.6rem 1rem;font-size:0.78rem;">Learn More</a>
+    <a href="qualify.html" class="btn-cta">Free Consultation →</a>
+  </div>
+</div>
+
+<script>
+  function toggleFaq(btn) {
+    const a = btn.nextElementSibling;
+    const open = a.classList.contains('open');
+    document.querySelectorAll('.faq-a.open').forEach(x => x.classList.remove('open'));
+    document.querySelectorAll('.faq-q.open').forEach(x => x.classList.remove('open'));
+    if (!open) { a.classList.add('open'); btn.classList.add('open'); }
+  }
+</script>
+</body>
+</html>
