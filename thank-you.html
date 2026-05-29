@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're Booked — How Dan Did It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0B0B0B; --off-white: #F5F2EC; --amber: #F59E0B; --amber-dark: #D97706;
+    --amber-glow: rgba(245,158,11,0.1); --amber-border: rgba(245,158,11,0.2);
+    --green: #22C55E; --green-glow: rgba(34,197,94,0.1); --green-border: rgba(34,197,94,0.2);
+    --muted: rgba(245,242,236,0.55); --border: rgba(255,255,255,0.08); --card-bg: rgba(255,255,255,0.04);
+    --display: 'Barlow Condensed', sans-serif; --body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--ink); color: var(--off-white); line-height: 1.6; min-height: 100vh; }
+
+  nav { padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--display); font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--off-white); text-decoration: none; }
+  .nav-logo span { color: var(--amber); }
+
+  /* HERO CONFIRM */
+  .confirm-hero { padding: 80px 2rem 60px; text-align: center; background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(34,197,94,0.07) 0%, transparent 65%); }
+  .confirm-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--green-glow); border: 2px solid var(--green-border); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem; }
+  .confirm-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
+  .confirm-hero h1 { font-family: var(--display); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; margin-bottom: 1.25rem; }
+  .confirm-hero h1 em { font-style: normal; color: var(--green); display: block; }
+  .confirm-sub { font-size: 1.05rem; color: var(--muted); max-width: 520px; margin: 0 auto 2rem; line-height: 1.75; }
+
+  /* SMS CALLOUT */
+  .sms-callout { max-width: 560px; margin: 0 auto 3rem; background: rgba(34,197,94,0.06); border: 1px solid var(--green-border); border-radius: 12px; padding: 1.25rem 1.5rem; display: flex; gap: 1rem; align-items: flex-start; text-align: left; }
+  .sms-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .sms-content h4 { font-size: 0.9rem; font-weight: 700; color: var(--off-white); margin-bottom: 0.3rem; }
+  .sms-content p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+  .sms-content .sms-preview { font-size: 0.83rem; color: var(--off-white); background: rgba(34,197,94,0.08); border: 1px solid var(--green-border); border-radius: 8px; padding: 0.6rem 0.85rem; margin-top: 0.6rem; font-style: italic; line-height: 1.5; }
+
+  /* WHAT HAPPENS NEXT */
+  .next-section { max-width: 680px; margin: 0 auto; padding: 0 2rem 80px; }
+  .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section-label::before { content: ''; width: 18px; height: 2px; background: var(--amber); }
+  .section-title { font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 2rem; }
+
+  .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 20px; top: 24px; bottom: 24px; width: 2px; background: var(--border); z-index: 0; }
+  .timeline-item { display: flex; gap: 1.25rem; padding-bottom: 2rem; position: relative; }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .tl-dot { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; position: relative; z-index: 1; }
+  .tl-dot.done { background: var(--green-glow); border: 2px solid var(--green-border); }
+  .tl-dot.soon { background: var(--amber-glow); border: 2px solid var(--amber-border); }
+  .tl-dot.later { background: var(--card-bg); border: 2px solid var(--border); }
+  .tl-content { padding-top: 8px; flex: 1; }
+  .tl-when { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+  .tl-when.green { color: var(--green); }
+  .tl-when.amber { color: var(--amber); }
+  .tl-title { font-size: 0.95rem; font-weight: 700; color: var(--off-white); margin-bottom: 0.3rem; }
+  .tl-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+
+  /* PREP CHECKLIST */
+  .prep-section { background: #111; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 60px 2rem; }
+  .prep-inner { max-width: 680px; margin: 0 auto; }
+  .prep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.5rem; }
+  .prep-item { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.85rem 1rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; }
+  .prep-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .prep-text { font-size: 0.83rem; color: var(--muted); line-height: 1.55; }
+  .prep-text strong { color: var(--off-white); display: block; margin-bottom: 2px; font-size: 0.85rem; }
+
+  /* KEEP WARM */
+  .warm-section { max-width: 680px; margin: 0 auto; padding: 60px 2rem; text-align: center; }
+  .warm-section p { font-size: 0.95rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.75; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .warm-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; text-align: left; }
+  .warm-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; text-decoration: none; transition: border-color 0.2s; }
+  .warm-card:hover { border-color: rgba(245,242,236,0.25); }
+  .warm-card-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.4rem; }
+  .warm-card h4 { font-family: var(--display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; color: var(--off-white); margin-bottom: 0.4rem; }
+  .warm-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+
+  /* CONTACT FALLBACK */
+  .contact-band { background: var(--amber); color: var(--ink); padding: 32px 2rem; text-align: center; }
+  .contact-band p { font-family: var(--display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; max-width: 640px; margin: 0 auto; }
+  .contact-band a { color: var(--ink); }
+
+  footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; }
+  footer p { font-size: 0.75rem; color: rgba(245,242,236,0.25); }
+  footer a { color: rgba(245,242,236,0.4); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .fu  { animation: fadeUp 0.6s ease both; }
+  .fu2 { animation: fadeUp 0.6s ease 0.15s both; }
+  .fu3 { animation: fadeUp 0.6s ease 0.3s both; }
+
+  @media (max-width: 640px) {
+    .prep-grid, .warm-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span>How</span> Dan Did It</a>
+</nav>
+
+<!-- CONFIRMATION HERO -->
+<section class="confirm-hero">
+  <div class="confirm-icon fu">✓</div>
+  <div class="confirm-eyebrow fu">Consultation Confirmed</div>
+  <h1 class="fu2" id="confirmHeading">
+    You're In.
+    <em>See You Soon.</em>
+  </h1>
+  <p class="confirm-sub fu3" id="confirmSub">
+    Your free 30-minute health consultation is booked. A calendar invite is on its way to your inbox right now.
+  </p>
+
+  <div class="sms-callout fu3">
+    <div class="sms-icon">💬</div>
+    <div class="sms-content">
+      <h4>Check your phone — a text is on its way</h4>
+      <p>You'll receive an automated text message shortly with your confirmation details and an introduction to your personal coach.</p>
+      <div class="sms-preview">"Hi! Thanks for requesting your consultation. Your email contains the details to finalize your appointment and an introduction to your personal consultant. Please check your inbox now, and your spam folder if you don't see it."</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT HAPPENS NEXT TIMELINE -->
+<div class="next-section">
+  <div class="section-label">What happens next</div>
+  <h2 class="section-title">Your Next<br>Four Steps</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-dot done">✓</div>
+      <div class="tl-content">
+        <div class="tl-when green">Right now — complete</div>
+        <div class="tl-title">Consultation booked</div>
+        <div class="tl-desc">Your slot is confirmed. Check your email for the calendar invite — it contains the Zoom link or phone number for your call.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-dot soon">📲</div>
+      <div class="tl-content">
+        <div class="tl-when amber">Within 60 minutes</div>
+        <div class="tl-title">Coach introduction text</div>
+        <div class="tl-desc">Your personal coach will send a brief text introducing themselves. They've already reviewed your health profile and lead assessment — they know your goals and markers before you even speak.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-dot soon">📧</div>
+      <div class="tl-content">
+        <div class="tl-when amber">Within 24 hours</div>
+        <div class="tl-title">Pre-call prep email</div>
+        <div class="tl-desc">You'll receive an email with a short checklist of things to have ready for the call (recent bloodwork if you have it, current medications, any questions you've been storing up). The more prepared you are, the more useful the call will be.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-dot later">🎯</div>
+      <div class="tl-content">
+        <div class="tl-when">At your scheduled time</div>
+        <div class="tl-title">Your free 30-minute consultation</div>
+        <div class="tl-desc">Your coach will review your health profile, walk through the TDOS framework as it applies to you, outline a potential starting protocol, and answer every question you have. No pitch, no pressure — just a real conversation about your health.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRE-CALL CHECKLIST -->
+<section class="prep-section">
+  <div class="prep-inner">
+    <div class="section-label">Get the most from your call</div>
+    <h2 class="section-title">Come Prepared</h2>
+    <p style="font-size:0.95rem;color:var(--muted);line-height:1.75;margin-bottom:0.25rem;">You don't need to have everything — but having these handy makes the 30 minutes significantly more valuable.</p>
+    <div class="prep-grid">
+      <div class="prep-item"><div class="prep-icon">🩸</div><div class="prep-text"><strong>Recent bloodwork</strong>Lipid panel, blood sugar, HbA1c if you have it. Even results from 6–12 months ago are helpful.</div></div>
+      <div class="prep-item"><div class="prep-icon">💊</div><div class="prep-text"><strong>Current medications</strong>List of any prescriptions, supplements, or OTC medications you're currently taking.</div></div>
+      <div class="prep-item"><div class="prep-icon">⚖️</div><div class="prep-text"><strong>Your current stats</strong>Weight, height, waist measurement if you know it. Gives your coach a clear baseline to work from.</div></div>
+      <div class="prep-item"><div class="prep-icon">📋</div><div class="prep-text"><strong>Your top 3 questions</strong>Write them down now. The call moves fast — having them ready means nothing gets missed.</div></div>
+      <div class="prep-item"><div class="prep-icon">🕐</div><div class="prep-text"><strong>30 uninterrupted minutes</strong>Find somewhere quiet. This call is for you — give it your full attention.</div></div>
+      <div class="prep-item"><div class="prep-icon">🎯</div><div class="prep-text"><strong>Your primary goal</strong>Be specific. "Lose 30 lbs" is more useful than "get healthier." Your coach builds around your actual target.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KEEP WARM -->
+<section class="warm-section">
+  <div class="section-label" style="justify-content:center;">While you wait</div>
+  <h2 class="section-title">Read the Science<br>Behind the Protocol</h2>
+  <p>The people who get the most from their consultation are the ones who understand <em>why</em> the protocol works before the call. These two pages are worth 15 minutes of your time.</p>
+  <div class="warm-cards">
+    <a href="science.html" class="warm-card">
+      <div class="warm-card-tag">Peer-reviewed research</div>
+      <h4>The Science Page</h4>
+      <p>5 published studies, Dr. Arciero's 40 years of research, real participant numbers. Understand what you're about to start.</p>
+    </a>
+    <a href="r2m-protocol.html" class="warm-card">
+      <div class="warm-card-tag">Protocol Element 01</div>
+      <h4>The R2M Protocol</h4>
+      <p>The 9-day first step — what it is, why it works, and what the three phases involve. Your coach will likely reference this on the call.</p>
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT FALLBACK -->
+<div class="contact-band">
+  <p>Need to reschedule? Questions before the call? <a href="mailto:dan@howdandidit.com">Email Dan's team directly</a> — we respond within one business day.</p>
+</div>
+
+<footer>
+  <p><a href="index.html">← Back to HowDanDidIt.com</a> · <a href="science.html">The Science</a> · <a href="r2m-protocol.html">R2M Protocol</a></p>
+</footer>
+
+<script>
+  function getParam(k) { return new URLSearchParams(window.location.search).get(k) || ''; }
+  const name = decodeURIComponent(getParam('name') || '');
+  if (name) {
+    const firstName = name.trim().split(' ')[0];
+    document.getElementById('confirmHeading').innerHTML =
+      firstName + ', You\'re In.<br><em>See You Soon.</em>';
+    document.getElementById('confirmSub').textContent =
+      'Your free 30-minute health consultation is booked, ' + firstName + '. A calendar invite is on its way to your inbox right now.';
+  }
+</script>
+</body>
+</html>
