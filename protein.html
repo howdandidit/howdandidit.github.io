@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance Protein — Protocol Element 03 — How Dan Did It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ink:#0B0B0B;--off-white:#F5F2EC;--amber:#F59E0B;--amber-dark:#D97706;
+    --amber-glow:rgba(245,158,11,0.1);--amber-border:rgba(245,158,11,0.2);
+    --green:#22C55E;--green-glow:rgba(34,197,94,0.1);--green-border:rgba(34,197,94,0.2);
+    --purple:#8B5CF6;--purple-glow:rgba(139,92,246,0.1);--purple-border:rgba(139,92,246,0.2);
+    --muted:rgba(245,242,236,0.55);--border:rgba(255,255,255,0.08);--card-bg:rgba(255,255,255,0.04);
+    --display:'Barlow Condensed',sans-serif;--body:'DM Sans',sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);background:var(--ink);color:var(--off-white);line-height:1.6;overflow-x:hidden}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:68px;background:rgba(11,11,11,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:var(--display);font-weight:800;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--off-white);text-decoration:none}
+  .nav-logo span{color:var(--amber)}
+  .nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none}
+  .nav-links a{font-size:.8rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--off-white)}
+  .btn-nav{background:var(--amber);color:var(--ink);padding:.5rem 1.1rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+  .btn-primary{background:var(--amber);color:var(--ink);padding:.85rem 1.75rem;border-radius:8px;font-weight:700;font-size:.875rem;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;display:inline-flex;align-items:center;gap:.4rem}
+  .btn-primary:hover{background:var(--amber-dark);transform:translateY(-2px);box-shadow:0 10px 28px rgba(245,158,11,.25)}
+  .btn-ghost{background:transparent;color:var(--off-white);padding:.85rem 1.75rem;border-radius:8px;border:1px solid rgba(245,242,236,.2);font-weight:600;font-size:.875rem;text-transform:uppercase;text-decoration:none;transition:border-color .2s}
+  .btn-ghost:hover{border-color:rgba(245,242,236,.45)}
+  section{padding:80px 2rem}
+  .container{max-width:1100px;margin:0 auto}
+  .slbl{font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+  .slbl::before{content:'';width:20px;height:2px;background:var(--purple);flex-shrink:0}
+  .stitle{font-family:var(--display);font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;text-transform:uppercase;line-height:1;margin-bottom:1.25rem}
+  .ssub{font-size:1rem;color:var(--muted);line-height:1.75;max-width:580px}
+
+  /* HERO */
+  .hero{min-height:100vh;padding:110px 2rem 80px;display:flex;align-items:center;position:relative;overflow:hidden;background:radial-gradient(ellipse 70% 50% at 30% 50%,rgba(139,92,246,.07) 0%,transparent 65%)}
+  .hero::after{content:'P3';position:absolute;right:-2rem;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:28vw;font-weight:900;color:rgba(139,92,246,.03);line-height:1;pointer-events:none}
+  .hero-inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 400px;gap:4rem;align-items:center;position:relative}
+  .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--purple-glow);border:1px solid var(--purple-border);border-radius:100px;padding:5px 14px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);margin-bottom:1.5rem}
+  .hero h1{font-family:var(--display);font-size:clamp(3.5rem,6vw,5.5rem);font-weight:900;text-transform:uppercase;line-height:.95;margin-bottom:1.25rem}
+  .hero h1 .acc{color:var(--purple);display:block}
+  .hero-sub{font-size:1rem;color:var(--muted);max-width:480px;margin-bottom:2rem;line-height:1.75}
+  .hero-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+  .hero-stats{display:flex;gap:2rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border);flex-wrap:wrap}
+  .stat-num{font-family:var(--display);font-size:2.2rem;font-weight:800;line-height:1;color:var(--purple)}
+  .stat-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:.2rem}
+
+  /* PRODUCT CARD */
+  .prod-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:2rem;display:flex;flex-direction:column;gap:1.25rem}
+  .prod-img{width:100%;aspect-ratio:1;border-radius:12px;background:linear-gradient(145deg,#14101e 0%,#1c1430 100%);border:1px solid var(--purple-border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem}
+  .prod-lbl{font-family:var(--display);font-size:2.5rem;font-weight:900;color:rgba(139,92,246,.4);letter-spacing:.05em;line-height:1;text-align:center}
+  .prod-sub{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(245,242,236,.2)}
+  .macro-badge{background:var(--purple-glow);border:1px solid var(--purple-border);border-radius:10px;padding:.9rem;text-align:center}
+  .macro-num{font-family:var(--display);font-size:3rem;font-weight:900;color:var(--purple);line-height:1}
+  .macro-lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:.2rem}
+  .pill-row{display:flex;gap:.4rem;flex-wrap:wrap}
+  .pill{font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px}
+  .p-p{background:var(--purple-glow);color:var(--purple);border:1px solid var(--purple-border)}
+  .p-g{background:var(--green-glow);color:var(--green);border:1px solid var(--green-border)}
+  .p-a{background:var(--amber-glow);color:var(--amber);border:1px solid var(--amber-border)}
+  .consult-box{background:rgba(245,158,11,.06);border:1px solid var(--amber-border);border-radius:10px;padding:1rem;text-align:center}
+  .consult-box p{font-size:.78rem;color:var(--muted);margin-bottom:.75rem;line-height:1.5}
+  .consult-box .btn-primary{width:100%;justify-content:center;font-size:.82rem}
+  .consult-note{font-size:.7rem;color:rgba(245,242,236,.28);margin-top:.4rem}
+
+  /* WHY PROTEIN */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+  .why-content p{font-size:.95rem;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+  .why-content strong{color:var(--off-white)}
+  .bq{font-family:var(--display);font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;text-transform:uppercase;line-height:1.1;border-left:3px solid var(--purple);padding-left:1.25rem;margin-bottom:1.5rem}
+  .bq em{font-style:normal;color:var(--purple)}
+  .diff-callout{background:var(--purple-glow);border:1px solid var(--purple-border);border-radius:12px;padding:1.5rem;margin-top:1.25rem}
+  .diff-callout h4{font-family:var(--display);font-size:1rem;font-weight:700;text-transform:uppercase;color:var(--purple);margin-bottom:.5rem}
+  .diff-callout p{font-size:.83rem;color:var(--muted);line-height:1.65;margin:0}
+
+  /* MACRO BREAKDOWN */
+  .macro-section{background:#111}
+  .macro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem}
+  .macro-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center;transition:border-color .2s}
+  .macro-card:hover{border-color:var(--purple-border)}
+  .macro-card .big{font-family:var(--display);font-size:3rem;font-weight:900;color:var(--purple);line-height:1}
+  .macro-card .unit{font-size:1.2rem;color:var(--purple)}
+  .macro-card .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:.5rem;line-height:1.4}
+  .macro-card .desc{font-size:.78rem;color:rgba(245,242,236,.35);margin-top:.4rem;line-height:1.5}
+
+  /* KEY INGREDIENTS */
+  .ing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:3rem}
+  .ing-card{background:var(--ink);padding:1.5rem 1.75rem;display:flex;gap:1rem;transition:background .2s}
+  .ing-card:hover{background:var(--card-bg)}
+  .ing-dot{width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0;margin-top:6px}
+  .ing-h{font-size:.9rem;font-weight:600;margin-bottom:.3rem}
+  .ing-p{font-size:.8rem;color:var(--muted);line-height:1.6}
+  .clean-label{margin-top:2.5rem;background:var(--green-glow);border:1px solid var(--green-border);border-radius:12px;padding:1.5rem 2rem}
+  .clean-label h4{font-family:var(--display);font-size:1rem;font-weight:700;text-transform:uppercase;color:var(--green);margin-bottom:.75rem}
+  .clean-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+  .ctag{font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15);border-radius:100px;color:var(--green)}
+
+  /* PROTOCOL POSITION */
+  .proto-section{background:rgba(139,92,246,.04);border-top:1px solid var(--purple-border);border-bottom:1px solid var(--purple-border);padding:52px 2rem}
+  .proto-steps{max-width:860px;margin:2rem auto 0;display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
+  .proto-step{text-align:center;padding:0 1.5rem}
+  .proto-n{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .proto-name{font-family:var(--display);font-size:1.1rem;font-weight:800;text-transform:uppercase;margin:.2rem 0}
+  .proto-name.active{color:var(--purple)}
+  .proto-sub{font-size:.68rem;color:rgba(245,242,236,.3)}
+  .proto-here{display:inline-block;background:var(--purple-glow);border:1px solid var(--purple-border);border-radius:100px;padding:2px 10px;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--purple);margin-top:.35rem}
+  .proto-arr{font-size:1.1rem;color:rgba(245,242,236,.15);padding:0 .25rem}
+
+  /* WHO */
+  .who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
+  .who-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:border-color .2s}
+  .who-card:hover{border-color:var(--purple-border)}
+  .who-icon{font-size:1.75rem;margin-bottom:.75rem}
+  .who-card h4{font-family:var(--display);font-size:1.1rem;font-weight:700;text-transform:uppercase;margin-bottom:.5rem}
+  .who-card p{font-size:.83rem;color:var(--muted);line-height:1.6}
+
+  /* TESTI */
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem}
+  .testi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+  .stars{color:var(--amber);font-size:.85rem;letter-spacing:2px;margin-bottom:.75rem}
+  .testi-card blockquote{font-size:.875rem;color:var(--muted);font-style:italic;line-height:1.7;margin-bottom:1rem}
+  .testi-author{font-size:.8rem;font-weight:600}
+  .testi-detail{font-size:.75rem;color:rgba(245,242,236,.35)}
+
+  /* FAQ */
+  .faq-list{display:flex;flex-direction:column;max-width:720px;margin:3rem auto 0}
+  .faq-item{border-bottom:1px solid var(--border)}
+  .faq-item:first-child{border-top:1px solid var(--border)}
+  .faq-q{width:100%;background:none;border:none;color:var(--off-white);font-family:var(--body);font-size:.93rem;font-weight:600;text-align:left;padding:1rem 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+  .faq-arr{font-size:.72rem;color:var(--muted);transition:transform .2s;flex-shrink:0}
+  .faq-q.open .faq-arr{transform:rotate(180deg)}
+  .faq-a{font-size:.875rem;color:var(--muted);line-height:1.75;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s}
+  .faq-a.open{max-height:300px;padding-bottom:1rem}
+
+  /* CTA */
+  .cta-section{text-align:center;background:radial-gradient(ellipse 55% 45% at 50% 50%,rgba(139,92,246,.06) 0%,transparent 70%)}
+  .cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+
+  footer{background:#0B0B0B;border-top:1px solid var(--border);padding:2.5rem 2rem}
+  .footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+  .footer-inner p{font-size:.75rem;color:rgba(245,242,236,.25);line-height:1.6;max-width:700px}
+  .footer-copy{font-size:.75rem;color:rgba(245,242,236,.2);white-space:nowrap}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .fu{animation:fadeUp .6s ease both}
+  .fu2{animation:fadeUp .6s ease .12s both}
+  .fu3{animation:fadeUp .6s ease .24s both}
+
+  @media(max-width:960px){
+    .hero-inner{grid-template-columns:1fr}
+    .prod-card{display:none}
+    .why-grid{grid-template-columns:1fr;gap:2.5rem}
+    .macro-grid{grid-template-columns:repeat(2,1fr)}
+    .ing-grid{grid-template-columns:1fr}
+    .who-grid{grid-template-columns:1fr}
+    .testi-grid{grid-template-columns:1fr}
+    .proto-steps{flex-direction:column;gap:.75rem}
+    .proto-arr{transform:rotate(90deg)}
+    nav .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html"><span>How</span> Dan Did It</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="r2m-protocol.html">R2M Protocol</a></li>
+    <li><a href="bravo.html">Bravo</a></li>
+    <li><a href="science.html">The Science</a></li>
+  </ul>
+  <a href="qualify.html" class="btn-nav">Free Consultation →</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge fu">Protocol Element 03 · 36g Undenatured Whey · Glutathione Support</div>
+      <h1 class="fu2">Performance<span class="acc">Protein</span></h1>
+      <p class="hero-sub fu3">Most protein shakes are just expensive calories. This one is engineered to do three things conventional proteins never address: preserve lean muscle, produce glutathione, and support healthy aging at the cellular level.</p>
+      <div class="hero-actions fu3">
+        <a href="qualify.html" class="btn-primary">Start with a Free Consultation →</a>
+        <a href="javascript:void(0)" class="btn-ghost" onclick="document.getElementById('why').scrollIntoView({behavior:'smooth'})">Why It's Different ↓</a>
+      </div>
+      <div class="hero-stats fu3">
+        <div><div class="stat-num">36g</div><div class="stat-label">Protein Per Serving</div></div>
+        <div><div class="stat-num">3-in-1</div><div class="stat-label">Protein · Nutrients · Glutathione</div></div>
+        <div><div class="stat-num">Step 2</div><div class="stat-label">In Dan's Protocol</div></div>
+      </div>
+    </div>
+    <div class="prod-card fu3">
+      <div class="prod-img">
+        <div class="prod-lbl">PROTEIN</div>
+        <div class="prod-sub">Performance Formula</div>
+      </div>
+      <div class="macro-badge">
+        <div class="macro-num">36<span style="font-size:1.5rem">g</span></div>
+        <div class="macro-lbl">Undenatured Whey Per Serving</div>
+      </div>
+      <div class="pill-row">
+        <span class="pill p-p">Undenatured Whey</span>
+        <span class="pill p-g">Glutathione Support</span>
+        <span class="pill p-p">Lean Muscle</span>
+        <span class="pill p-a">Step 2</span>
+      </div>
+      <div class="consult-box">
+        <p>Best started after the R2M detox. Your consultation will confirm the right timing and dosage.</p>
+        <a href="qualify.html" class="btn-primary">Book a Free Call First</a>
+        <p class="consult-note">30 min · No pressure · No obligation</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-content">
+        <div class="slbl">Not Your Typical Protein</div>
+        <h2 class="stitle">Engineered For<br>Metabolic Health.<br>Not The Gym.</h2>
+        <p>Most people think of protein shakes as a gym supplement — something you use to build muscle after a workout. This protein was designed for a completely different purpose: <strong>supporting the body's recovery from metabolic dysfunction</strong>.</p>
+        <p>The key distinction is <strong>undenatured whey</strong>. Conventional protein processing uses high heat, which destroys the delicate molecular structure of whey — including the precursors needed to produce glutathione, the body's master antioxidant. Undenatured whey preserves those structures intact.</p>
+        <p>Glutathione declines naturally with age and is depleted by metabolic stress, toxin exposure, and chronic inflammation — exactly the conditions most people in the TDOS framework are experiencing. Replenishing it is not optional. It's foundational.</p>
+        <div class="diff-callout">
+          <h4>Why Glutathione Matters</h4>
+          <p>Glutathione is produced in every cell of the body and serves as the primary defense against oxidative stress and cellular damage. Low glutathione levels are associated with accelerated aging, reduced immune function, and impaired detoxification. Most supplements can't raise intracellular glutathione directly — but the precursors in undenatured whey can.</p>
+        </div>
+      </div>
+      <div>
+        <blockquote class="bq">"Most proteins replace calories.<br>This one <em>rebuilds the environment</em><br>that was lost."</blockquote>
+        <p style="font-size:.78rem;color:rgba(245,242,236,.35);margin-bottom:1.75rem;font-style:italic;">— Dan Maes, on why conventional protein supplements missed the point</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <div style="display:flex;gap:.75rem;padding:1rem;background:var(--card-bg);border:1px solid var(--border);border-radius:10px">
+            <div style="font-size:1.2rem;flex-shrink:0">🔬</div>
+            <div><div style="font-size:.875rem;font-weight:600;margin-bottom:.2rem">Undenatured Processing</div><div style="font-size:.78rem;color:var(--muted);line-height:1.55">Cold-processed to preserve whey's native bioactive fractions — including lactoferrin, immunoglobulins, and glutathione precursors.</div></div>
+          </div>
+          <div style="display:flex;gap:.75rem;padding:1rem;background:var(--card-bg);border:1px solid var(--border);border-radius:10px">
+            <div style="font-size:1.2rem;flex-shrink:0">💪</div>
+            <div><div style="font-size:.875rem;font-weight:600;margin-bottom:.2rem">Lean Muscle Without Exercise</div><div style="font-size:.78rem;color:var(--muted);line-height:1.55">Peer-reviewed studies on the R2M Protocol show 6–9% lean muscle gains — even without a structured exercise program.</div></div>
+          </div>
+          <div style="display:flex;gap:.75rem;padding:1rem;background:var(--card-bg);border:1px solid var(--border);border-radius:10px">
+            <div style="font-size:1.2rem;flex-shrink:0">⚡</div>
+            <div><div style="font-size:.875rem;font-weight:600;margin-bottom:.2rem">Micronutrient Dense</div><div style="font-size:.78rem;color:var(--muted);line-height:1.55">Not just protein — engineered with vitamins, minerals, and cofactors that address the nutritional deficiency component of TDOS.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="macro-section">
+  <div class="container">
+    <div class="slbl">Nutritional Profile</div>
+    <h2 class="stitle">What's In<br>Every Serving</h2>
+    <p class="ssub">Each serving is designed as a complete nutritional event — not just a protein top-up.</p>
+    <div class="macro-grid">
+      <div class="macro-card"><div class="big">36<span class="unit">g</span></div><div class="lbl">Undenatured Whey Protein</div><div class="desc">Cold-processed to preserve bioactive fractions including glutathione precursors</div></div>
+      <div class="macro-card"><div class="big" style="color:var(--green)">24+</div><div class="lbl" style="color:rgba(245,242,236,.5)">Vitamins & Minerals</div><div class="desc">Including B-complex, Vitamin D3, magnesium, zinc — common deficiency gaps in the TDOS profile</div></div>
+      <div class="macro-card"><div class="big" style="color:var(--amber)">0g</div><div class="lbl" style="color:rgba(245,242,236,.5)">Added Sugar</div><div class="desc">No sucrose, HFCS, or artificial sweeteners that spike blood sugar or disrupt gut microbiome</div></div>
+      <div class="macro-card"><div class="big" style="color:var(--purple)">GSH</div><div class="lbl">Glutathione Precursors</div><div class="desc">Cysteine-rich fractions that support intracellular glutathione production — the master antioxidant</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="slbl">What's Inside</div>
+    <h2 class="stitle">Key Ingredients</h2>
+    <p class="ssub">Every ingredient selected for a specific metabolic function — not for taste, shelf life, or cost.</p>
+    <div class="ing-grid">
+      <div class="ing-card"><div class="ing-dot"></div><div><div class="ing-h">Undenatured Whey Protein Concentrate</div><div class="ing-p">Cold-processed from grass-fed dairy. Preserves native protein fractions including alpha-lactalbumin, beta-lactoglobulin, lactoferrin, and immunoglobulins — destroyed in heat-processed whey.</div></div></div>
+      <div class="ing-card"><div class="ing-dot"></div><div><div class="ing-h">L-Cysteine & Glutathione Precursors</div><div class="ing-p">Cysteine is the rate-limiting amino acid for glutathione synthesis. Undenatured whey's cysteine content supports the body's own glutathione production pathway more effectively than direct supplementation.</div></div></div>
+      <div class="ing-card"><div class="ing-dot"></div><div><div class="ing-h">Branched-Chain Amino Acids (BCAAs)</div><div class="ing-p">Leucine, isoleucine, and valine — the three amino acids that directly stimulate muscle protein synthesis. Critical for preserving lean mass during the R2M detox phase.</div></div></div>
+      <div class="ing-card"><div class="ing-dot"></div><div><div class="ing-h">Vitamin D3 & K2</div><div class="ing-p">An estimated 70%+ of Americans are deficient in Vitamin D3. Paired with K2 for proper calcium metabolism and immune function support.</div></div></div>
+      <div class="ing-card"><div class="ing-dot"></div><div><div class="ing-h">Magnesium Glycinate</div><div class="ing-p">Involved in over 300 enzymatic reactions in the body. Supports blood sugar regulation, sleep quality, and muscle function — three areas commonly impaired in metabolic syndrome.</div></div></div>
+      <div class="ing-card"><div class="ing-dot"></div><div><div class="ing-h">Digestive Enzyme Complex</div><div class="ing-p">Protease, lipase, and amylase support full protein digestion and absorption — ensuring the 36g of protein is fully utilized rather than partially processed.</div></div></div>
+    </div>
+    <div class="clean-label">
+      <h4>What This Protein Does NOT Contain</h4>
+      <div class="clean-tags">
+        <span class="ctag">No Added Sugar</span><span class="ctag">No Artificial Sweeteners</span>
+        <span class="ctag">No Artificial Colors</span><span class="ctag">No Soy Protein</span>
+        <span class="ctag">No Denatured Whey</span><span class="ctag">No Fillers</span>
+        <span class="ctag">No Proprietary Blends</span><span class="ctag">No Hormones</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proto-section">
+  <div class="container">
+    <div class="slbl" style="justify-content:center;color:var(--purple)">Where It Fits</div>
+    <h2 class="stitle" style="text-align:center;margin-bottom:.5rem">Dan's 9-Step Protocol</h2>
+    <p style="font-size:.875rem;color:var(--muted);text-align:center;max-width:500px;margin:0 auto">The protein is most effective when started alongside or immediately after the R2M detox — providing the nutritional foundation for everything that follows.</p>
+    <div class="proto-steps">
+      <div class="proto-step"><div class="proto-n">Step 1</div><div class="proto-name">R2M</div><div class="proto-sub">9-Day Detox</div></div>
+      <div class="proto-arr">→</div>
+      <div class="proto-step"><div class="proto-n">Step 2</div><div class="proto-name active">Protein</div><div class="proto-sub">Nutritional Base</div><span class="proto-here">You Are Here</span></div>
+      <div class="proto-arr">→</div>
+      <div class="proto-step"><div class="proto-n">Step 3</div><div class="proto-name">Bravo</div><div class="proto-sub">Gut Restoration</div></div>
+      <div class="proto-arr">→</div>
+      <div class="proto-step"><div class="proto-n">Steps 4–9</div><div class="proto-name">Lifestyle</div><div class="proto-sub">Full Protocol</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#111">
+  <div class="container">
+    <div class="slbl">Who It's For</div>
+    <h2 class="stitle">Is This Right<br>For You</h2>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-icon">⚖️</div><h4>Weight Management</h4><p>Preserving lean muscle while losing fat is the key to sustainable results. The protein prevents the muscle loss that makes most diets fail long-term and slows metabolism.</p></div>
+      <div class="who-card"><div class="who-icon">🛡️</div><h4>Immune Support</h4><p>Glutathione is your body's primary cellular defense. Rebuilding glutathione levels is one of the most impactful things you can do for immune resilience.</p></div>
+      <div class="who-card"><div class="who-icon">🔋</div><h4>Energy & Recovery</h4><p>Chronic fatigue and slow recovery are often symptoms of protein deficiency combined with micronutrient gaps — both addressed in every serving.</p></div>
+      <div class="who-card"><div class="who-icon">🩸</div><h4>Blood Sugar Support</h4><p>High-quality protein has a minimal glycemic impact and supports stable blood sugar — important for anyone with pre-diabetes or insulin resistance.</p></div>
+      <div class="who-card"><div class="who-icon">🧬</div><h4>Healthy Aging</h4><p>Glutathione depletion and muscle loss are two primary drivers of accelerated aging. This formula directly addresses both simultaneously.</p></div>
+      <div class="who-card"><div class="who-icon">🙅</div><h4>Not Right If...</h4><p>Not recommended for those with severe dairy protein allergies or kidney disease without healthcare provider clearance. Always consult your doctor if on medication.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="slbl">Results</div>
+    <h2 class="stitle">What People<br>Are Experiencing</h2>
+    <div class="testi-grid">
+      <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Every protein shake I've ever tried left me feeling bloated and hungry an hour later. This one is completely different — I'm genuinely full for 4–5 hours and my energy in the afternoon has completely changed."</blockquote><div class="testi-author">Karen L., 52</div><div class="testi-detail">Metabolic syndrome · Used as Protocol Step 2</div></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"I was skeptical about the glutathione angle — I'm a nurse, so I know what glutathione does and I've never seen a protein supplement that actually supports it. I had my levels tested before and after. They went up. I was genuinely surprised."</blockquote><div class="testi-author">Sarah M., 47</div><div class="testi-detail">Healthcare professional · 90-day protocol</div></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"I've been lifting for 20 years and I know protein. This isn't a gym supplement — it's something different. I actually look leaner without changing my training. My recovery between sessions also improved noticeably."</blockquote><div class="testi-author">James R., 44</div><div class="testi-detail">Active lifestyle · Added to existing protocol</div></div>
+    </div>
+    <p style="font-size:.75rem;color:rgba(245,242,236,.25);text-align:center;margin-top:2rem;font-style:italic">Individual results vary. These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure, or prevent any disease.</p>
+  </div>
+</section>
+
+<section style="background:#111">
+  <div class="container">
+    <div class="slbl" style="justify-content:center">Questions</div>
+    <h2 class="stitle" style="text-align:center">Frequently Asked</h2>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Why undenatured whey instead of regular whey isolate? <span class="faq-arr">▼</span></button><div class="faq-a">Whey isolate is highly processed — most of the beneficial bioactive fractions are destroyed by heat during manufacturing. Undenatured whey preserves these fractions intact, including the cysteine-rich proteins needed for glutathione production. It's not just about protein content — it's about what the protein can do beyond muscle building.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">When in the protocol should I start using the protein? <span class="faq-arr">▼</span></button><div class="faq-a">The protein is Protocol Step 2 — it's typically introduced alongside or immediately after the R2M 9-day detox. Your consultation will confirm the exact timing based on your starting point. Some people begin both simultaneously; others start protein first and layer in the R2M detox.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can I use this if I'm lactose intolerant? <span class="faq-arr">▼</span></button><div class="faq-a">Whey protein concentrate contains small amounts of lactose. Many lactose-sensitive individuals tolerate it well, but those with severe lactose intolerance should proceed cautiously. Discuss with your healthcare provider and mention this in your consultation — there may be suitable alternatives.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How many servings per day? <span class="faq-arr">▼</span></button><div class="faq-a">Usage guidance is provided as part of the protocol and personalised in your consultation. It depends on your body weight, goals, and which protocol phase you're in. Your coach will map this out specifically for your situation.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can I just use the protein without the rest of the protocol? <span class="faq-arr">▼</span></button><div class="faq-a">Yes — the protein can be used independently. However, it's designed to work synergistically with the R2M detox and Bravo probiotic. The full protocol produces results that no single element achieves alone. Your consultation will help you decide the right starting point.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="slbl" style="justify-content:center;color:var(--purple)">Get Started</div>
+    <h2 class="stitle" style="text-align:center">Ready to Build a<br><span style="color:var(--purple)">Real Foundation?</span></h2>
+    <p class="ssub" style="margin:0 auto;text-align:center">Book a free consultation first. Your coach will confirm where the protein fits in your protocol, how to use it, and what to pair it with for best results.</p>
+    <div class="cta-actions">
+      <a href="qualify.html" class="btn-primary">Book My Free Consultation →</a>
+      <a href="r2m-protocol.html" class="btn-ghost">See the R2M Protocol First</a>
+    </div>
+    <p style="font-size:.78rem;color:rgba(245,242,236,.28);margin-top:1rem;text-align:center">Free 30-min call · No obligation · No credit card</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <p>This product is a nutritional supplement. These statements have not been evaluated by the Food and Drug Administration. Not intended to diagnose, treat, cure, or prevent any disease. Consult a healthcare professional before beginning any new nutritional program. Individual results vary.</p>
+    <p class="footer-copy">© 2025 HowDanDidIt.com</p>
+  </div>
+</footer>
+<script>
+function toggleFaq(btn){const a=btn.nextElementSibling,open=a.classList.contains('open');document.querySelectorAll('.faq-a.open').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.faq-q.open').forEach(x=>x.classList.remove('open'));if(!open){a.classList.add('open');btn.classList.add('open')}}
+</script>
+</body>
+</html>
