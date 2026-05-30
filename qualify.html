@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Request Your Free Consultation — How Dan Did It</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -14,7 +14,8 @@
     --green: #22C55E; --green-glow: rgba(34,197,94,0.1); --green-border: rgba(34,197,94,0.2);
     --red: #EF4444; --red-glow: rgba(239,68,68,0.08); --red-border: rgba(239,68,68,0.18);
     --muted: rgba(245,242,236,0.55); --border: rgba(255,255,255,0.08); --card-bg: rgba(255,255,255,0.04);
-    --display: 'Barlow Condensed', sans-serif; --body: 'DM Sans', sans-serif;
+    --display: 'Syne', sans-serif; --body: 'Plus Jakarta Sans', sans-serif;
+    --tracking-tight: -0.02em; --tracking-display: -0.01em;
   }
   html { scroll-behavior: smooth; }
   body { font-family: var(--body); background: var(--ink); color: var(--off-white); line-height: 1.6; min-height: 100vh; }
@@ -49,7 +50,7 @@
   .step.active { display: block; animation: fadeUp 0.4s ease both; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-  .step-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .step-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
   .step-eyebrow::before { content: ''; width: 18px; height: 2px; background: var(--amber); }
   .step-title { font-family: var(--display); font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 0.75rem; }
   .step-sub { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 2rem; }
@@ -266,7 +267,7 @@
 
     <!-- VIDEO PLACEHOLDER — Replace src with Peter's actual video URL -->
     <div class="video-placeholder">
-      <div class="video-placeholder-icon">🎬</div>
+      <div class="video-placeholder-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 17h5M17 7h5"/></svg></div>
       <h3>Peter's Introduction Video</h3>
       <p>Upload a 2–3 minute video from Peter to this section. It should cover: what R2M is, why the consultation is valuable, and an introduction to the coaching team.</p>
       <div class="upload-note">
@@ -1000,7 +1001,7 @@ function submitForm() {
     method: 'POST',
     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      _subject:        '🔥 New Lead [Score: ' + score + '/100 · ' + tier.label + '] — ' + firstName + ' ' + lastName,
+      _subject:        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 6-6 8-6 14a6 6 0 0012 0c0-4-2-7-2-10-1 2-2 3-4 2C13 5 12 2 12 2z"/><path d="M12 22c-2 0-4-1-4-3 0-3 4-5 4-5s4 2 4 5c0 2-2 3-4 3z"/></svg> New Lead [Score: ' + score + '/100 · ' + tier.label + '] — ' + firstName + ' ' + lastName,
       name:            firstName + ' ' + lastName,
       email:           email,
       phone:           phone,
