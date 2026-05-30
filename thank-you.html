@@ -97,6 +97,128 @@
   }
 
 
+
+  /* ══════════════════════════════════════
+     OVERFLOW & NAV MOBILE FIX
+     ══════════════════════════════════════ */
+
+  /* Prevent ALL horizontal overflow globally */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+  }
+  * { max-width: 100%; }
+  img, svg, video, iframe { max-width: 100%; }
+
+  @media (max-width: 768px) {
+    /* Hide nav CTA button — hamburger menu has it */
+    .btn-nav { display: none !important; }
+
+    /* Ensure nav doesn't overflow */
+    nav {
+      padding: 0 1.25rem !important;
+      gap: 0.5rem !important;
+    }
+    .nav-logo { font-size: 1rem !important; }
+
+    /* Fix all text containers */
+    p, li, blockquote, .prose p, .tl-desc,
+    .arc-content p, .gl-content p, .ssub,
+    .hero-sub, .hero-deck, .step-sub {
+      overflow-wrap: break-word !important;
+      word-wrap: break-word !important;
+      hyphens: auto !important;
+      max-width: 100% !important;
+    }
+
+    /* Section padding consistent */
+    section, .chapter, .sec {
+      padding-left: 1.25rem !important;
+      padding-right: 1.25rem !important;
+    }
+    .container, .container-sm,
+    .chapter-inner, .main,
+    .next-section, .prep-inner,
+    .warm-section, .numbers-inner,
+    .media-inner, .arciero-grid,
+    .ruggiero-inner, .proto-section .container,
+    .footer-inner, .booking-layout {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+
+    /* Fix any element with explicit widths */
+    .testi-card, .step-card, .day-card,
+    .form-card, .who-card, .for-card,
+    .sidebar-card, .result-summary,
+    .outcome-box, .diff-callout,
+    .why-box, .study-card,
+    .arciero-card, .inv-card,
+    .peter-card, .gl-card, .cred-item {
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Fix inline grid styles */
+    div[style*="grid-template-columns"],
+    div[style*="display:grid"],
+    div[style*="display: grid"] {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 1.5rem !important;
+    }
+
+    /* Science page study cards */
+    .study-card {
+      grid-template-columns: 1fr !important;
+      gap: 1rem !important;
+    }
+    .study-link { margin-top: 0.5rem; }
+
+    /* Arciero section */
+    .arciero-grid, .arciero-inner {
+      grid-template-columns: 1fr !important;
+    }
+    .arc-content { overflow-x: hidden; }
+
+    /* Numbers band */
+    .numbers-band { padding: 40px 1.25rem !important; }
+
+    /* Light strip */
+    .light-strip { padding: 40px 1.25rem !important; }
+    .light-strip-inner { padding: 0 !important; }
+
+    /* Booking */
+    .booking-layout { padding: 2rem 0 !important; }
+
+    /* Qualify steps */
+    .step { max-width: 100%; overflow-x: hidden; }
+    .step-nav { flex-direction: row !important; }
+
+    /* Video embeds */
+    .video-grid { grid-template-columns: 1fr !important; }
+    .video-embed { border-radius: 0; }
+
+    /* Comparison tables — scrollable */
+    .compare-table, .vs-wrap, .vs-table {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      max-width: 100% !important;
+      display: block !important;
+    }
+
+    /* Bottom sticky bar */
+    .sticky-cta-text { display: none !important; }
+    .sticky-cta { justify-content: center !important; }
+  }
+
+  @media (max-width: 480px) {
+    .btn-back, .nav-back { display: none !important; }
+    .mobile-nav a { font-size: 1.5rem !important; }
+  }
+
   /* ══════════════════════════════════════
      COMPREHENSIVE MOBILE FIX
      ══════════════════════════════════════ */
