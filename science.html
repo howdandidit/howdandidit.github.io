@@ -220,6 +220,52 @@
   .mobile-social a:hover{color:#F59E0B}
   @media(max-width:900px){.nav-links{display:none !important}.hamburger{display:flex}}
 
+
+  /* ── LIGHT SECTIONS ── */
+  .light-section { background: #F5EDD8; }
+  .light-section .slbl { color: var(--amber-dark); }
+  .light-section .slbl::before { background: var(--amber-dark); }
+  .light-section .stitle { color: #0B0B0B; }
+  .light-section .testi-card {
+    background: #fff; border: 1px solid rgba(0,0,0,0.07);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .light-section .testi-card blockquote { color: rgba(11,11,11,0.65); }
+  .light-section .testi-author { color: #0B0B0B; }
+  .light-section .testi-detail { color: rgba(11,11,11,0.4); }
+  .light-section .testi-disclaimer { color: rgba(11,11,11,0.3); }
+  .light-section .testi-header { border-bottom-color: rgba(0,0,0,0.06); }
+  .light-section .testi-avatar {
+    background: linear-gradient(135deg, #1a1a1a, #252525);
+    border-color: var(--amber-border);
+  }
+  .light-section .testi-big { color: #0B0B0B; }
+  .light-section .testi-result .testi-desc { color: rgba(11,11,11,0.5); }
+
+  /* Light Dr Arciero strip */
+  .light-strip {
+    background: #F5EDD8; padding: 56px 2rem;
+    border-top: 1px solid rgba(245,158,11,0.15);
+    border-bottom: 1px solid rgba(245,158,11,0.15);
+  }
+  .light-strip .arc-quote { border-color: var(--amber-dark); }
+  .light-strip .arc-quote em { color: var(--amber-dark); }
+  .light-strip .arc-attr { color: rgba(11,11,11,0.4); }
+  .light-strip .arc-quote { color: #0B0B0B; }
+  .light-strip-inner {
+    max-width: 860px; margin: 0 auto; text-align: center;
+  }
+  .light-strip-inner .arc-quote {
+    font-family: var(--display); font-size: clamp(1.8rem,4vw,3.2rem);
+    font-weight:900; text-transform:uppercase; line-height:1.05;
+    color: #0B0B0B; border: none; padding: 0;
+    margin-bottom: 1rem;
+  }
+  .light-strip-inner .arc-quote em { color: var(--amber-dark); font-style: normal; }
+  .light-strip-inner .arc-attr { font-size: .85rem; color: rgba(11,11,11,0.45); font-style: italic; margin-bottom: 2rem; }
+  .light-strip-creds { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+  .light-cred { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 5px 12px; background: rgba(11,11,11,0.07); border: 1px solid rgba(11,11,11,0.1); border-radius: 100px; color: rgba(11,11,11,0.55); }
+
 </style>
 </head>
 <body>
@@ -390,6 +436,24 @@
     </div>
   </div>
 </section>
+
+
+<!-- LIGHT QUOTE STRIP -->
+<div class="light-strip">
+  <div class="light-strip-inner">
+    <blockquote class="arc-quote">
+      "I have been looking for the magic bullet for weight loss<br>and to maximize our quality-of-life potential for<br><em>40 years — and now I have found it.</em>"
+    </blockquote>
+    <div class="arc-attr">— Dr. Paul Arciero, Ph.D. · World's Leading Nutritional Researcher · 9,400+ Research Citations</div>
+    <div class="light-strip-creds">
+      <span class="light-cred">Nature Communications</span>
+      <span class="light-cred">Obesity Journal</span>
+      <span class="light-cred">Nutrition Journal</span>
+      <span class="light-cred">10 Human Trial Studies</span>
+      <span class="light-cred">40 Years of Research</span>
+    </div>
+  </div>
+</div>
 
 <!-- VIDEOS -->
 <section id="videos">
@@ -661,7 +725,7 @@
 </section>
 
 <!-- REAL TESTIMONIALS -->
-<section class="testi-section" id="results">
+<section class="testi-section light-section" id="results">
   <div class="container">
     <div class="slbl">Real People, Real Results</div>
     <h2 class="stitle">What Happened<br>When They Did It</h2>
