@@ -560,6 +560,22 @@
   img, svg, video, iframe { max-width: 100%; }
 
   @media (max-width: 768px) {
+
+    /* ── Hero headline — prevent overflow on mobile ── */
+    .hero { overflow: hidden !important; }
+    .hero h1 {
+      font-size: clamp(1.7rem, 7.5vw, 2.8rem) !important;
+      letter-spacing: -0.01em !important;
+      word-break: break-word !important;
+      overflow-wrap: break-word !important;
+    }
+    .hero h1 em {
+      font-size: inherit !important;
+    }
+    .hero-eyebrow {
+      font-size: 0.65rem !important;
+    }
+
     /* Hide nav CTA button — hamburger menu has it */
     .btn-nav { display: none !important; }
 
