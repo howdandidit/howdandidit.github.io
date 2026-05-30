@@ -917,19 +917,26 @@
 
 <script>
 function toggleMobileMenu(){
-  const m=document.getElementById('mobileMenu');
-  const h=document.getElementById('hamburger');
-  m.classList.toggle('open');
-  h.classList.toggle('open');
-  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+  var m=document.getElementById('mobileMenu');
+  var h=document.getElementById('hamburger');
+  if(m.style.display==='flex'){
+    m.style.display='none';
+    h.classList.remove('open');
+    document.body.style.overflow='';
+  } else {
+    m.style.display='flex';
+    h.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
 }
 function closeMobileMenu(){
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
+  var m=document.getElementById('mobileMenu');
+  var h=document.getElementById('hamburger');
+  m.style.display='none';
+  h.classList.remove('open');
   document.body.style.overflow='';
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileMenu()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMobileMenu();});
 </script>
-
 </body>
 </html>
