@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>You're Booked — How Dan Did It</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -13,7 +13,8 @@
     --amber-glow: rgba(245,158,11,0.1); --amber-border: rgba(245,158,11,0.2);
     --green: #22C55E; --green-glow: rgba(34,197,94,0.1); --green-border: rgba(34,197,94,0.2);
     --muted: rgba(245,242,236,0.55); --border: rgba(255,255,255,0.08); --card-bg: rgba(255,255,255,0.04);
-    --display: 'Barlow Condensed', sans-serif; --body: 'DM Sans', sans-serif;
+    --display: 'Syne', sans-serif; --body: 'Plus Jakarta Sans', sans-serif;
+    --tracking-tight: -0.02em; --tracking-display: -0.01em;
   }
   html { scroll-behavior: smooth; }
   body { font-family: var(--body); background: var(--ink); color: var(--off-white); line-height: 1.6; min-height: 100vh; }
@@ -25,7 +26,7 @@
   /* HERO CONFIRM */
   .confirm-hero { padding: 80px 2rem 60px; text-align: center; background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(34,197,94,0.07) 0%, transparent 65%); }
   .confirm-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--green-glow); border: 2px solid var(--green-border); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem; }
-  .confirm-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
+  .confirm-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
   .confirm-hero h1 { font-family: var(--display); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; text-transform: uppercase; line-height: 0.95; margin-bottom: 1.25rem; }
   .confirm-hero h1 em { font-style: normal; color: var(--green); display: block; }
   .confirm-sub { font-size: 1.05rem; color: var(--muted); max-width: 520px; margin: 0 auto 2rem; line-height: 1.75; }
@@ -39,7 +40,7 @@
 
   /* WHAT HAPPENS NEXT */
   .next-section { max-width: 680px; margin: 0 auto; padding: 0 2rem 80px; }
-  .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
   .section-label::before { content: ''; width: 18px; height: 2px; background: var(--amber); }
   .section-title { font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 2rem; }
 
@@ -186,7 +187,7 @@
       </div>
     </div>
     <div class="timeline-item">
-      <div class="tl-dot soon">📲</div>
+      <div class="tl-dot soon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg></div>
       <div class="tl-content">
         <div class="tl-when amber">Within 60 minutes</div>
         <div class="tl-title">Coach introduction text</div>
@@ -194,7 +195,7 @@
       </div>
     </div>
     <div class="timeline-item">
-      <div class="tl-dot soon">📧</div>
+      <div class="tl-dot soon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg></div>
       <div class="tl-content">
         <div class="tl-when amber">Within 24 hours</div>
         <div class="tl-title">Pre-call prep email</div>
@@ -202,7 +203,7 @@
       </div>
     </div>
     <div class="timeline-item">
-      <div class="tl-dot later">🎯</div>
+      <div class="tl-dot later"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
       <div class="tl-content">
         <div class="tl-when">At your scheduled time</div>
         <div class="tl-title">Your free 30-minute consultation</div>
@@ -219,12 +220,12 @@
     <h2 class="section-title">Come Prepared</h2>
     <p style="font-size:0.95rem;color:var(--muted);line-height:1.75;margin-bottom:0.25rem;">You don't need to have everything — but having these handy makes the 30 minutes significantly more valuable.</p>
     <div class="prep-grid">
-      <div class="prep-item"><div class="prep-icon">🩸</div><div class="prep-text"><strong>Recent bloodwork</strong>Lipid panel, blood sugar, HbA1c if you have it. Even results from 6–12 months ago are helpful.</div></div>
-      <div class="prep-item"><div class="prep-icon">💊</div><div class="prep-text"><strong>Current medications</strong>List of any prescriptions, supplements, or OTC medications you're currently taking.</div></div>
-      <div class="prep-item"><div class="prep-icon">⚖️</div><div class="prep-text"><strong>Your current stats</strong>Weight, height, waist measurement if you know it. Gives your coach a clear baseline to work from.</div></div>
-      <div class="prep-item"><div class="prep-icon">📋</div><div class="prep-text"><strong>Your top 3 questions</strong>Write them down now. The call moves fast — having them ready means nothing gets missed.</div></div>
-      <div class="prep-item"><div class="prep-icon">🕐</div><div class="prep-text"><strong>30 uninterrupted minutes</strong>Find somewhere quiet. This call is for you — give it your full attention.</div></div>
-      <div class="prep-item"><div class="prep-icon">🎯</div><div class="prep-text"><strong>Your primary goal</strong>Be specific. "Lose 30 lbs" is more useful than "get healthier." Your coach builds around your actual target.</div></div>
+      <div class="prep-item"><div class="prep-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6 9 4 13 4 16a8 8 0 0016 0c0-3-2-7-8-14z"/></svg></div><div class="prep-text"><strong>Recent bloodwork</strong>Lipid panel, blood sugar, HbA1c if you have it. Even results from 6–12 months ago are helpful.</div></div>
+      <div class="prep-item"><div class="prep-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5a7.07 7.07 0 01-10-10l10-10a7.07 7.07 0 0110 10z"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5"/></svg></div><div class="prep-text"><strong>Current medications</strong>List of any prescriptions, supplements, or OTC medications you're currently taking.</div></div>
+      <div class="prep-item"><div class="prep-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 9l4-4 4 4M17 9l4-4-4-4M7 20h10"/><circle cx="12" cy="3" r="1"/></svg></div><div class="prep-text"><strong>Your current stats</strong>Weight, height, waist measurement if you know it. Gives your coach a clear baseline to work from.</div></div>
+      <div class="prep-item"><div class="prep-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg></div><div class="prep-text"><strong>Your top 3 questions</strong>Write them down now. The call moves fast — having them ready means nothing gets missed.</div></div>
+      <div class="prep-item"><div class="prep-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="prep-text"><strong>30 uninterrupted minutes</strong>Find somewhere quiet. This call is for you — give it your full attention.</div></div>
+      <div class="prep-item"><div class="prep-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><div class="prep-text"><strong>Your primary goal</strong>Be specific. "Lose 30 lbs" is more useful than "get healthier." Your coach builds around your actual target.</div></div>
     </div>
   </div>
 </section>
