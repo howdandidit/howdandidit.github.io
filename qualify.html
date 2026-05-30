@@ -493,11 +493,28 @@
   <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu">
-  <div class="mobile-menu-top">
-    <a class="mobile-menu-logo" href="index.html"><span>How</span> Dan Did It</a>
-    <button class="mobile-close" onclick="closeMobileMenu()">✕</button>
+<div class="mobile-menu" id="mobileMenu" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#0B0B0B;z-index:9999;flex-direction:column;overflow-y:auto;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:68px;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0;">
+    <a href="index.html" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:#F5F2EC;text-decoration:none;"><span style="color:#F59E0B;">How</span> Dan Did It</a>
+    <button onclick="closeMobileMenu()" style="background:none;border:none;color:rgba(245,242,236,0.5);font-size:1.4rem;cursor:pointer;padding:4px;line-height:1;">✕</button>
   </div>
+  <nav style="display:flex;flex-direction:column;padding:1.5rem;gap:0;flex:1;">
+    <a href="index.html" onclick="closeMobileMenu()" style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-transform:uppercase;color:rgba(245,242,236,0.7);text-decoration:none;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);display:block;">Home</a>
+    <a href="dans-story.html" onclick="closeMobileMenu()" style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-transform:uppercase;color:rgba(245,242,236,0.7);text-decoration:none;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);display:block;">Dan's Story</a>
+    <a href="science.html" onclick="closeMobileMenu()" style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-transform:uppercase;color:rgba(245,242,236,0.7);text-decoration:none;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);display:block;">The Science</a>
+    <a href="tdos.html" onclick="closeMobileMenu()" style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-transform:uppercase;color:rgba(245,242,236,0.7);text-decoration:none;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);display:block;">TDOS</a>
+    <a href="r2m-protocol.html" onclick="closeMobileMenu()" style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-transform:uppercase;color:rgba(245,242,236,0.7);text-decoration:none;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);display:block;">R2M Protocol</a>
+    <a href="bravo.html" onclick="closeMobileMenu()" style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-transform:uppercase;color:rgba(245,242,236,0.7);text-decoration:none;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);display:block;">Bravo</a>
+    <a href="protein.html" onclick="closeMobileMenu()" style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;text-transform:uppercase;color:rgba(245,242,236,0.7);text-decoration:none;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);display:block;">Protein</a>
+    <a href="qualify.html" onclick="closeMobileMenu()" style="display:block;margin-top:1.5rem;background:#F59E0B;color:#0B0B0B;padding:1rem 1.5rem;border-radius:8px;font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;text-transform:uppercase;text-decoration:none;text-align:center;">Take the Free Assessment →</a>
+  </nav>
+  <div style="display:flex;gap:1.5rem;padding:1.25rem 1.5rem 2rem;border-top:1px solid rgba(255,255,255,0.06);flex-shrink:0;">
+    <a href="https://www.tiktok.com/@danmaes3" target="_blank" style="font-size:.8rem;color:rgba(245,242,236,0.35);text-decoration:none;">TikTok @danmaes3</a>
+    <a href="https://www.instagram.com/maes.dan" target="_blank" style="font-size:.8rem;color:rgba(245,242,236,0.35);text-decoration:none;">Instagram @maes.dan</a>
+  </div>
+</div>
+
+
   <nav class="mobile-nav">
     <a href="index.html" onclick="closeMobileMenu()">Home</a>
     <a href="dans-story.html" onclick="closeMobileMenu()">Dan's Story</a>
@@ -1344,19 +1361,26 @@ function submitForm() {
 
 <script>
 function toggleMobileMenu(){
-  const m=document.getElementById('mobileMenu');
-  const h=document.getElementById('hamburger');
-  m.classList.toggle('open');
-  h.classList.toggle('open');
-  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+  var m=document.getElementById('mobileMenu');
+  var h=document.getElementById('hamburger');
+  if(m.style.display==='flex'){
+    m.style.display='none';
+    h.classList.remove('open');
+    document.body.style.overflow='';
+  } else {
+    m.style.display='flex';
+    h.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
 }
 function closeMobileMenu(){
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
+  var m=document.getElementById('mobileMenu');
+  var h=document.getElementById('hamburger');
+  m.style.display='none';
+  h.classList.remove('open');
   document.body.style.overflow='';
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileMenu()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMobileMenu();});
 </script>
-
 </body>
 </html>
