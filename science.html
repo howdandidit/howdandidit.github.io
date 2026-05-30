@@ -198,6 +198,159 @@
     nav .nav-links { display: none; }
   }
 
+
+  /* ══════════════════════════════════════
+     COMPREHENSIVE MOBILE FIX
+     ══════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* ── Typography ── */
+    h1, .stitle, .chapter-title, .cta-title {
+      font-size: clamp(2rem, 10vw, 3rem) !important;
+      line-height: 1.05 !important;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 11vw, 3.5rem) !important;
+    }
+    .pullquote {
+      font-size: clamp(1.3rem, 5vw, 1.8rem) !important;
+    }
+
+    /* ── Sections ── */
+    section, .chapter { padding: 52px 1.25rem !important; }
+    .container, .container-sm, .chapter-inner { padding-left: 0 !important; padding-right: 0 !important; }
+
+    /* ── Hero (homepage) ── */
+    .hero { padding: 90px 1.25rem 0 !important; }
+    .hero-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+    .dan-hero-card { display: none !important; }
+    .hero-stats { flex-wrap: wrap !important; }
+    .hero-stat-item { flex: 1 1 45% !important; min-width: 0 !important; padding: 1.25rem !important; }
+
+    /* ── All two-column grids → single column ── */
+    .why-grid, .diff-grid, .science-grid, .story-grid,
+    .arciero-grid, .greenlaw-grid, .inv-grid, .peter-grid,
+    .connection-grid, .ruggiero-inner, .footer-inner,
+    .booking-layout { grid-template-columns: 1fr !important; gap: 2rem !important; }
+
+    /* ── Three-column grids → single column ── */
+    .how-grid, .for-grid, .who-grid, .forms-grid,
+    .testi-grid, .days-grid, .fail-grid,
+    .team-grid, .phase-meta { grid-template-columns: 1fr !important; }
+
+    /* ── Four-column grids → 2x2 ── */
+    .numbers-grid, .macro-grid, .stats-grid,
+    .tdos-stats { grid-template-columns: 1fr 1fr !important; }
+
+    /* ── Product cards ── */
+    .prod-card, .product-visual, .product-card-sidebar { display: none !important; }
+
+    /* ── Two-column ingredient/element grids ── */
+    .ing-grid, .elements-grid, .benefits-grid, .compare-strip,
+    .ingredients-grid, .sys-grid { grid-template-columns: 1fr !important; }
+
+    /* ── Prep grid ── */
+    .prep-grid, .warm-cards, .outcome-grid,
+    .cred-item { grid-template-columns: 1fr !important; }
+
+    /* ── TDOS item layout ── */
+    .tdos-item { grid-template-columns: 1fr !important; gap: 1rem !important; }
+    .tdos-big-letter { font-size: 4rem !important; }
+
+    /* ── Timeline ── */
+    .timeline { padding-left: 1.75rem !important; }
+
+    /* ── Stats rows ── */
+    .stat-row { flex-wrap: wrap !important; }
+    .stat-box { flex: 1 1 45% !important; min-width: 0 !important; }
+
+    /* ── Funnel / protocol steps ── */
+    .proto-steps, .funnel-steps, .protocol-steps {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0.75rem !important;
+    }
+    .proto-arr, .funnel-arrow, .proto-arrow { transform: rotate(90deg) !important; }
+
+    /* ── Media/trust bars ── */
+    .media-logos, .media-inner > div { flex-wrap: wrap !important; justify-content: center !important; }
+    .media-item { padding: 0.4rem 0.75rem !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; }
+
+    /* ── Hero actions ── */
+    .hero-actions, .cta-actions { flex-direction: column !important; }
+    .hero-actions a, .cta-actions a { width: 100% !important; justify-content: center !important; text-align: center !important; }
+
+    /* ── Inline grid from science teaser (homepage) ── */
+    [style*="grid-template-columns: 1fr 1fr"] {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2rem !important;
+    }
+    [style*="grid-template-columns:1fr 1fr"] {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2rem !important;
+    }
+
+    /* ── Number stats (science page) ── */
+    .numbers-grid { grid-template-columns: 1fr 1fr !important; }
+
+    /* ── Booking layout ── */
+    .booking-sidebar { margin-top: 2rem; }
+
+    /* ── Scale track (qualify form) ── */
+    .scale-track { flex-wrap: wrap !important; gap: 0.3rem !important; }
+    .scale-btn { flex: 0 0 18% !important; min-width: 0 !important; }
+
+    /* ── Footer ── */
+    footer { padding: 2rem 1.25rem !important; }
+    .footer-inner { flex-direction: column !important; gap: 1.5rem !important; }
+    .footer-links { flex-wrap: wrap !important; gap: 1.5rem !important; }
+
+    /* ── Sticky CTA bar ── */
+    .sticky-cta { padding: 10px 1.25rem !important; flex-direction: row !important; }
+    .sticky-cta-text { font-size: 0.75rem !important; }
+
+    /* ── Misc overflow fixes ── */
+    table { display: block !important; overflow-x: auto !important; white-space: nowrap !important; }
+    .compare-table { display: block !important; overflow-x: auto !important; }
+    .vs-wrap, .vs-table { overflow-x: auto !important; display: block !important; }
+
+    /* ── VS comparison tables ── */
+    .vs-head, .vs-row { min-width: 500px !important; }
+
+    /* ── Padding cleanup ── */
+    .main { padding: 2rem 1.25rem 4rem !important; }
+    .hero-inner, .next-section, .prep-inner, .warm-section { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+
+    /* ── Dan story timeline ── */
+    .tl-desc { font-size: 0.82rem !important; }
+
+    /* ── Science numbers band ── */
+    .numbers-band { padding: 40px 1.25rem !important; }
+    .num-big { font-size: 2.2rem !important; }
+
+    /* ── TDOS stats pills ── */
+    .tdos-stat-row { gap: 0.5rem !important; }
+    .tdos-stat-pill { flex: 1 1 45% !important; }
+
+    /* ── Syne at small sizes — fix tight clamps ── */
+    .pullquote-attr { padding-left: 1.25rem !important; }
+  }
+
+  @media (max-width: 480px) {
+    h1, .stitle { font-size: clamp(1.75rem, 9vw, 2.5rem) !important; }
+    .hero h1 { font-size: clamp(1.9rem, 10vw, 2.8rem) !important; }
+    .numbers-grid, .tdos-stats, .macro-grid { grid-template-columns: 1fr 1fr !important; }
+    .num-big { font-size: 2rem !important; }
+    .score-number { font-size: 2.2rem !important; }
+    .stat-big { font-size: 2.2rem !important; }
+    .scale-btn { flex: 0 0 17% !important; font-size: .85rem !important; padding: .4rem 0 !important; }
+    nav { padding: 0 1.25rem !important; }
+    .mobile-menu-top, .mobile-nav, .mobile-social { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+    .mobile-nav a { font-size: 1.6rem !important; }
+  }
+
   /* ── MOBILE MENU ── */
   .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:6px;z-index:201;flex-shrink:0}
   .hamburger span{display:block;width:22px;height:2px;background:var(--off-white);border-radius:2px;transition:all .3s ease}
