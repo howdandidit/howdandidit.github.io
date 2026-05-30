@@ -149,6 +149,7 @@
   @media (max-width: 768px) {
     /* Hide nav CTA button — hamburger menu has it */
     .btn-nav { display: none !important; }
+    .hamburger { display: flex !important; visibility: visible !important; opacity: 1 !important; }
 
     /* Ensure nav doesn't overflow */
     nav {
@@ -428,7 +429,7 @@
   .mobile-social{display:flex;gap:1rem;padding:1.5rem 2rem 2rem;border-top:1px solid rgba(255,255,255,.06)}
   .mobile-social a{font-size:.8rem;color:rgba(245,242,236,.35);text-decoration:none;transition:color .2s}
   .mobile-social a:hover{color:#F59E0B}
-  @media(max-width:900px){.nav-links{display:none !important}.hamburger{display:flex}}
+  @media(max-width:900px){.nav-links{display:none !important}.hamburger{display:flex !important;visibility:visible !important;opacity:1 !important;width:auto !important;height:auto !important}}
 
 </style>
 </head>
