@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bravo Probiotic — 300+ Strains — How Dan Did It</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -15,7 +15,8 @@
     --teal: #14B8A6; --teal-glow: rgba(20,184,166,0.08); --teal-border: rgba(20,184,166,0.18);
     --blue-glow: rgba(59,130,246,0.08); --blue-border: rgba(59,130,246,0.18);
     --muted: rgba(245,242,236,0.55); --border: rgba(255,255,255,0.08); --card-bg: rgba(255,255,255,0.04);
-    --display: 'Barlow Condensed', sans-serif; --body: 'DM Sans', sans-serif;
+    --display: 'Syne', sans-serif; --body: 'Plus Jakarta Sans', sans-serif;
+    --tracking-tight: -0.02em; --tracking-display: -0.01em;
   }
   html { scroll-behavior: smooth; }
   body { font-family: var(--body); background: var(--ink); color: var(--off-white); line-height: 1.6; overflow-x: hidden; }
@@ -60,7 +61,7 @@
   .consult-note { font-size: 0.7rem; color: rgba(245,242,236,0.28); margin-top: 0.4rem; }
   section { padding: 80px 2rem; }
   .container { max-width: 1100px; margin: 0 auto; }
-  .slbl { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .slbl { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
   .slbl::before { content: ''; width: 20px; height: 2px; background: var(--teal); }
   .stitle { font-family: var(--display); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 1.25rem; }
   .ssub { font-size: 1rem; color: var(--muted); line-height: 1.75; max-width: 580px; }
@@ -304,10 +305,10 @@
         <blockquote class="bq">"I designed Bravo to reproduce the complexity of a <em>healthy gut microbiome.</em>"</blockquote>
         <p style="font-size:0.78rem;color:rgba(245,242,236,0.35);margin-bottom:1.75rem;font-style:italic;">— Dr. Marco Ruggiero, M.D., Ph.D., Inventor of Bravo</p>
         <div class="swiss-creds">
-          <div class="cred-item"><div class="cred-icon">🇨🇭</div><div class="cred-text"><h4>Made in Switzerland</h4><p>Swiss FDA-registered facility. Every ingredient sourced from certified Swiss and European suppliers.</p></div></div>
-          <div class="cred-item"><div class="cred-icon">🌿</div><div class="cred-text"><h4>Demeter Biodynamic Certified</h4><p>The highest organic certification standard in the world — more rigorous than USDA Organic, with strict ecological and ethical requirements.</p></div></div>
-          <div class="cred-item"><div class="cred-icon">🔬</div><div class="cred-text"><h4>Microarray Verified</h4><p>Strain diversity confirmed using advanced microarray technology capable of detecting DNA from 12,000 different microbes.</p></div></div>
-          <div class="cred-item"><div class="cred-icon">🌱</div><div class="cred-text"><h4>Vegan Option Available</h4><p>Bravo Edestiny uses fermented hemp seed protein — same proprietary process, fully dairy-free and plant-based.</p></div></div>
+          <div class="cred-item"><div class="cred-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M12 7v10M7 12h10"/></svg></div><div class="cred-text"><h4>Made in Switzerland</h4><p>Swiss FDA-registered facility. Every ingredient sourced from certified Swiss and European suppliers.</p></div></div>
+          <div class="cred-item"><div class="cred-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c5-5 9-9 9-14a7 7 0 00-7 7c0 3.5 2 6 2 6z"/><path d="M22 2s-7 0-11 7c-1 2-1 4-1 6"/></svg></div><div class="cred-text"><h4>Demeter Biodynamic Certified</h4><p>The highest organic certification standard in the world — more rigorous than USDA Organic, with strict ecological and ethical requirements.</p></div></div>
+          <div class="cred-item"><div class="cred-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l2 6H7L9 3z"/><path d="M7 9v5a5 5 0 0010 0V9"/><line x1="5" y1="21" x2="19" y2="21"/><line x1="12" y1="14" x2="12" y2="21"/></svg></div><div class="cred-text"><h4>Microarray Verified</h4><p>Strain diversity confirmed using advanced microarray technology capable of detecting DNA from 12,000 different microbes.</p></div></div>
+          <div class="cred-item"><div class="cred-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 3 21 3c0 5-3 9-9 9zM12 12C12 7 7 3 3 3c0 5 3 9 9 9z"/></svg></div><div class="cred-text"><h4>Vegan Option Available</h4><p>Bravo Edestiny uses fermented hemp seed protein — same proprietary process, fully dairy-free and plant-based.</p></div></div>
         </div>
       </div>
     </div>
@@ -322,7 +323,7 @@
     <p class="ssub">The same proprietary blend is available in three formats. Your consultation will help determine the right fit for your lifestyle and protocol stage.</p>
     <div class="forms-grid">
       <div class="form-card featured">
-        <div class="form-icon">🥛</div>
+        <div class="form-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 10h9L18 2H6z"/><path d="M7.5 12v8a1 1 0 001 1h7a1 1 0 001-1v-8"/><path d="M9 17h6"/></svg></div>
         <div class="form-tag">Highest Potency</div>
         <h3>Bravo Yogurt Kit</h3>
         <p>Home-prepared fermented yogurt/kefir made by mixing kit powders with milk and fermenting 24 hours. Most bioavailable form — cultures remain active in their natural medium.</p>
@@ -335,7 +336,7 @@
         </ul>
       </div>
       <div class="form-card">
-        <div class="form-icon">💊</div>
+        <div class="form-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5a7.07 7.07 0 01-10-10l10-10a7.07 7.07 0 0110 10z"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5"/></svg></div>
         <div class="form-tag">Convenient · Travel-Ready</div>
         <h3>Freeze-Dried Capsules</h3>
         <p>Same proprietary blend as the yogurt kit, freeze-dried into gastro-resistant delayed-release vegetable capsules for safe transit through stomach acid.</p>
@@ -348,7 +349,7 @@
         </ul>
       </div>
       <div class="form-card">
-        <div class="form-icon">🌿</div>
+        <div class="form-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c5-5 9-9 9-14a7 7 0 00-7 7c0 3.5 2 6 2 6z"/><path d="M22 2s-7 0-11 7c-1 2-1 4-1 6"/></svg></div>
         <div class="form-tag">100% Vegan</div>
         <h3>Edestiny Capsules</h3>
         <p>Fully dairy-free formula using fermented hemp seed protein powder — same proprietary culture array as Bravo, without any animal products.</p>
@@ -371,9 +372,9 @@
     <h2 class="stitle">Pre + Pro + Post:<br>The Full Ecosystem</h2>
     <p class="ssub">Unlike products that deliver only probiotics, Bravo is a three-part system — the way the gut microbiome naturally functions.</p>
     <div class="sys-grid">
-      <div class="sys-card"><div class="sys-icon">🌱</div><div class="sys-type">Prebiotics</div><h4>Feed The Good Bacteria</h4><p>Prebiotic compounds including maltodextrin support the growth and activity of beneficial cultures — creating the conditions for a self-sustaining microbiome environment.</p></div>
-      <div class="sys-card"><div class="sys-icon">🦠</div><div class="sys-type">Probiotics</div><h4>300+ Live Cultures</h4><p>Over 300 strains of live beneficial microorganisms — including Lactobacillus, Bifidobacterium, Saccharomyces, and bacteriophage species — mirror the diversity of a naturally healthy human gut.</p></div>
-      <div class="sys-card"><div class="sys-icon">⚗️</div><div class="sys-type">Postbiotics</div><h4>Active Fermentation Byproducts</h4><p>Bravo's unique colostrum-based fermentation generates bioactive peptides, short-chain fatty acids, and enzymes not found in standard probiotic products.</p></div>
+      <div class="sys-card"><div class="sys-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 17 3 21 3c0 5-3 9-9 9zM12 12C12 7 7 3 3 3c0 5 3 9 9 9z"/></svg></div><div class="sys-type">Prebiotics</div><h4>Feed The Good Bacteria</h4><p>Prebiotic compounds including maltodextrin support the growth and activity of beneficial cultures — creating the conditions for a self-sustaining microbiome environment.</p></div>
+      <div class="sys-card"><div class="sys-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 8V3M12 16v5M8 12H3M16 12h5M9.2 9.2L5.7 5.7M14.8 14.8l3.5 3.5M14.8 9.2l3.5-3.5M9.2 14.8l-3.5 3.5"/></svg></div><div class="sys-type">Probiotics</div><h4>300+ Live Cultures</h4><p>Over 300 strains of live beneficial microorganisms — including Lactobacillus, Bifidobacterium, Saccharomyces, and bacteriophage species — mirror the diversity of a naturally healthy human gut.</p></div>
+      <div class="sys-card"><div class="sys-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v7L4 19a1 1 0 00.9 1.5h14.2A1 1 0 0020 19l-6-9V3"/><line x1="8.5" y1="14" x2="15.5" y2="14"/></svg></div><div class="sys-type">Postbiotics</div><h4>Active Fermentation Byproducts</h4><p>Bravo's unique colostrum-based fermentation generates bioactive peptides, short-chain fatty acids, and enzymes not found in standard probiotic products.</p></div>
     </div>
   </div>
 </section>
